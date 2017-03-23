@@ -1,0 +1,30 @@
+# Modified from https://github.com/CMU-Web-Application-Development/
+**.log
+**.pot
+**.pyc
+local_settings.py
+
+# Editor backup files
+**~
+**#
+**.swp
+
+# Mac OS data store file
+**.DS_Store
+
+# Django's SQLite database file and migration scripts
+# Uncomment when we don't need to submit it
+db.sqlite3
+**/migrations/
+
+# Handout or report PDFs
+handout/
+
+# Pycharm IDE configuration folder
+**.idea/
+
+# Secret config parameters
+**.ini
+
+# Amazon EC2 key pairs
+**.pem
