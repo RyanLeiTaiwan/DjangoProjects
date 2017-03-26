@@ -22,8 +22,13 @@ def logged_in_home(request):
     # # Query all posts ordered by descending timestamp
     # all_posts = Post.objects.order_by('-timestamp')
     # context['posts'] = all_posts
-    return HttpResponse('Logged-in homepage')
-    # return render(request, 'socialnetwork/index.html', context)
+    messages.success(request, 'You are logged in. Welcome back to memcpy().')
+    return render(request, 'memcpy/logged_in_home.html', context)
 
 def non_logged_in_home(request):
-    return HttpResponse('Non-logged-in homepage')
+    context = {}
+    messages.info(request, 'Info message test: Website notifications will appear here.')
+    messages.success(request, 'Success message test.')
+    messages.warning(request, 'Warning message test.')
+    messages.error(request, 'Error message test.')
+    return render(request, 'memcpy/non_logged_in_home.html', context)

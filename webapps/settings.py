@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+# Django message tag -> Bootstrap alert type conversion
+from django.contrib.messages import constants as message_constants
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -99,6 +101,18 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Django message tag -> Bootstrap alert type conversion
+# http://stackoverflow.com/questions/41369105/django-bootstrap-alerts-not-working-as-expected
+# https://simpleisbetterthancomplex.com/tips/2016/09/06/django-tip-14-messages-framework.html
+MESSAGE_LEVEL = message_constants.DEBUG
+MESSAGE_TAGS = {
+    message_constants.DEBUG: 'alert-info',
+    message_constants.INFO: 'alert-info',
+    message_constants.SUCCESS: 'alert-success',
+    message_constants.WARNING: 'alert-warning',
+    message_constants.ERROR: 'alert-danger',
+}
 
 # Timestamp format displayed by Django (e.g., 2017-02-10 17:51:49)
 # https://docs.djangoproject.com/en/1.10/ref/settings/#std:setting-DATETIME_FORMAT

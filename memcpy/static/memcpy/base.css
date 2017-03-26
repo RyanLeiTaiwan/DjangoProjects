@@ -1,0 +1,19 @@
+body {
+    /* Required padding for Bootstrap navbar */
+    padding-top: 70px;
+}
+
+/* Logo image */
+.navbar-brand {
+    padding-left: 0px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.navbar-brand > span > img {
+    height: 40px;
+}
+
+div.alert {
+    margin-bottom: 0.75em;
+}

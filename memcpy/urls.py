@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
-from memcpy import home_views, user_views
+from memcpy import home_views, user_views, book_views
 
 urlpatterns = [
     # The logged-in home page
@@ -26,4 +26,6 @@ urlpatterns = [
     url(r'^logout[/]?$', auth_views.logout_then_login, name='logout'),
     # User registration
     url(r'^register[/]?$', user_views.register, name='register'),
+    # Browse all books
+    url(r'^books[/]?$', book_views.list_all_books, name='books'),
 ]

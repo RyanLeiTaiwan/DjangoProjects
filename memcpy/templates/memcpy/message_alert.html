@@ -1,0 +1,21 @@
+<!-- Django messages + Bootstrap alerts + Boostrap Glyphicons
+  [1] https://youtu.be/El7tg0uqJL0
+  [2] http://stackoverflow.com/questions/41369105/django-bootstrap-alerts-not-working-as-expected
+  [3] https://simpleisbetterthancomplex.com/tips/2016/09/06/django-tip-14-messages-framework.html
+-->
+{% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <!-- Use the Glyphicon that corresponds to the message tag -->
+        <span class="glyphicon
+            {% if message.tags == 'alert-info' %} glyphicon-info-sign
+            {% elif message.tags == 'alert-success' %} glyphicon-ok-sign
+            {% elif message.tags == 'alert-warning' %} glyphicon-warning-sign
+            {% elif message.tags == 'alert-danger' %} glyphicon-exclamation-sign
+            {% endif %}
+            " aria-hidden="true">
+        </span>&nbsp;{{ message }}
+    </div>
+{% endfor %}
