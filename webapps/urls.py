@@ -21,7 +21,7 @@ urlpatterns = [
     # Django admin console
     url(r'^admin[/]?', admin.site.urls),
     # The non-logged-in home page
-    url(r'^$', home_views.non_logged_in_home, name='non_logged_in_home'),
+    url(r'^$', home_views.home, name='home'),
     # Include another URLconf
     url(r'^memcpy/', include('memcpy.urls')),
 ]

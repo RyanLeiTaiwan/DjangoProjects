@@ -9,8 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.contrib import messages
 
-# TODO: @login_required
-def logged_in_home(request):
+def home(request):
     context = {}
     # if request.method == 'GET':
     #     # GET request: Create a PostForm to display to the user
@@ -22,13 +21,12 @@ def logged_in_home(request):
     # # Query all posts ordered by descending timestamp
     # all_posts = Post.objects.order_by('-timestamp')
     # context['posts'] = all_posts
-    messages.success(request, 'You are logged in. Welcome back to memcpy().')
-    return render(request, 'memcpy/logged_in_home.html', context)
-
-def non_logged_in_home(request):
-    context = {}
-    messages.info(request, 'Info message test: Website notifications will appear here.')
-    messages.success(request, 'Success message test.')
-    messages.warning(request, 'Warning message test.')
-    messages.error(request, 'Error message test.')
-    return render(request, 'memcpy/non_logged_in_home.html', context)
+    if request.user.is_authenticated:
+        messages.success(request, 'You are logged in. Welcome back to memcpy().')
+    else:
+        messages.debug(request, 'You are not logged in.')
+    # messages.info(request, 'Info message test.')
+    # messages.success(request, 'Success message test.')
+    # messages.warning(request, 'Warning message test.')
+    # messages.error(request, 'Error message test.')
+    return render(request, 'memcpy/home.html', context)

@@ -18,12 +18,12 @@ from django.contrib.auth import views as auth_views
 from memcpy import home_views, user_views, book_views
 
 urlpatterns = [
-    # The logged-in home page
-    url(r'^$', home_views.logged_in_home, name='logged_in_home'),
+    # Home page
+    url(r'^$', home_views.home, name='home'),
     # Built-in authentication with our own template login page
     url(r'^login[/]?$', auth_views.login, {'template_name': 'memcpy/login.html'}, name='login'),
     # Logout a user and send them back to the login page
-    url(r'^logout[/]?$', auth_views.logout_then_login, name='logout'),
+    url(r'^logout[/]?$', user_views.logout, name='logout'),
     # User registration
     url(r'^register[/]?$', user_views.register, name='register'),
     # Browse all books
