@@ -25,7 +25,10 @@ urlpatterns = [
     # Logout a user and send them back to the login page
     url(r'^logout[/]?$', user_views.logout, name='logout'),
     # User registration
-    url(r'^register[/]?$', user_views.register, name='register'),
+    url(r'^register$', user_views.register, name='register'),
     # Browse all books
     url(r'^books[/]?$', book_views.list_all_books, name='books'),
+    url(r'^update-profile', user_views.update_profile, name='update-profile'),
+    url(r'^upload-photo/(.+)$', user_views.upload_photo, name='upload_photo'),
+    url(r'^profile-photo/(.+)$', user_views.get_photo, name='photo'),
 ]

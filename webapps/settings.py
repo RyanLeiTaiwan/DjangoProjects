@@ -54,6 +54,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'webapps.urls'
 
+# Default URL to redirect to after a user logs in.
+LOGIN_REDIRECT_URL = '/memcpy/'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
