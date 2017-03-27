@@ -8,6 +8,7 @@ from django.contrib.auth import login, authenticate
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.contrib import messages
+from memcpy.models import *
 
 def home(request):
     context = {}
@@ -29,4 +30,13 @@ def home(request):
     # messages.success(request, 'Success message test.')
     # messages.warning(request, 'Warning message test.')
     # messages.error(request, 'Error message test.')
+
+    # get the web statistics
+
+    # get the number of users
+    users = User.objects.all()
+
+    # pick flashcard
+
+    context = {'user_num': len(users)}
     return render(request, 'memcpy/home.html', context)
