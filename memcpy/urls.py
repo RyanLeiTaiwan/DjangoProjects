@@ -28,7 +28,10 @@ urlpatterns = [
     url(r'^register$', user_views.register, name='register'),
     # Browse all books
     url(r'^books[/]?$', book_views.list_all_books, name='books'),
+    # Edit profile page
     url(r'^update-profile', user_views.update_profile, name='update-profile'),
+    # Upload photo in profile edit page
     url(r'^upload-photo/(.+)$', user_views.upload_photo, name='upload_photo'),
+    # Show profile photo
     url(r'^profile-photo/(.+)$', user_views.get_photo, name='photo'),
 ]

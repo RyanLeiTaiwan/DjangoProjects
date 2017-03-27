@@ -74,7 +74,7 @@ def update_profile(request):
     }
     return render(request, 'memcpy/update-profile.html', context)
 
-
+@login_required
 def upload_photo(request, user):
     context = {}
     this_user = User.objects.get(username=user).userprofile
@@ -95,8 +95,7 @@ def upload_photo(request, user):
 def profile(request):
     return HttpResponse('View profile page')
 
-
-
+@login_required
 def get_photo(request, id):
     #item = get_object_or_404(Item, id=id)
     user_profile = User.objects.get(username=id).userprofile
