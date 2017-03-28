@@ -53,7 +53,7 @@ def register(request):
 @login_required
 def update_profile(request):
     user = request.user
-    user_profile = UserProfile.objects.get(id=user.id)
+    user_profile = UserProfile.objects.get(user=user)
     if request.method == 'POST':
         form = UpdateProfile(request.POST, user=user, initial={'email': user.email,
                                                     'username': user.username,
