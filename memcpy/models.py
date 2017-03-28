@@ -17,3 +17,8 @@ class FlashCardToday(models.Model):
     updated_time = models.DateField()
     def __unicode__(self):
         return 'id=' + str(self.id)
+
+class Entry(models.Model):
+    EntryID = models.IntegerField()
+    Content = models.CharField(blank = True, max_length = 430)
+
