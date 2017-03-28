@@ -1,0 +1,16 @@
+{% extends "memcpy/base.html" %}
+
+{% for error in errors %}
+    <div class="error">
+        {{error}}
+    </div>
+{% endfor %}
+
+{% block profile %}
+    User name:  {{user.username}}
+     {% if user.userprofile.picture %}
+         <img src="{% url 'photo' user %}"  width="200px">
+     {% endif %}
+    <br>
+    Bio: {{ user.userprofile.bio }}
+{% endblock %}

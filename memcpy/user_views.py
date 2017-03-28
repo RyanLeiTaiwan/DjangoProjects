@@ -92,8 +92,21 @@ def upload_photo(request, user):
     return render(request, 'memcpy/update-profile.html', context)
 
 
-def profile(request):
-    return HttpResponse('View profile page')
+@login_required
+def profile(request, user_id):
+    errors = []
+    if request.method != 'GET':
+        errors.append('Views must be done using the GET method')
+    else:
+        try:
+            real_user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            raise Http404("No User matches the given query.")
+
+        context = {'user': real_user, 'errors': errors}
+
+    return render(request, 'memcpy/view-profile.html', context)
+
 
 @login_required
 def get_photo(request, id):

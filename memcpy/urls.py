@@ -34,4 +34,5 @@ urlpatterns = [
     url(r'^upload-photo/(.+)$', user_views.upload_photo, name='upload_photo'),
     # Show profile photo
     url(r'^profile-photo/(.+)$', user_views.get_photo, name='photo'),
+    url(r'^view-profile/(.+)$', user_views.profile, name='view-profile'),
 ]
