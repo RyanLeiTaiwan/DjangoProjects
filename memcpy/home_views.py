@@ -9,6 +9,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.contrib import messages
 from memcpy.models import *
+import datetime
+from datetime import date
 
 def home(request):
     context = {}
@@ -37,6 +39,30 @@ def home(request):
     users = User.objects.all()
 
     # pick flashcard
+    flashcardtoday = FlashCardToday.objects.all()
+    now = date.today()
 
-    context = {'user_num': len(users)}
+    # if the set is empty
+    if not flashcardtoday:
+        random_u = User.objects.order_by('?').first()
+        if random_u:
+            new_today = FlashCardToday(fctoday=random_u, updated_time=now)
+            new_today.save()
+    else:
+        # refresh every day
+        flashcardtoday = FlashCardToday.objects.all()[0]
+        if flashcardtoday.updated_time < now:
+            FlashCardToday.objects.all().delete()
+            random_u = User.objects.order_by('?').first()
+            new_today = FlashCardToday(fctoday=random_u, updated_time=now)
+            new_today.save()
+
+    if FlashCardToday.objects.all():
+        flashcardtoday = FlashCardToday.objects.all()[0]
+        fc = flashcardtoday.fctoday
+        u = User.objects.get(username=fc)
+    else:
+        u = 0
+
+    context = {'user_num': len(users), 'fc_today': u}
     return render(request, 'memcpy/home.html', context)

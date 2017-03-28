@@ -10,3 +10,10 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
+
+class FlashCardToday(models.Model):
+    fctoday = models.ForeignKey(User, related_name="fctoday")
+    updated_time = models.DateField()
+    def __unicode__(self):
+        return 'id=' + str(self.id)
