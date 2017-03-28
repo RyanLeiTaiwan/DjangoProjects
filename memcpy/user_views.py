@@ -17,9 +17,7 @@ def logout(request):
 
 @transaction.atomic
 def register(request):
-
     context = {}
-
     # Just display the registration form if this is a GET request.
     if request.method == 'GET':
         context['form'] = RegistrationForm()
@@ -40,9 +38,9 @@ def register(request):
                                         email=form.cleaned_data['email'])
     new_user.save()
 
-    new_userprofile = UserProfile(user=new_user,
-                                  bio=form.cleaned_data['bio'])
-    new_userprofile.save()
+    new_profile = Profile(user=new_user,
+                              bio=form.cleaned_data['bio'])
+    new_profile.save()
     # Logs in the new user and redirects to his/her todo list
     new_user = authenticate(username=form.cleaned_data['username'],
                             password=form.cleaned_data['password1'])
@@ -52,8 +50,18 @@ def register(request):
 
 @login_required
 def update_profile(request):
-    user = request.user
-    user_profile = UserProfile.objects.get(user=user)
+    user_id = request.user.id
+    user = get_object_or_404(User, id=user_id)
+    try:
+        # Do not raise 404 exception if not found
+        user_profile = Profile.objects.get(user=user)
+    except Profile.DoesNotExist:
+        # Create a profile on the fly if not existed. This is the case for
+        # superuser, users created through admin console, or when profile is corrupted
+        user_profile = Profile(user=user)
+        user_profile.save()
+        messages.info(request, 'New profile created.')
+
     if request.method == 'POST':
         form = UpdateProfile(request.POST, user=user, initial={'email': user.email,
                                                     'username': user.username,
@@ -66,7 +74,8 @@ def update_profile(request):
             user_profile.save()
             return redirect(reverse('home'))
     else:
-        form = UpdateProfile()
+        form = UpdateProfile(user=user,
+                             initial={'email': user.email, 'username': user.username, 'bio': user_profile.bio})
 
     context = {
         "form": form,
@@ -77,7 +86,7 @@ def update_profile(request):
 @login_required
 def upload_photo(request, user):
     context = {}
-    this_user = User.objects.get(username=user).userprofile
+    this_user = User.objects.get(username=user).profile
     form = PictureForm(request.POST, request.FILES, instance=this_user)
     if not form.is_valid():
         context['form_image'] = form
@@ -93,8 +102,9 @@ def upload_photo(request, user):
 
 
 @login_required
-def profile(request, user_id):
+def view_profile(request, user_id):
     errors = []
+
     if request.method != 'GET':
         errors.append('Views must be done using the GET method')
     else:
@@ -111,6 +121,6 @@ def profile(request, user_id):
 @login_required
 def get_photo(request, id):
     #item = get_object_or_404(Item, id=id)
-    user_profile = User.objects.get(username=id).userprofile
+    user_profile = User.objects.get(username=id).profile
 
     return HttpResponse(user_profile.picture)

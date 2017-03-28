@@ -51,7 +51,7 @@ class RegistrationForm(forms.Form):
 
 class PictureForm(forms.ModelForm):
     class Meta:
-        model = UserProfile
+        model = Profile
         fields = ('picture', )
 
     def clean_picture(self):
@@ -72,7 +72,7 @@ class UpdateProfile(forms.ModelForm):
     bio = forms.CharField(required=False)
 
     class Meta:
-        model = UserProfile
+        model = Profile
         fields = ('username', 'email', 'bio', )
 
     def __init__(self, *args, **kwargs):

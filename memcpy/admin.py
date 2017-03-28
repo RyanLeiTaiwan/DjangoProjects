@@ -2,7 +2,10 @@ from django.contrib import admin
 from .models import *
 
 # Register your models here.
-admin.site.register(UserProfile)
-admin.site.register(FlashCardToday)
+admin.site.register(Profile)
+admin.site.register(Book)
 admin.site.register(Entry)
+admin.site.register(Flashcard)
+admin.site.register(UserEntryPair)
+admin.site.register(FlashcardToday)
 

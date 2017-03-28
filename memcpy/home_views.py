@@ -39,26 +39,26 @@ def home(request):
     users = User.objects.all()
 
     # pick flashcard
-    flashcardtoday = FlashCardToday.objects.all()
+    flashcardtoday = FlashcardToday.objects.all()
     now = date.today()
 
     # if the set is empty
     if not flashcardtoday:
         random_u = User.objects.order_by('?').first()
         if random_u:
-            new_today = FlashCardToday(fctoday=random_u, updated_time=now)
+            new_today = FlashcardToday(fctoday=random_u, updated_time=now)
             new_today.save()
     else:
         # refresh every day
-        flashcardtoday = FlashCardToday.objects.all()[0]
+        flashcardtoday = FlashcardToday.objects.all()[0]
         if flashcardtoday.updated_time < now:
-            FlashCardToday.objects.all().delete()
+            FlashcardToday.objects.all().delete()
             random_u = User.objects.order_by('?').first()
-            new_today = FlashCardToday(fctoday=random_u, updated_time=now)
+            new_today = FlashcardToday(fctoday=random_u, updated_time=now)
             new_today.save()
 
-    if FlashCardToday.objects.all():
-        flashcardtoday = FlashCardToday.objects.all()[0]
+    if FlashcardToday.objects.all():
+        flashcardtoday = FlashcardToday.objects.all()[0]
         fc = flashcardtoday.fctoday
         u = User.objects.get(username=fc)
     else:
