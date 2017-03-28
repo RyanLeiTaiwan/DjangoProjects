@@ -1,7 +1,7 @@
 from django import forms
 
 from django.contrib.auth.models import User
-from models import *
+from .models import *
 
 MAX_UPLOAD_SIZE = 2500000
 
