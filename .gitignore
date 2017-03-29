@@ -15,7 +15,7 @@ local_settings.py
 # Django's SQLite database file and migration scripts
 # Uncomment when we don't need to submit it
 db.sqlite3
-**/migrations/
+**migrations/0*.py
 
 # Handout or report PDFs
 handout/

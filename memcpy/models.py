@@ -33,7 +33,7 @@ class Flashcard(models.Model):
     image = models.FileField(null=True, blank=True, upload_to='upload/flashcard_image')
     content_type = models.CharField(null=True, blank=True, max_length=20)
     audio = models.FileField(null=True, blank=True, upload_to='upload/flashcard_audio')
-
+   
 class UserEntryPair(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     entry = models.ForeignKey(Entry, on_delete=models.CASCADE)
@@ -46,5 +46,4 @@ class FlashcardToday(models.Model):
     updated_time = models.DateField()
     def __unicode__(self):
         return 'id=' + str(self.id)
-
 
