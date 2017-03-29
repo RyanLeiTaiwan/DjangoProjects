@@ -80,20 +80,16 @@
 {#                        &nbsp;{{ request.user.username }}#}
 {#                    </a>#}
 {#                </li>#}
-{#                <li {% if request.resolver_match.url_name == 'edit' %} class="active" {% endif %}>#}
-{#                    <a href="{% url 'edit' request.user.id %}">#}
-{#                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit Profile#}
-{#                    </a>#}
-{#                </li>#}
-                <li>
-                    <a href="{% url 'view-profile' user.id %}">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;{{user.username}}
+                <li {% if request.resolver_match.url_name == 'view-profile' and request.resolver_match.args.0 == request.user.id|slugify %}
+                    class="active" {% endif %}>
+                    <a href="{% url 'view-profile' request.user.id %}">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;{{request.user.username}}
                     </a>
                 </li>
-                <li>
-                    <form action="{% url 'update-profile' %}" method="get">
-                         <input type="submit" value="Edit your profile">
-                    </form>
+                <li {% if request.resolver_match.url_name == 'update-profile' %} class="active" {% endif %}>
+                    <a href="{% url 'update-profile' %}">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit Profile
+                    </a>
                 </li>
                 <li>
                     <a href="{% url 'logout' %}">
@@ -101,20 +97,21 @@
                     </a>
                 </li>
             {% else %}
-                <li>
+                <li {% if request.resolver_match.url_name == 'login' %} class="active" {% endif %}>
                     <a href="{% url 'login' %}">
                         <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Log in
                     </a>
                 </li>
-                <li>
+                <li {% if request.resolver_match.url_name == 'register' %} class="active" {% endif %}>
                     <a href="{% url 'register' %}">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>Register
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Register
                     </a>
                 </li>
             {% endif %}
         </ul>
     </div>
 </nav>
+
 
 <!-- Bootstrap top-level container -->
 <div class="container">

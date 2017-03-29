@@ -41,10 +41,11 @@ def register(request):
     new_profile = Profile(user=new_user,
                               bio=form.cleaned_data['bio'])
     new_profile.save()
-    # Logs in the new user and redirects to his/her todo list
+    # Logs in the new user and redirects to home
     new_user = authenticate(username=form.cleaned_data['username'],
                             password=form.cleaned_data['password1'])
     login(request, new_user)
+    messages.success(request, 'Registration succeeded. Welcome to memcpy().')
     return redirect(reverse('home'))
 
 
@@ -105,6 +106,7 @@ def upload_photo(request, user_name):
 
 @login_required
 def view_profile(request, user_id):
+    context = {}
     errors = []
 
     if request.method != 'GET':

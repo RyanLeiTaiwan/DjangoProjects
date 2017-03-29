@@ -17,3 +17,9 @@ body {
 div.alert {
     margin-bottom: 0.75em;
 }
+
+.title {
+    font-size: x-large;
+    font-weight: bold;
+    padding-bottom: 1.0em;
+}

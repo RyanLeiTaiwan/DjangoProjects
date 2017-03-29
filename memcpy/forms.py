@@ -1,22 +1,28 @@
 from django import forms
+import re
 
 from django.contrib.auth.models import User
 from .models import *
 
 MAX_UPLOAD_SIZE = 2500000
 
+# Backport Python 3.4's regular expression "fullmatch()" to Python 2
+# http://stackoverflow.com/questions/30212413/backport-python-3-4s-regular-expression-fullmatch-to-python-2
+def fullmatch(regex, string, flags=0):
+    """Emulate python-3.4 re.fullmatch()."""
+    return re.match("(?:" + regex + r")\Z", string, flags=flags)
 
 class RegistrationForm(forms.Form):
+    username = forms.CharField(max_length = 20)
     email = forms.CharField(max_length=50,
                                  widget = forms.EmailInput())
-    username = forms.CharField(max_length = 20)
-    bio = forms.CharField(max_length=430)
     password1 = forms.CharField(max_length = 200,
                                  label='Password',
                                  widget = forms.PasswordInput())
     password2 = forms.CharField(max_length = 200,
                                  label='Confirm password',
                                  widget = forms.PasswordInput())
+    bio = forms.CharField(max_length=430, widget=forms.Textarea)
 
 
     # Customizes form validation for properties that apply to more
@@ -38,6 +44,10 @@ class RegistrationForm(forms.Form):
 
     # Customizes form validation for the username field.
     def clean_username(self):
+        # Only accept usernames of letters and digits to match the format in urls.py
+        username = self.cleaned_data.get('username')
+        if not fullmatch('[a-zA-Z0-9]+', username):
+            raise forms.ValidationError('Invalid username format. Please use only letters and digits')
         # Confirms that the username is not already present in the
         # User model database.
         username = self.cleaned_data.get('username')

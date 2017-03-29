@@ -1,0 +1,51 @@
+.error {
+    font-size: large;
+    font-weight: bold;
+    color:red;
+    margin-bottom: 0.5em;
+}
+
+.form-group > label {
+    font-size: large;
+}
+
+.help-inline {
+    color:red;
+    font-size: large;
+}
+
+.form-group textarea {
+    resize: none;
+    outline: none;
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace
+}
+
+/*input {*/
+    /*font-size: large;*/
+/*}*/
+
+/*textarea {*/
+    /*font-size: large;*/
+/*}*/
+
+/*.login-key {*/
+    /*width: 10em;*/
+/*}*/
+
+/*table {*/
+    /*border-collapse: collapse;*/
+/*}*/
+
+/*table > tbody > tr > td {*/
+    /*padding-bottom: 0.5em;*/
+/*}*/
+
+
+/*table.form > tbody > tr > th {*/
+    /*width: 20em;*/
+/*}*/
+
+/*table.form > tbody > tr > td > input:not(#picture-clear_id) {*/
+    /*width: 15em;*/
+/*}*/
+

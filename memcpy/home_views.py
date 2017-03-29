@@ -24,10 +24,7 @@ def home(request):
     # # Query all posts ordered by descending timestamp
     # all_posts = Post.objects.order_by('-timestamp')
     # context['posts'] = all_posts
-    if request.user.is_authenticated:
-        messages.success(request, 'You are logged in. Welcome back to memcpy().')
-    else:
-        messages.debug(request, 'You are not logged in.')
+
     # messages.info(request, 'Info message test.')
     # messages.success(request, 'Success message test.')
     # messages.warning(request, 'Warning message test.')

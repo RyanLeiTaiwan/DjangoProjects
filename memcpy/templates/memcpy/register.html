@@ -1,14 +1,40 @@
 {% extends 'memcpy/base.html' %}
 
-{% block main %}
-    <p>Register for memcpy:</p>
+{% block css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'memcpy/form.css' %}" />
+{% endblock %}
 
-    <form method="post" action="{% url 'register' %}">
-        <table>
-            {{form}}
-        </table>
+{% load addcss %}
+
+{% block main %}
+    <div class="title">Register for memcpy():</div>
+
+    <form class="form-horizontal" method="post" action="{% url 'register' %}">
+        {% for field in form.visible_fields %}
+            <div class="form-group">
+                <label class="col-md-2 control-label">{{ field.label }}:</label>
+                <div class="col-md-4">
+                    {{ field|addcss:"form-control input-lg" }}
+                </div>
+                <div class="col-md-6">
+                    <span class="help-inline">
+                        {% for error in field.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </span>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% for field in form.hidden_fields %}
+            {{field}} {{field.errors}}
+        {% endfor %}
         {% csrf_token %}
-        <input type="submit" value="Register" />
+
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-lg btn-primary">Register</button>
+        </div>
     </form>
 {% endblock %}
 
