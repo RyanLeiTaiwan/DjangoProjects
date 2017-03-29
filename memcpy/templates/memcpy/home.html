@@ -11,10 +11,13 @@
                 <br>
                 {{ fc_today.text }}
                 <br>
+                {% if fc_today.image %}
                  <img src="../{{ fc_today.image }}"  width="200px">
                 {{ fc_today.image }}
-                {{ fc_today.content_type }}
+                {% endif %}
+                {% if fc_today.audio %}
                 {{ fc_today.audio }}
+                {% endif %}
             </h1>
             {% if user.is_authenticated %}
                 <h1>Recently learned books:

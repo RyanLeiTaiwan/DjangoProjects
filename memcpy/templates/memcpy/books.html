@@ -12,13 +12,17 @@
                         <br>
                         Description: {{ book.description }}
                         <br>
+                        {%  if book.cover_image %}
                         {{ book.cover_image }}
+                        {%  endif %}
                         <br>
                         <ol>
                             {% for entry in entry_list %}
                                 <li>
                                     Question: {{ entry.question_text }}
+                                    {% if entry.question_image %}
                                     {{ entry.question_image }}
+                                    {% endif %}
                                     <br>
                                     Answer: {{ entry.answer }}
                                 </li>
