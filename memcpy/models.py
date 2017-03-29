@@ -13,7 +13,7 @@ class Profile(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=500)
-    cover_image = models.FileField(upload_to='upload/book')
+    cover_image = models.FileField(null=True, blank=True, upload_to='upload/book')
     content_type = models.CharField(null=True, blank=True, max_length=20)
     question_label = models.CharField(default='Definition', max_length=20)
     answer_label = models.CharField(default='Word', max_length=20)
