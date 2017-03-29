@@ -1,8 +1,6 @@
-# Import Django stuff (refer to HW)
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
-from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth, messages
 from django.db import transaction
@@ -42,9 +40,9 @@ def register(request):
                               bio=form.cleaned_data['bio'])
     new_profile.save()
     # Logs in the new user and redirects to home
-    new_user = authenticate(username=form.cleaned_data['username'],
+    new_user = auth.authenticate(username=form.cleaned_data['username'],
                             password=form.cleaned_data['password1'])
-    login(request, new_user)
+    auth.login(request, new_user)
     messages.success(request, 'Registration succeeded. Welcome to memcpy().')
     return redirect(reverse('home'))
 

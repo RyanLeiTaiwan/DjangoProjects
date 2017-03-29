@@ -14,14 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from django.contrib.auth import views as auth_views
-from memcpy import home_views, user_views, book_views
+# from django.contrib.auth import views as auth_views
+from memcpy import home_views, login_views, user_views, book_views
 
 urlpatterns = [
     # Home page
     url(r'^$', home_views.home, name='home'),
     # Built-in authentication with our own template login page
-    url(r'^login[/]?$', auth_views.login, {'template_name': 'memcpy/login.html'}, name='login'),
+    url(r'^login[/]?$', login_views.login, {'template_name': 'memcpy/login.html'}, name='login'),
     # Logout a user and send them back to the login page
     url(r'^logout[/]?$', user_views.logout, name='logout'),
     # User registration

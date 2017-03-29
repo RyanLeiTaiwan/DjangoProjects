@@ -8,11 +8,16 @@
 {% load addcss %}
 
 {% block main %}
-    <!-- See if we can refactor to use Django messages for error messages -->
     {% if form.errors %}
-        <p class="error">
-            Incorrect username or password.
-        </p>
+        <!-- Workaround: explicitly create a Bootstrap alert without receiving Django messages -->
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <!-- Use the Glyphicon that corresponds to the message tag -->
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            &nbsp;Incorrect username or password, or your account is inactive.
+        </div>
     {% endif %}
 
     <div class="title">Log in to memcpy():</div>
