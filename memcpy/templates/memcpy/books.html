@@ -6,9 +6,26 @@
     <div class="row">
         <div class="col-md-12">
             <ul>
-                <li>Book 1</li>
-                <li>Book 2</li>
-                <li>Book 3</li>
+                {% for book, entry_list in list %}
+                    <li>
+                        Title: {{ book.title }}
+                        <br>
+                        Description: {{ book.description }}
+                        <br>
+                        {{ book.cover_image }}
+                        <br>
+                        <ol>
+                            {% for entry in entry_list %}
+                                <li>
+                                    Question: {{ entry.question_text }}
+                                    {{ entry.question_image }}
+                                    <br>
+                                    Answer: {{ entry.answer }}
+                                </li>
+                            {% endfor %}
+                        </ol>
+                    </li>
+                {% endfor %}
             </ul>
         </div>
     </div>
