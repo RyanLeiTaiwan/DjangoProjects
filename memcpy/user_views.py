@@ -83,10 +83,12 @@ def update_profile(request):
     }
     return render(request, 'memcpy/update-profile.html', context)
 
+
 @login_required
-def upload_photo(request, user):
+def upload_photo(request, user_name):
     context = {}
-    this_user = User.objects.get(username=user).profile
+    user = User.objects.get(username=user_name)
+    this_user = User.objects.get(username=user_name).profile
     form = PictureForm(request.POST, request.FILES, instance=this_user)
     if not form.is_valid():
         context['form_image'] = form
@@ -96,7 +98,7 @@ def upload_photo(request, user):
         # is actually a different object than what's return from a DB read.)
         form.save()
         context['form_image'] = PictureForm()
-    form = UpdateProfile()
+    form = UpdateProfile(user=user, initial={'email': user.email, 'username': user.username, 'bio': this_user.bio})
     context['form'] = form
     return render(request, 'memcpy/update-profile.html', context)
 

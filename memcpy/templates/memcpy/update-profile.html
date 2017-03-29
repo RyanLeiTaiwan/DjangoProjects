@@ -1,6 +1,6 @@
 {% extends 'memcpy/base.html' %}
 
-{% block add-photo %}
+{% block main %}
 <form enctype="multipart/form-data" action="{% url 'upload_photo' user%}" method="post">
 <table>
     {% for field in form_image.visible_fields %}
@@ -17,12 +17,10 @@
     {% csrf_token %}
 </form>
 
-    {% if user.userprofile.picture %}
+    {% if user.profile.picture %}
         <img src="{% url 'photo' user %}"  width="200px">
     {% endif %}
-{% endblock %}
 
-{% block profile %}
     <p>Update your profile:</p>
 
     <form method="post" action="{% url 'update-profile' %}">

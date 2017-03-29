@@ -38,31 +38,41 @@ def home(request):
     # get the number of users
     users = User.objects.all()
 
+    # get the number of all books
+    books = Book.objects.all()
+
+    # get the number of all entries
+    entries = Entry.objects.all()
+
+    # get the number of all flashcards
+    flashcards = Flashcard.objects.all()
+
     # pick flashcard
     flashcardtoday = FlashcardToday.objects.all()
     now = date.today()
 
     # if the set is empty
     if not flashcardtoday:
-        random_u = User.objects.order_by('?').first()
-        if random_u:
-            new_today = FlashcardToday(fctoday=random_u, updated_time=now)
+        random_c = Flashcard.objects.order_by('?').first()
+        if random_c:
+            new_today = FlashcardToday(fctoday=random_c, updated_time=now)
             new_today.save()
     else:
         # refresh every day
         flashcardtoday = FlashcardToday.objects.all()[0]
         if flashcardtoday.updated_time < now:
             FlashcardToday.objects.all().delete()
-            random_u = User.objects.order_by('?').first()
-            new_today = FlashcardToday(fctoday=random_u, updated_time=now)
+            random_c = Flashcard.objects.order_by('?').first()
+            new_today = FlashcardToday(fctoday=random_c, updated_time=now)
             new_today.save()
 
     if FlashcardToday.objects.all():
         flashcardtoday = FlashcardToday.objects.all()[0]
         fc = flashcardtoday.fctoday
-        u = User.objects.get(username=fc)
+        c = Flashcard.objects.get(id=fc.id)
     else:
-        u = 0
+        c = 0
 
-    context = {'user_num': len(users), 'fc_today': u}
+    context = {'user_num': len(users), 'book_num': len(books), 'entry_num': len(entries),
+               'flashcard_num': len(flashcards), 'fc_today': c}
     return render(request, 'memcpy/home.html', context)

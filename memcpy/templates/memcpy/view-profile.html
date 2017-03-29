@@ -6,11 +6,11 @@
     </div>
 {% endfor %}
 
-{% block profile %}
+{% block main %}
     User name:  {{user.username}}
-     {% if user.userprofile.picture %}
+     {% if user.profile.picture %}
          <img src="{% url 'photo' user %}"  width="200px">
      {% endif %}
     <br>
-    Bio: {{ user.userprofile.bio }}
+    Bio: {{ user.profile.bio }}
 {% endblock %}

@@ -27,6 +27,7 @@ class Entry(models.Model):
     question_image = models.FileField(null=True, blank=True, upload_to='upload/entry')
 
 class Flashcard(models.Model):
+    entry = models.ForeignKey(Entry, on_delete=models.CASCADE)
     # Can be at least one of text, image, or audio, validated on server side
     text = models.TextField(null=True, blank=True, max_length=100)
     image = models.FileField(null=True, blank=True, upload_to='upload/flashcard_image')
@@ -41,7 +42,7 @@ class UserEntryPair(models.Model):
 
 class FlashcardToday(models.Model):
     #TODO: faking for now
-    fctoday = models.ForeignKey(User, related_name='fctoday')
+    fctoday = models.ForeignKey(Flashcard, related_name='fctoday')
     updated_time = models.DateField()
     def __unicode__(self):
         return 'id=' + str(self.id)
