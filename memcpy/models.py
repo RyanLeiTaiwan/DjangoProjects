@@ -20,6 +20,11 @@ class Book(models.Model):
     content_type = models.CharField(null=True, blank=True, max_length=20)
     question_label = models.CharField(max_length=20)
     answer_label = models.CharField(max_length=20)
+    # Answer type should be consistent across the whole book. Use drop-down list to select one type
+    # https://docs.djangoproject.com/en/1.8/ref/models/fields/#choices
+    answer_type = models.CharField(max_length=5,
+                                   default='text',
+                                   choices=[('text', 'text'), ('image', 'image')])
 
 class Entry(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
