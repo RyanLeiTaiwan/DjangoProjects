@@ -71,5 +71,5 @@ def home(request):
         c = 0
 
     context = {'user_num': len(users), 'book_num': len(books), 'entry_num': len(entries),
-               'flashcard_num': len(flashcards), 'fc_today': c}
+               'flashcard_num': len(flashcards), 'fc_today': c, 'date': now}
     return render(request, 'memcpy/home.html', context)

@@ -99,3 +99,13 @@ class UpdateProfile(forms.ModelForm):
         # We must return the cleaned data we got from the cleaned_data
         # dictionary
         return username
+
+class CreateBookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        exclude = {'author', 'content_type'}
+        widgets = {
+            'question_label': forms.TextInput(attrs={'placeholder': 'Definition'}),
+            'answer_label': forms.TextInput(attrs={'placeholder': 'Word'})
+        }
+

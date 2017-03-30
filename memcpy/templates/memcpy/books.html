@@ -5,17 +5,28 @@
 {% block main %}
     <div class="row">
         <div class="col-md-12">
+            <form action="{% url 'create-book' %}" method="get">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Create a Book
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <ul>
                 {% for book, entry_list in list %}
                     <li>
-                        Title: {{ book.title }}
-                        <br>
-                        Description: {{ book.description }}
-                        <br>
+                        Title: {{ book.title }}<br>
+                        Description: {{ book.description }}<br>
                         {%  if book.cover_image %}
                         {{ book.cover_image }}
                         {%  endif %}
                         <br>
+                        Created by: {{ book.author }}<br>
+                        Laste update: {{ book.timestamp }}
                         <ol>
                             {% for entry in entry_list %}
                                 <li>

@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.contrib import messages
 from memcpy.models import *
+from .forms import *
 
 
 def list_all_books(request):
@@ -25,13 +26,31 @@ def list_all_books(request):
 
     list = zip(book_total, entry_total)
     context = {"list": list}
-    messages.debug(request, 'List all books')
     return render(request, 'memcpy/books.html', context)
 
-#TODO: @login_required
-#TODO: @transaction.atomic
+@login_required
+@transaction.atomic
 def create_book(request):
-    return HttpResponse('Create a book')
+    if request.method == 'GET':
+        context = {'form': CreateBookForm()}
+        return render(request, 'memcpy/create-book.html', context)
+
+    # POST method: process CreateBookForm
+    user = request.user
+    book = Book(author=user)
+    create_book_form = CreateBookForm(request.POST, request.FILES, instance=book)
+    if not create_book_form.is_valid():
+        context = {'form': create_book_form}
+        return render(request, 'memcpy/create-book.html', context)
+
+    # Save the new record
+    create_book_form.save()
+
+    messages.success(request, 'Book "%s" created' % book.title)
+    context = {}
+
+    # TODO: render to create entry page
+    return redirect(reverse('books'))
 
 #TODO: @login_required
 #TODO: @transaction.atomic

@@ -1,13 +1,16 @@
 {% extends 'memcpy/base.html' %}
 
 {% block main %}
+    {% if not user.is_authenticated %}
+        <div class="row">
+            <h1>memcpy(): Learn anything with flashcards</h1>
+            <h3>{{ user_num }} users have created {{ book_num }} books, {{ entry_num }} entries, and {{ flashcard_num }} flashcards</h3>
+        </div>
+    {% endif %}
     <div class="row">
         <div class="col-md-12">
-            {% if not user.is_authenticated %}
-                <h1>memcpy(): Learn anything with flashcards</h1>
-                <h3>{{ user_num }} users have created {{ book_num }} books, {{ entry_num }} entries, and {{ flashcard_num }} flashcards</h3>
-            {% endif %}
-            <h1>Flashcard of the Day:
+            <!-- MW dictionary has a good style: https://www.merriam-webster.com/word-of-the-day -->
+            <div class="title text-center">Flashcard of the Day: {{ date }}
                 <br>
                 {{ fc_today.text }}
                 <br>
@@ -18,12 +21,31 @@
                 {% if fc_today.audio %}
                 {{ fc_today.audio }}
                 {% endif %}
-            </h1>
-            {% if user.is_authenticated %}
-                <h1>Recently learned books:
-                </h1>
-                <h1>Other interesting books:</h1>
-            {% endif %}
+            </div>
         </div>
     </div>
+    {% if user.is_authenticated %}
+        <div class="row">
+            <div class="col-md-12">
+                <form action="{% url 'create-book' %}" method="get">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Create a Book
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="title">Recently learned books:</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="title">Other interesting books:</div>
+            </div>
+        </div>
+    {% endif %}
+
 {% endblock %}
