@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 # from django.contrib.auth import views as auth_views
-from memcpy import home_views, login_views, user_views, book_views, entry_views
+from memcpy import home_views, login_views, user_views, book_views, entry_views, flashcard_views
 
+# TODO: Avoid using "(.+)" to represent digit parameters because URL 'function/abcde' will raise exceptions
 urlpatterns = [
     # Home page
     url(r'^$', home_views.home, name='home'),
@@ -26,24 +27,30 @@ urlpatterns = [
     url(r'^logout[/]?$', user_views.logout, name='logout'),
     # User registration
     url(r'^register$', user_views.register, name='register'),
-    # Browse all books
-    url(r'^books[/]?$', book_views.list_all_books, name='books'),
-    # Create a book
-    url(r'^create-book[/]?$', book_views.create_book, name='create-book'),
-    # Edit profile page
+
+    # View profile
+    url(r'^view-profile/(?P<user_id>[0-9]+)[/]?$', user_views.view_profile, name='view-profile'),
+    # Edit profile
     url(r'^update-profile', user_views.update_profile, name='update-profile'),
     # Upload photo in profile edit page
     url(r'^upload-photo/(.+)$', user_views.upload_photo, name='upload_photo'),
     # Show profile photo
     url(r'^profile-photo/(.+)$', user_views.get_photo, name='photo'),
-    url(r'^view-profile/(.+)$', user_views.view_profile, name='view-profile'),
-    
-    #Browse all entries
-    url(r'^booklist/(.+)$', entry_views.list_all_entries, name='booklist'),
+
+    # Browse all books
+    url(r'^books[/]?$', book_views.list_all_books, name='books'),
+    # Create a book
+    url(r'^create-book[/]?$', book_views.create_book, name='create-book'),
     # Show book photo
     url(r'^book_photo/(.+)$', book_views.get_photo, name='book_photo'),
+
+    # Browse all entries of a book
+    url(r'^booklist/(?P<book_id>[0-9]+)[/]?$', entry_views.list_all_entries, name='booklist'),
+    # Create an entry
+    url(r'^create-entry/(?P<book_id>[0-9]+)[/]?$', entry_views.create_entry, name='create-entry'),
     # Show entry photo
     url(r'^entry_photo/(.+)$', entry_views.get_photo, name='entry_photo'),
+
     # Learning mode
     url(r'^learn/(.+)$', entry_views.learn, name='learn'),
 ]

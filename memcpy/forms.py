@@ -109,3 +109,11 @@ class CreateBookForm(forms.ModelForm):
             'answer_label': forms.TextInput(attrs={'placeholder': 'Word'})
         }
 
+class CreateEntryForm(forms.ModelForm):
+    # answer_label = 'YOUR_ANSWER_LABEL'
+    # question_label = 'YOUR_QUESTION_LABEL'
+    class Meta:
+        model = Entry
+        exclude = {'book', 'content_type'}
+        # TODO: Should be able to use user-defined question/answer labels, perhaps by using a outer function
+        labels = {}

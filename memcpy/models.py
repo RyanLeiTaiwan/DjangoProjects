@@ -31,6 +31,7 @@ class Entry(models.Model):
     # Answer is always text
     answer = models.CharField(max_length=50)
     # Question can be either text or image, validated on server side
+    # TODO: CharField -> TextField, max_length=200
     question_text = models.CharField(null=True, blank=True, max_length=100)
     question_image = models.FileField(null=True, blank=True, upload_to='upload/entry')
 

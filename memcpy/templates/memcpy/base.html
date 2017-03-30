@@ -43,7 +43,7 @@
                     <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;Home
                 </a>
             </li>
-            <li {% if request.resolver_match.url_name == 'books' or request.resolver_match.url_name == 'book' %} class="active" {% endif %}>
+            <li {% if request.resolver_match.url_name == 'books' or request.resolver_match.url_name == 'booklist' %} class="active" {% endif %}>
                 <a href="{% url 'books' %}">
                     <span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp;Books
                 </a>

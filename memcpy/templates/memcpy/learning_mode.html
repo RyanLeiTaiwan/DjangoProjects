@@ -9,7 +9,7 @@
                 {% for entry in entry_list %}
                     <li>
                         {% if entry.id == current_id %}
-                        Question:  {{entry.question_text }}
+                        Question:  {{ entry.question_text }}
                             {% if entry.question_image %}
                             <br />
                             <img src = "{% url 'entry_photo' entry.id %}" width = "200px">
@@ -18,16 +18,12 @@
                         Answer: {{ entry.answer }}
                         <br />
                             {% if next_id %}
-                                <button><a href = "{% url 'learn' next_id %}">Next!</a></button>
-
+                                <a href="{% url 'learn' next_id %}"><button>Next!</button></a>
                             {% endif %}
                             {% if next_id == 0 %}
                                 <a> The end of this book!</a>
                             {% endif %}
-                            
                         {% endif %}
-                        
-
                     </li>
                 {% endfor %}
             </ul>

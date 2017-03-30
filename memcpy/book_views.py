@@ -1,4 +1,3 @@
-# Import Django stuff (refer to HW)
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
@@ -47,10 +46,9 @@ def create_book(request):
     create_book_form.save()
 
     messages.success(request, 'Book "%s" created' % book.title)
-    context = {}
 
-    # TODO: render to create entry page
-    return redirect(reverse('books'))
+    # Immediately create entries for this book
+    return redirect('create-entry', book_id=book.id)
 
 #TODO: @login_required
 #TODO: @transaction.atomic

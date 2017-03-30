@@ -16,17 +16,21 @@
     </div>
     <div class="row">
         <div class="col-md-12">
+            <div class="title">Books in memcpy():</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <ul>
                 {% for book, entry_list in list %}
                     <li>
                         Title: {{ book.title }}<br>
-                        <button><a href = "{% url 'booklist' book.id %}">Learn this book!</a></button>
+                        <a href="{% url 'booklist' book.id %}"><button>Learn this book!</button></a><br>
                         Description: {{ book.description }}<br>
                         {%  if book.cover_image %}
-                        <img src = "{% url 'book_photo' book.id %}" width = "200px">
+                            <img src = "{% url 'book_photo' book.id %}" width = "200px"><br>
                         {%  endif %}
-                        <br>
-                        Created by: {{ book.author }}<br>
+                        Created by: {{ book.author.username }}<br>
                         Laste update: {{ book.timestamp }}
                         <ol>
                             {% for entry in entry_list %}
