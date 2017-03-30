@@ -11,12 +11,15 @@ class Profile(models.Model):
         return 'id: %s, username: %s' % (self.id, self.user.username)
 
 class Book(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    # Last modified timestamp: https://docs.djangoproject.com/en/1.10/ref/models/fields/#django.db.models.DateField
+    timestamp = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=500)
     cover_image = models.FileField(null=True, blank=True, upload_to='upload/book')
     content_type = models.CharField(null=True, blank=True, max_length=20)
-    question_label = models.CharField(default='Definition', max_length=20)
-    answer_label = models.CharField(default='Word', max_length=20)
+    question_label = models.CharField(max_length=20)
+    answer_label = models.CharField(max_length=20)
 
 class Entry(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
@@ -27,13 +30,16 @@ class Entry(models.Model):
     question_image = models.FileField(null=True, blank=True, upload_to='upload/entry')
 
 class Flashcard(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    # Last modified timestamp: https://docs.djangoproject.com/en/1.10/ref/models/fields/#django.db.models.DateField
+    timestamp = models.DateTimeField(auto_now=True)
     entry = models.ForeignKey(Entry, on_delete=models.CASCADE)
     # Can be at least one of text, image, or audio, validated on server side
     text = models.TextField(null=True, blank=True, max_length=100)
     image = models.FileField(null=True, blank=True, upload_to='upload/flashcard_image')
     content_type = models.CharField(null=True, blank=True, max_length=20)
     audio = models.FileField(null=True, blank=True, upload_to='upload/flashcard_audio')
-   
+
 class UserEntryPair(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     entry = models.ForeignKey(Entry, on_delete=models.CASCADE)
