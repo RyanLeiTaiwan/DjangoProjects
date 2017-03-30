@@ -61,3 +61,11 @@ def edit_book(request):
 #TODO: @transaction.atomic
 def delete_book(request):
     return HttpResponse('Delete a book')
+
+def get_photo(request, id):
+    item = get_object_or_404(Book, id=id)
+    # Probably don't need this check as form validation requires a picture
+    if not item.cover_image:
+        raise Http404
+    return HttpResponse(item.cover_image, content_type=item.content_type)
+

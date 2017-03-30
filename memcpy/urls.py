@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 # from django.contrib.auth import views as auth_views
-from memcpy import home_views, login_views, user_views, book_views
+from memcpy import home_views, login_views, user_views, book_views, entry_views
 
 urlpatterns = [
     # Home page
@@ -37,4 +37,13 @@ urlpatterns = [
     # Show profile photo
     url(r'^profile-photo/(.+)$', user_views.get_photo, name='photo'),
     url(r'^view-profile/(.+)$', user_views.view_profile, name='view-profile'),
+    
+    #Browse all entries
+    url(r'^booklist/(.+)$', entry_views.list_all_entries, name='booklist'),
+    # Show book photo
+    url(r'^book_photo/(.+)$', book_views.get_photo, name='book_photo'),
+    # Show entry photo
+    url(r'^entry_photo/(.+)$', entry_views.get_photo, name='entry_photo'),
+    # Learning mode
+    url(r'^learn/(.+)$', entry_views.learn, name='learn'),
 ]

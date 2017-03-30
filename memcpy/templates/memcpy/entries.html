@@ -1,0 +1,25 @@
+{% extends 'memcpy/base.html' %}
+
+{% block title %}memcpy(): Books{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            <ul>
+                {% for entry in entry_list %}
+                    <li>
+                        Question: {{ entry.question_text }}
+                        {% if entry.question_image %}
+                        <br />
+                        <img src = "{% url 'entry_photo' entry.id %}" width = "200px">
+                        {% endif %}
+                        <br>
+                        Answer: {{ entry.answer }}
+                        <br />
+                        <button><a href = "{% url 'learn' entry.id %}">Learn this entry!</a></button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

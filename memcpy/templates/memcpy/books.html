@@ -20,9 +20,10 @@
                 {% for book, entry_list in list %}
                     <li>
                         Title: {{ book.title }}<br>
+                        <button><a href = "{% url 'booklist' book.id %}">Learn this book!</a></button>
                         Description: {{ book.description }}<br>
                         {%  if book.cover_image %}
-                        {{ book.cover_image }}
+                        <img src = "{% url 'book_photo' book.id %}" width = "200px">
                         {%  endif %}
                         <br>
                         Created by: {{ book.author }}<br>
@@ -32,7 +33,7 @@
                                 <li>
                                     Question: {{ entry.question_text }}
                                     {% if entry.question_image %}
-                                    {{ entry.question_image }}
+                                    <img src = "{% url 'entry_photo' entry.id %}" width = "200px">
                                     {% endif %}
                                     <br>
                                     Answer: {{ entry.answer }}
