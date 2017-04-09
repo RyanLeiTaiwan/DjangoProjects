@@ -25,15 +25,19 @@ class Book(models.Model):
     answer_type = models.CharField(max_length=5,
                                    default='text',
                                    choices=[('text', 'text'), ('image', 'image')])
+    def __unicode__(self):
+        return 'id: %s, title: %s' % (self.id, self.title)
 
 class Entry(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     # Answer is always text
     answer = models.CharField(max_length=50)
     # Question can be either text or image, validated on server side
-    # TODO: CharField -> TextField, max_length=200
-    question_text = models.CharField(null=True, blank=True, max_length=100)
+    question_text = models.TextField(null=True, blank=True, max_length=200)
     question_image = models.FileField(null=True, blank=True, upload_to='upload/entry')
+    def __unicode__(self):
+        return 'id: %s, answer: %s' % (self.id, self.answer)
+
 
 class Flashcard(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -44,18 +48,23 @@ class Flashcard(models.Model):
     text = models.TextField(null=True, blank=True, max_length=100)
     image = models.FileField(null=True, blank=True, upload_to='upload/flashcard_image')
     content_type = models.CharField(null=True, blank=True, max_length=20)
-    audio = models.FileField(null=True, blank=True, upload_to='upload/flashcard_audio')
+    # Forget about audio for now
+    # audio = models.FileField(null=True, blank=True, upload_to='upload/flashcard_audio')
+    def __unicode__(self):
+        return 'id: %s, entry: %s, author: %s' % (self.id, self.entry, self.author.username)
 
 class UserEntryPair(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     entry = models.ForeignKey(Entry, on_delete=models.CASCADE)
     # User's chosen flashcard for this entry
     flashcard = models.ForeignKey(Flashcard)
+    def __unicode__(self):
+        return 'id: %s, username: %s, entry: %s' % (self.id, self.user.username, self.entry.answer)
 
 class FlashcardToday(models.Model):
     #TODO: faking for now
     fctoday = models.ForeignKey(Flashcard, related_name='fctoday')
     updated_time = models.DateField()
     def __unicode__(self):
-        return 'id=' + str(self.id)
+        return 'id: %s, entry: %s' % (self.id, self.entry)
 
