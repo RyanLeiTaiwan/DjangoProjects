@@ -3,7 +3,7 @@
 
 ### Important Dates
 - March 30: Sprint 1 @ NSH 3001 (Teams 8, 18, 28, 39, owner: Yu-Heng Lei)
-- April 11 or 13: Sprint 2
+- April 11 or 13: Sprint 2 @ EDSH 200 (Teams 8, 10, 32, 36, owner: Yi Bian)
 - Week of April 24: Final demo
 
 ### Introduction
