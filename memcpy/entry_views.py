@@ -19,7 +19,7 @@ def list_all_entries(request, book_id):
 
     context = {'book': book, 'entry_list': entry_list}
     # print context, len(entry_list)
-    return render(request, 'memcpy/entries.html', context)
+    return render(request, 'memcpy/book.html', context)
 
 def view_entry(request):
     return HttpResponse('View the content of an entry')
@@ -70,27 +70,6 @@ def edit_entry(request):
 #TODO: @transaction.atomic
 def delete_entry(request):
     return HttpResponse('Delete an entry')
-
-def learn(request, entry_id):
-    entry = Entry.objects.get(id = entry_id)
-    if not entry or not entry.book:
-        return Http404
-    book_id = entry.book.id
-    all_entries = Entry.objects.all().filter(book = book_id)
-    entry_list = []
-    next_flag = False
-    next_id = 0
-    for j in range(0, len(all_entries)):
-        entry_list.append(all_entries[j])
-        if next_flag:
-            next_id = all_entries[j].id
-            next_flag = False
-        if (all_entries[j].id == int(entry_id)):
-            next_flag = True
-    context = {"entry_list": entry_list, "current_id": int(entry_id), "next_id": int(next_id)}
-    print 'context: %s' % context
-    print 'len(entry_list): %d' % len(entry_list)
-    return render(request, 'memcpy/learning_mode.html', context)
 
 def get_photo(request, id):
     item = get_object_or_404(Entry, id=id)

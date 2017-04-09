@@ -42,15 +42,15 @@ urlpatterns = [
     # Create a book
     url(r'^create-book[/]?$', book_views.create_book, name='create-book'),
     # Show book photo
-    url(r'^book_photo/(.+)$', book_views.get_photo, name='book_photo'),
+    url(r'^book_photo/(?P<book_id>[0-9]+)$', book_views.get_photo, name='book_photo'),
 
     # Browse all entries of a book
-    url(r'^booklist/(?P<book_id>[0-9]+)[/]?$', entry_views.list_all_entries, name='booklist'),
+    url(r'^book/(?P<book_id>[0-9]+)[/]?$', entry_views.list_all_entries, name='book'),
     # Create an entry
     url(r'^create-entry/(?P<book_id>[0-9]+)[/]?$', entry_views.create_entry, name='create-entry'),
     # Show entry photo
     url(r'^entry_photo/(.+)$', entry_views.get_photo, name='entry_photo'),
 
-    # Learning mode
-    url(r'^learn/(.+)$', entry_views.learn, name='learn'),
+    # Browse an entry and its flashcards (learning mode)
+    url(r'^entry/(?P<entry_id>[0-9]+)[/]?$', flashcard_views.list_all_flashcards, name='entry'),
 ]

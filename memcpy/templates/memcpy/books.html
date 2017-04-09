@@ -27,12 +27,12 @@
     <div class="row">
         {% for book in books %}
             <div class="col-md-4">
-                <a href="{% url 'booklist' book.id %}">
+                <a href="{% url 'book' book.id %}">
                     <div class="thumbnail">
                         {% if book.cover_image %}
-                            <img class="book" src="{% url 'book_photo' book.id %}">
+                            <img class="book img-rounded" src="{% url 'book_photo' book.id %}">
                         {% else %}
-                            <img class="book" src="{% static 'memcpy/default_book.png' %}">
+                            <img class="book img-rounded" src="{% static 'memcpy/default_book.png' %}">
                         {% endif %}
                         <div class="caption title">
                             {{ book.title }} ({{ book.entry_set.count }} entries)

@@ -43,7 +43,12 @@
                     <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;Home
                 </a>
             </li>
-            <li {% if request.resolver_match.url_name == 'books' or request.resolver_match.url_name == 'booklist' %} class="active" {% endif %}>
+            <!-- http://stackoverflow.com/questions/4395230/building-a-list-in-django-templates -->
+            <li {% with 'books book entry' as active_list %}
+                    {% if request.resolver_match.url_name in active_list.split %}
+                        class="active"
+                    {% endif %}
+                {% endwith %}>
                 <a href="{% url 'books' %}">
                     <span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp;Books
                 </a>

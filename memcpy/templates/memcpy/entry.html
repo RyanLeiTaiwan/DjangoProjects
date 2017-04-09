@@ -18,7 +18,7 @@
                         Answer: {{ entry.answer }}
                         <br />
                             {% if next_id %}
-                                <a href="{% url 'learn' next_id %}"><button>Next!</button></a>
+                                <a href="{% url 'entry' next_id %}"><button>Next!</button></a>
                             {% endif %}
                             {% if next_id == 0 %}
                                 <a> The end of this book!</a>

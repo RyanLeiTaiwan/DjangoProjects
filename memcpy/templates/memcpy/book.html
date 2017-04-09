@@ -32,12 +32,12 @@
     <div class="row">
         {% for entry in entry_list %}
             <div class="col-md-3">
-                <a href="{% url 'learn' entry.id %}">
+                <a href="{% url 'entry' entry.id %}">
                     <div class="thumbnail">
                         {% if entry.question_image %}
-                            <img class="entry" src="{% url 'entry_photo' entry.id %}" width = "200px">
+                            <img class="entry img-rounded" src="{% url 'entry_photo' entry.id %}" width = "200px">
                         {% else %}
-                            <img class="entry" src="{% static 'memcpy/default_entry.png' %}">
+                            <img class="entry img-rounded" src="{% static 'memcpy/default_entry.png' %}">
                         {% endif %}
                         <div class="caption title">{{ entry.answer }}</div>
                     </div>

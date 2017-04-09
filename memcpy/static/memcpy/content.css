@@ -1,11 +1,13 @@
 img.book {
     width: 15em;
     height: 15em;
+    margin-top: 0.5em;
 }
 
 img.entry {
     width: 12em;
     height: 12em;
+    margin-top: 0.5em;
 }
 
 .caption {
