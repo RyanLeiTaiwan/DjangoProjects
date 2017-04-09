@@ -38,9 +38,10 @@ class Entry(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     # Answer is always text
     answer = models.CharField(max_length=50)
-    # Question can be either text or image, validated on server side
+    # TODO: Question can be either one of text or image, validated on server side
     question_text = models.TextField(null=True, blank=True, max_length=200)
     question_image = models.FileField(null=True, blank=True, upload_to='upload/entry')
+    content_type = models.CharField(null=True, blank=True, max_length=20)
     correct = models.IntegerField(default=0)
     attempt = models.IntegerField(default=0)
     def __unicode__(self):
