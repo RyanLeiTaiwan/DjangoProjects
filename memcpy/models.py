@@ -7,6 +7,10 @@ class Profile(models.Model):
     bio = models.TextField(blank=True, max_length=300) # a small intro
     picture = models.FileField(null=True, blank=True, upload_to='upload/profile')
     content_type = models.CharField(null=True, blank=True, max_length=20)
+    score = models.IntegerField(default=0)
+    correct = models.IntegerField(default=0)
+    attampt = models.IntegerField(default=0)
+    combo = models.IntegerField(default=0)
     def __unicode__(self):
         return 'id: %s, username: %s' % (self.id, self.user.username)
 
@@ -25,6 +29,8 @@ class Book(models.Model):
     answer_type = models.CharField(max_length=5,
                                    default='text',
                                    choices=[('text', 'text'), ('image', 'image')])
+    correct = models.IntegerField(default=0)
+    attempt = models.IntegerField(default=0)
     def __unicode__(self):
         return 'id: %s, title: %s' % (self.id, self.title)
 
@@ -35,9 +41,10 @@ class Entry(models.Model):
     # Question can be either text or image, validated on server side
     question_text = models.TextField(null=True, blank=True, max_length=200)
     question_image = models.FileField(null=True, blank=True, upload_to='upload/entry')
+    correct = models.IntegerField(default=0)
+    attempt = models.IntegerField(default=0)
     def __unicode__(self):
         return 'id: %s, answer: %s' % (self.id, self.answer)
-
 
 class Flashcard(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -53,18 +60,33 @@ class Flashcard(models.Model):
     def __unicode__(self):
         return 'id: %s, entry: %s, author: %s' % (self.id, self.entry, self.author.username)
 
-class UserEntryPair(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    entry = models.ForeignKey(Entry, on_delete=models.CASCADE)
-    # User's chosen flashcard for this entry
-    flashcard = models.ForeignKey(Flashcard)
-    def __unicode__(self):
-        return 'id: %s, username: %s, entry: %s' % (self.id, self.user.username, self.entry.answer)
-
 class FlashcardToday(models.Model):
     #TODO: faking for now
     fctoday = models.ForeignKey(Flashcard, related_name='fctoday')
     updated_time = models.DateField()
     def __unicode__(self):
         return 'id: %s, entry: %s' % (self.id, self.entry)
+
+class UserBookPair(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    learned = models.BooleanField(default=False)
+    score = models.IntegerField(default=False)
+    correct = models.IntegerField(default=0)
+    attempt = models.IntegerField(default=0)
+    combo = models.IntegerField(default=0)
+def __unicode__(self):
+    return 'user: %s, book: %s' % (self.user.username, self.book.title)
+
+class UserEntryPair(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    entry = models.ForeignKey(Entry, on_delete=models.CASCADE)
+    # User's chosen flashcard for this entry
+    flashcard = models.ForeignKey(Flashcard)
+    learned = models.BooleanField(default=False)
+    correct = models.IntegerField(default=0)
+    attempt = models.IntegerField(default=0)
+    combo = models.IntegerField(default=0)
+    def __unicode__(self):
+        return 'user: %s, entry: %s' % (self.user.username, self.entry.answer)
 
