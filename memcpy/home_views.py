@@ -9,7 +9,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.contrib import messages
 from memcpy.models import *
-import datetime
 from datetime import date
 
 def home(request):

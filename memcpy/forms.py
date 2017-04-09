@@ -108,6 +108,15 @@ class CreateBookForm(forms.ModelForm):
             'question_label': forms.TextInput(attrs={'placeholder': 'Definition'}),
             'answer_label': forms.TextInput(attrs={'placeholder': 'Word'})
         }
+    def clean_cover_image(self):
+        picture = self.cleaned_data['cover_image']
+        # Workaround: Existing pictures DO NOT have the content_type attribute
+        if picture and hasattr(picture, 'content_type'):
+            if not picture.content_type.startswith('image'):
+                raise forms.ValidationError('File type is not image')
+            if picture.size > MAX_UPLOAD_SIZE:
+                raise forms.ValidationError('File size is too large (%.2f MB)' % (picture.size / 2**20))
+        return picture
 
 class CreateEntryForm(forms.ModelForm):
     # answer_label = 'YOUR_ANSWER_LABEL'
@@ -117,3 +126,12 @@ class CreateEntryForm(forms.ModelForm):
         fields = ('answer', 'question_text', 'question_image')
         # TODO: Should be able to use user-defined question/answer labels, perhaps by using an outer function
         labels = {}
+    def clean_question_image(self):
+        picture = self.cleaned_data['question_image']
+        # Workaround: Existing pictures DO NOT have the content_type attribute
+        if picture and hasattr(picture, 'content_type'):
+            if not picture.content_type.startswith('image'):
+                raise forms.ValidationError('File type is not image')
+            if picture.size > MAX_UPLOAD_SIZE:
+                raise forms.ValidationError('File size is too large (%.2f MB)' % (picture.size / 2**20))
+        return picture

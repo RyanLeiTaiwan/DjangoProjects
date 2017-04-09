@@ -4,6 +4,7 @@ from django.http import HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.contrib import messages
+from datetime import datetime
 from memcpy.models import *
 from .forms import *
 
@@ -49,11 +50,20 @@ def create_entry(request, book_id):
     entry = Entry(book=book)
     create_entry_form = CreateEntryForm(request.POST, request.FILES, instance=entry)
     if not create_entry_form.is_valid():
-        context = {'form': create_entry_form}
+        context = {'form': create_entry_form, 'book': book}
         return render(request, 'memcpy/create-entry.html', context)
+
+    # Must copy content_type into a new model field because the model
+    # FileField will not store this in the database.  (The uploaded file
+    # is actually a different object than what's return from a DB read.)
+    if len(request.FILES) > 0:
+        entry.content_type = create_entry_form.cleaned_data['question_image'].content_type
 
     # Save the new record
     create_entry_form.save()
+    # Also update the book timestamp
+    book.timestamp = datetime.now()
+    book.save()
 
     messages.success(request, 'Entry "%s" created' % entry.answer)
     # Return a new CreateEntryForm immediately after success
@@ -76,4 +86,4 @@ def get_photo(request, id):
     # Probably don't need this check as form validation requires a picture be uploaded.
     if not item.question_image:
         raise Http404
-    return HttpResponse(item.question_image)
+    return HttpResponse(item.question_image, content_type=item.content_type)

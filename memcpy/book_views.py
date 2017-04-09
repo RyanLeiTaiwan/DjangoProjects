@@ -44,6 +44,12 @@ def create_book(request):
         context = {'form': create_book_form}
         return render(request, 'memcpy/create-book.html', context)
 
+    # Must copy content_type into a new model field because the model
+    # FileField will not store this in the database.  (The uploaded file
+    # is actually a different object than what's return from a DB read.)
+    if len(request.FILES) > 0:
+        book.content_type = create_book_form.cleaned_data['cover_image'].content_type
+
     # Save the new record
     create_book_form.save()
 

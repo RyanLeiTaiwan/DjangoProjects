@@ -10,7 +10,7 @@
 {% block main %}
     <div class="row">
         <div class="col-md-12">
-            <div class="title">Create Entries for Book "{{ book.title }} (currently {{ book.entry_set.count }})"</div>
+            <div class="title">Create Entries for Book "{{ book.title }}" (currently {{ book.entry_set.count }} entries)</div>
             <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{% url 'create-entry' book.id %}">
                 {% for field in form.visible_fields %}
                     <div class="form-group">
@@ -41,7 +41,7 @@
                     <button type="submit" class="btn btn-lg btn-success">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Save and create another entry
                     </button>
-                    <a href="{% url 'booklist' book.id %}" class="btn btn-lg btn-danger">Cancel</a>
+                    <a href="{% url 'book' book.id %}" class="btn btn-lg btn-danger">Cancel</a>
                 </div>
             </form>
         </div>
