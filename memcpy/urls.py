@@ -52,5 +52,5 @@ urlpatterns = [
     url(r'^entry_photo/(.+)$', entry_views.get_photo, name='entry_photo'),
 
     # Browse an entry and its flashcards (learning mode)
-    url(r'^entry/(?P<entry_id>[0-9]+)[/]?$', flashcard_views.list_all_flashcards, name='entry'),
+    url(r'^entry/(?P<entry_id>[0-9]+)[/]?$', entry_views.view_entry, name='entry'),
 ]

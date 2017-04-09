@@ -22,8 +22,44 @@ def list_all_entries(request, book_id):
     # print context, len(entry_list)
     return render(request, 'memcpy/book.html', context)
 
-def view_entry(request):
-    return HttpResponse('View the content of an entry')
+def view_entry(request, entry_id):
+    try:
+        entry = Entry.objects.get(id = entry_id)
+    except Entry.DoesNotExist:
+        messages.error(request, 'entry: Invalid entry ID.')
+        return redirect(reverse('books'))
+
+    book_id = entry.book.id
+    all_entries = Entry.objects.filter(book = book_id)
+    current_idx = -1
+    # next_flag = False
+    prev_id = 0
+    prev_id_tmp = 0
+    next_id = 0
+
+    # http://stackoverflow.com/questions/1042596/get-the-index-of-an-element-in-a-queryset
+    for idx, ent in enumerate(all_entries):
+        # if next_flag:
+        #     break
+        current_id = ent.id
+        if current_id == int(entry_id):
+            # Found target entry
+            prev_id = prev_id_tmp
+            current_idx = idx
+            if idx < len(all_entries) - 1:
+                next_id = all_entries[idx + 1].id
+            # next_flag = True
+        prev_id_tmp = current_id
+    context = {
+        'book_id': book_id,
+        'entry': entry,
+        'progress': round((current_idx + 1.0) / len(all_entries) * 100),
+        'prev_id': prev_id,
+        'current_id': int(entry_id),
+        'next_id': int(next_id)
+    }
+    print 'context: %s' % context
+    return render(request, 'memcpy/entry.html', context)
 
 @login_required
 @transaction.atomic

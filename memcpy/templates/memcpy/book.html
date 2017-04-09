@@ -10,6 +10,15 @@
 {% block main %}
     <div class="row">
         <div class="col-md-12">
+            <a href="{% url 'books' %}">
+                <button type="submit" class="btn btn-lg btn-primary">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back to all books
+                </button>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <div class="title">Book "{{ book.title }}"</div>
         </div>
     </div>

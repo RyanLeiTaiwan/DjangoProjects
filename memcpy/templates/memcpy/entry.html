@@ -3,29 +3,48 @@
 {% block title %}memcpy(): Books{% endblock %}
 
 {% block main %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Bootstrap progress bar showing the progress in this book
+                 https://www.w3schools.com/bootstrap/bootstrap_progressbars.asp
+            -->
+            <div class="progress">
+                <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar"
+                     aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"
+                     style="width:{{ progress }}%">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <a href="{% url 'book' book_id %}">
+                <button type="submit" class="btn btn-lg btn-primary">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back to book
+                </button>
+            </a>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12">
             <ul>
-                {% for entry in entry_list %}
-                    <li>
-                        {% if entry.id == current_id %}
-                        Question:  {{ entry.question_text }}
-                            {% if entry.question_image %}
-                            <br />
-                            <img src = "{% url 'entry_photo' entry.id %}" width = "200px">
-                            {% endif %}
-                        <br>
-                        Answer: {{ entry.answer }}
+                <li>
+                    Question:  {{ entry.question_text }}
+                        {% if entry.question_image %}
                         <br />
-                            {% if next_id %}
-                                <a href="{% url 'entry' next_id %}"><button>Next!</button></a>
-                            {% endif %}
-                            {% if next_id == 0 %}
-                                <a> The end of this book!</a>
-                            {% endif %}
+                        <img src = "{% url 'entry_photo' entry.id %}" width = "200px">
                         {% endif %}
-                    </li>
-                {% endfor %}
+                    <br>
+                    Answer: {{ entry.answer }}
+                    <br />
+                    {% if prev_id %}
+                        <a href="{% url 'entry' prev_id %}"><button>Previous</button></a>
+                    {% endif %}
+                    {% if next_id %}
+                        <a href="{% url 'entry' next_id %}"><button>Next</button></a>
+                    {% else %}
+                        <a href="{% url 'book' book_id %}"><button>Finish!</button></a>
+                    {% endif %}
+                </li>
             </ul>
         </div>
     </div>
