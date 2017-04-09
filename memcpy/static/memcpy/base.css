@@ -21,5 +21,6 @@ div.alert {
 .title {
     font-size: x-large;
     font-weight: bold;
+    padding-top: 0.25em;
     padding-bottom: 0.75em;
 }

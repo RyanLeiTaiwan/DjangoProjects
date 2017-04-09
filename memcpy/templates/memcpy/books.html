@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <form action="{% url 'create-book' %}" method="get">
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit" class="btn btn-lg btn-success">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Create a Book
                     </button>
                 </div>
@@ -26,7 +26,7 @@
     </div>
     <div class="row">
         {% for book in books %}
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a href="{% url 'book' book.id %}">
                     <div class="thumbnail">
                         {% if book.cover_image %}
@@ -35,7 +35,8 @@
                             <img class="book img-rounded" src="{% static 'memcpy/default_book.png' %}">
                         {% endif %}
                         <div class="caption title">
-                            {{ book.title }} ({{ book.entry_set.count }} entries)
+                            {{ book.title }}<br>
+                            ({{ book.entry_set.count }} entries)
                         </div>
                     </div>
                 </a>

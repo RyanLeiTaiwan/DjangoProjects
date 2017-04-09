@@ -3,6 +3,7 @@
 {% block css %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'memcpy/form.css' %}" />
+    <link rel="stylesheet" href="{% static 'memcpy/content.css' %}" />
 {% endblock %}
 
 {% load addcss %}
@@ -10,7 +11,7 @@
 {% block main %}
     <div class="row">
         <div class="col-md-12">
-            <div class="title">Create Entries for Book "{{ book.title }}" (currently {{ book.entry_set.count }} entries)</div>
+            <div class="title">Create Entries for Book "{{ book.title }}"</div>
             <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{% url 'create-entry' book.id %}">
                 {% for field in form.visible_fields %}
                     <div class="form-group">
@@ -46,4 +47,5 @@
             </form>
         </div>
     </div>
+    {% include 'memcpy/list-entries.html' %}
 {% endblock %}

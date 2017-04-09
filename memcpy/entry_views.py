@@ -16,7 +16,7 @@ def list_all_entries(request, book_id):
         messages.error(request, 'book: Invalid book ID.')
         return redirect(reverse('books'))
 
-    entry_list = Entry.objects.all().filter(book = book)
+    entry_list = Entry.objects.all().filter(book=book)
 
     context = {'book': book, 'entry_list': entry_list}
     # print context, len(entry_list)
@@ -41,8 +41,10 @@ def create_entry(request, book_id):
         messages.error(request, 'create-entry: Only the book author can create entries.')
         return redirect(reverse('books'))
 
+    entry_list = Entry.objects.filter(book=book)
+
     if request.method == 'GET':
-        context = {'form': CreateEntryForm(), 'book': book}
+        context = {'form': CreateEntryForm(), 'book': book, 'entry_list': entry_list}
         return render(request, 'memcpy/create-entry.html', context)
 
     # POST method: process CreateEntryForm
@@ -50,7 +52,7 @@ def create_entry(request, book_id):
     entry = Entry(book=book)
     create_entry_form = CreateEntryForm(request.POST, request.FILES, instance=entry)
     if not create_entry_form.is_valid():
-        context = {'form': create_entry_form, 'book': book}
+        context = {'form': create_entry_form, 'book': book, 'entry_list': entry_list}
         return render(request, 'memcpy/create-entry.html', context)
 
     # Must copy content_type into a new model field because the model
@@ -65,9 +67,11 @@ def create_entry(request, book_id):
     book.timestamp = datetime.now()
     book.save()
 
+    # Query again to update entry_list
+    entry_list = Entry.objects.filter(book=book)
     messages.success(request, 'Entry "%s" created' % entry.answer)
     # Return a new CreateEntryForm immediately after success
-    context = {'form': CreateEntryForm(), 'book': book}
+    context = {'form': CreateEntryForm(), 'book': book, 'entry_list': entry_list}
 
     return render(request, 'memcpy/create-entry.html', context)
 

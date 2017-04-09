@@ -35,7 +35,7 @@
             <div class="col-md-12">
                 <form action="{% url 'create-entry' book.id %}" method="get">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success">
+                        <button type="submit" class="btn btn-lg btn-success">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Create entries
                         </button>
                     </div>
@@ -43,26 +43,5 @@
             </div>
         </div>
     {% endif %}
-    <div class="row">
-        <div class="col-md-12">
-            <div class="title">{{ book.entry_set.count }} entries:</div>
-        </div>
-    </div>
-    <div class="row">
-        {% for entry in entry_list %}
-            <div class="col-md-3">
-                <a href="{% url 'entry' entry.id %}">
-                    <div class="thumbnail">
-                        {% if entry.question_image %}
-                            <img class="entry img-rounded" src="{% url 'entry_photo' entry.id %}" width = "200px">
-                        {% else %}
-                            <img class="entry img-rounded" src="{% static 'memcpy/default_entry.png' %}">
-                        {% endif %}
-                        <div class="caption title">{{ entry.answer }}</div>
-                    </div>
-                </a>
-                <br>
-            </div>
-        {% endfor %}
-    </div>
+    {% include 'memcpy/list-entries.html' %}
 {% endblock %}

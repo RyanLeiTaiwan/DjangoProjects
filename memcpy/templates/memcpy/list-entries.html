@@ -1,0 +1,29 @@
+{% load static %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="title">{{ book.entry_set.count }} entries:</div>
+    </div>
+</div>
+<div class="row">
+    {% for entry in entry_list %}
+        <!-- space-1, entry-2, entry-2, entry-2, entry-2, space-1 -->
+        {% if forloop.counter0|divisibleby:"5" %}
+        <div class="col-md-offset-1 col-md-2">
+        {% else %}
+        <div class="col-md-2">
+        {% endif %}
+            <a href="{% url 'entry' entry.id %}">
+                <div class="thumbnail">
+                    {% if entry.question_image %}
+                        <img class="entry img-rounded" src="{% url 'entry_photo' entry.id %}" width = "200px">
+                    {% else %}
+                        <img class="entry img-rounded" src="{% static 'memcpy/default_entry.png' %}">
+                    {% endif %}
+                    <div class="caption title">{{ entry.answer }}</div>
+                </div>
+            </a>
+            <br>
+        </div>
+    {% endfor %}
+</div>
