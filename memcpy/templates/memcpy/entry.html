@@ -1,9 +1,13 @@
 {% extends 'memcpy/base.html' %}
 
-{% block title %}memcpy(): Books{% endblock %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'memcpy/content.css' %}" />
+{% endblock %}
+
+{% block title %}memcpy(): Entry "{{ entry.answer }}"{% endblock %}
 
 {% block main %}
-
     <div class="row">
         <div class="col-md-12">
             <!-- Bootstrap progress bar showing the progress in this book
@@ -17,35 +21,72 @@
             </div>
         </div>
         <div class="col-md-12">
-            <a href="{% url 'book' book_id %}">
+            <a href="{% url 'book' book.id %}">
                 <button type="submit" class="btn btn-lg btn-primary">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back to book
                 </button>
             </a>
         </div>
     </div>
+    <!-- Create two rows of margin -->
+    <div class="row"></div><div class="row"></div>
     <div class="row">
-        <div class="col-md-12">
-            <ul>
-                <li>
-                    Question:  {{ entry.question_text }}
-                        {% if entry.question_image %}
-                        <br />
-                        <img src = "{% url 'entry_photo' entry.id %}" width = "200px">
-                        {% endif %}
-                    <br>
-                    Answer: {{ entry.answer }}
-                    <br />
-                    {% if prev_id %}
-                        <a href="{% url 'entry' prev_id %}"><button>Previous</button></a>
-                    {% endif %}
-                    {% if next_id %}
-                        <a href="{% url 'entry' next_id %}"><button>Next</button></a>
-                    {% else %}
-                        <a href="{% url 'book' book_id %}"><button>Finish!</button></a>
-                    {% endif %}
-                </li>
-            </ul>
+        <!-- Previous button -->
+        {% if prev_id %}
+            <div class="col-md-2 align-right">
+                <a href="{% url 'entry' prev_id %}">
+                    <button class="btn btn-lg btn-default align-right">
+                        <span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span>&nbsp;Previous
+                    </button>
+                </a>
+            </div>
+        {% else %}
+            <div class="col-md-2"></div>
+        {% endif %}
+        <div class="col-md-8">
+            <!-- Bootstrap tables: https://www.w3schools.com/bootstrap/bootstrap_tables.asp -->
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td class="entry_label">{{ book.answer_label }}</td>
+                        <td class="entry_answer">{{ entry.answer }}</td>
+                    </tr>
+                    <tr>
+                        <td class="entry_label">{{ book.question_label }}</td>
+                        <td class="entry_question">
+                            {% if entry.question_image %}
+                                <div>{{ entry.question_text | linebreaksbr }}</div>
+                            {% endif %}
+                            {% if entry.question_image %}
+                                <div><img class="entry img-rounded" src="{% url 'entry_photo' entry.id %}"></div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+        <!-- Next or finish button -->
+        {% if next_id %}
+            <div class="col-md-2 align-left">
+                <a href="{% url 'entry' next_id %}">
+                    <button class="btn btn-lg btn-default align-left">
+                        <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>&nbsp;Next
+                    </button>
+                </a>
+            </div>
+        {% else %}
+            <div class="col-md-2 align-left">
+                <a href="{% url 'book' book.id %}">
+                    <button class="btn btn-lg btn-default align-left">
+                        <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>&nbsp;Finish!
+                    </button>
+                </a>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

@@ -13,3 +13,34 @@ img.entry {
 .caption {
     text-align: center;
 }
+
+table.table {
+    margin-top: 2em;
+}
+
+.table > tbody > tr > td {
+    padding-right: 2em;
+}
+
+td.entry_label {
+    font-weight: bold;
+    font-size: large;
+    color: gray;
+    text-align: right;
+    width: 30%;
+}
+
+td.entry_answer {
+    font-weight: bold;
+    font-size: xx-large;
+    width: 70%;
+}
+
+td.entry_question {
+    font-size: large;
+    width: 70%;
+}
+
+.progress {
+    margin-bottom: 1em;
+}

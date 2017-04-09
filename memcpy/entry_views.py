@@ -51,7 +51,7 @@ def view_entry(request, entry_id):
             # next_flag = True
         prev_id_tmp = current_id
     context = {
-        'book_id': book_id,
+        'book': entry.book,
         'entry': entry,
         'progress': round((current_idx + 1.0) / len(all_entries) * 100),
         'prev_id': prev_id,
