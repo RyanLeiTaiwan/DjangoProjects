@@ -103,7 +103,7 @@ class UpdateProfile(forms.ModelForm):
 class CreateBookForm(forms.ModelForm):
     class Meta:
         model = Book
-        exclude = {'author', 'content_type'}
+        fields = ('title', 'description', 'cover_image', 'question_label', 'answer_label', 'answer_type')
         widgets = {
             'question_label': forms.TextInput(attrs={'placeholder': 'Definition'}),
             'answer_label': forms.TextInput(attrs={'placeholder': 'Word'})
@@ -114,6 +114,6 @@ class CreateEntryForm(forms.ModelForm):
     # question_label = 'YOUR_QUESTION_LABEL'
     class Meta:
         model = Entry
-        exclude = {'book', 'content_type'}
-        # TODO: Should be able to use user-defined question/answer labels, perhaps by using a outer function
+        fields = ('answer', 'question_text', 'question_image')
+        # TODO: Should be able to use user-defined question/answer labels, perhaps by using an outer function
         labels = {}

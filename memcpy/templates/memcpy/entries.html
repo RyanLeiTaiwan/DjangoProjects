@@ -1,30 +1,49 @@
 {% extends 'memcpy/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'memcpy/content.css' %}" />
+{% endblock %}
 
 {% block title %}memcpy(): Book "{{ book.title }}"{% endblock %}
 
 {% block main %}
     <div class="row">
         <div class="col-md-12">
-            <div class="title">Entries in book "{{ book.title }}":</div>
+            <div class="title">Book "{{ book.title }}" ({{ book.entry_set.count }} entries):</div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <ul>
-                {% for entry in entry_list %}
-                    <li>
-                        Question: {{ entry.question_text }}
-                        {% if entry.question_image %}
-                        <br />
-                        <img src = "{% url 'entry_photo' entry.id %}" width = "200px">
-                        {% endif %}
-                        <br>
-                        Answer: {{ entry.answer }}
-                        <br />
-                        <a href="{% url 'learn' entry.id %}"><button>Learn this entry!</button></a>
-                    </li>
-                {% endfor %}
-            </ul>
+        <div class="col-md-4">
+            <div class="thumbnail">
+            {% if book.cover_image %}
+                <img class="book" src="{% url 'book_photo' book.id %}"><br>
+            {% else %}
+                <img class="book" src="{% static 'memcpy/default_book.png' %}"><br>
+            {% endif %}
+            </div>
         </div>
+        <div class="col-md-8">
+            Description: {{ book.description }}<br>
+            Created by: {{ book.author.username }}<br>
+            Laste update: {{ book.timestamp }}
+        </div>
+    </div>
+    <div class="row">
+        {% for entry in entry_list %}
+            <div class="col-md-3">
+                <a href="{% url 'learn' entry.id %}">
+                    <div class="thumbnail">
+                        {% if entry.question_image %}
+                            <img class="entry" src="{% url 'entry_photo' entry.id %}" width = "200px">
+                        {% else %}
+                            <img class="entry" src="{% static 'memcpy/default_entry.png' %}">
+                        {% endif %}
+                        <div class="caption title">{{ entry.answer }}</div>
+                    </div>
+                </a>
+                <br>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

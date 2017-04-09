@@ -1,4 +1,9 @@
 {% extends 'memcpy/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'memcpy/content.css' %}" />
+{% endblock %}
 
 {% block title %}memcpy(): Books{% endblock %}
 
@@ -20,33 +25,21 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <ul>
-                {% for book, entry_list in list %}
-                    <li>
-                        Title: {{ book.title }}<br>
-                        <a href="{% url 'booklist' book.id %}"><button>Learn this book!</button></a><br>
-                        Description: {{ book.description }}<br>
-                        {%  if book.cover_image %}
-                            <img src = "{% url 'book_photo' book.id %}" width = "200px"><br>
-                        {%  endif %}
-                        Created by: {{ book.author.username }}<br>
-                        Laste update: {{ book.timestamp }}
-                        <ol>
-                            {% for entry in entry_list %}
-                                <li>
-                                    Question: {{ entry.question_text }}
-                                    {% if entry.question_image %}
-                                    <img src = "{% url 'entry_photo' entry.id %}" width = "200px">
-                                    {% endif %}
-                                    <br>
-                                    Answer: {{ entry.answer }}
-                                </li>
-                            {% endfor %}
-                        </ol>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+        {% for book in books %}
+            <div class="col-md-4">
+                <a href="{% url 'booklist' book.id %}">
+                    <div class="thumbnail">
+                        {% if book.cover_image %}
+                            <img class="book" src="{% url 'book_photo' book.id %}">
+                        {% else %}
+                            <img class="book" src="{% static 'memcpy/default_book.png' %}">
+                        {% endif %}
+                        <div class="caption title">
+                            {{ book.title }} ({{ book.entry_set.count }} entries)
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

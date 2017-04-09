@@ -1,0 +1,13 @@
+img.book {
+    width: 15em;
+    height: 15em;
+}
+
+img.entry {
+    width: 12em;
+    height: 12em;
+}
+
+.caption {
+    text-align: center;
+}

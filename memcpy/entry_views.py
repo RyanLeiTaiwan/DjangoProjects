@@ -88,8 +88,10 @@ def learn(request, entry_id):
         if (all_entries[j].id == int(entry_id)):
             next_flag = True
     context = {"entry_list": entry_list, "current_id": int(entry_id), "next_id": int(next_id)}
-    print context, len(entry_list)
+    print 'context: %s' % context
+    print 'len(entry_list): %d' % len(entry_list)
     return render(request, 'memcpy/learning_mode.html', context)
+
 def get_photo(request, id):
     item = get_object_or_404(Entry, id=id)
     # Probably don't need this check as form validation requires a picture be uploaded.

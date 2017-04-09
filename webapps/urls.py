@@ -20,7 +20,7 @@ from memcpy import home_views
 urlpatterns = [
     # Django admin console
     url(r'^admin[/]?', admin.site.urls),
-    # The non-logged-in home page
+    # Home page
     url(r'^$', home_views.home, name='home'),
     # Include another URLconf
     url(r'^memcpy/', include('memcpy.urls')),
