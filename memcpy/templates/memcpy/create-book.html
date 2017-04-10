@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="{% static 'memcpy/form.css' %}" />
 {% endblock %}
 
+{% block title %}memcpy(): Create a Book{% endblock %}
+
 {% load addcss %}
 
 {% block main %}
@@ -15,14 +17,14 @@
                 {% for field in form.visible_fields %}
                     <div class="form-group">
                         <label class="col-md-3 control-label">{{ field.label }}</label>
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             {% if field.label == 'Cover image' %}
                                 {{ field }}
                             {% else %}
                                 {{ field|addcss:"form-control input-lg" }}
                             {% endif %}
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <span class="help-inline">
                                 {% for error in field.errors %}
                                     {{ error }}

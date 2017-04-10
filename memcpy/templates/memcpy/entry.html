@@ -9,7 +9,14 @@
 
 {% block main %}
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-2">
+            <a href="{% url 'book' book.id %}">
+                <button type="submit" class="btn btn-lg btn-primary">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back to book
+                </button>
+            </a>
+        </div>
+        <div class="col-md-8">
             <!-- Bootstrap progress bar showing the progress in this book
                  https://www.w3schools.com/bootstrap/bootstrap_progressbars.asp
             -->
@@ -20,13 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
-            <a href="{% url 'book' book.id %}">
-                <button type="submit" class="btn btn-lg btn-primary">
-                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back to book
-                </button>
-            </a>
-        </div>
+        <div class="col-md-2"></div>
     </div>
     <!-- Create two rows of margin -->
     <div class="row"></div><div class="row"></div>
@@ -58,13 +59,34 @@
                                 <div>{{ entry.question_text | linebreaksbr }}</div>
                             {% endif %}
                             {% if entry.question_image %}
-                                <div><img class="entry img-rounded" src="{% url 'entry_photo' entry.id %}"></div>
+                                <div><img class="entry_table img-rounded" src="{% url 'entry_photo' entry.id %}"></div>
                             {% endif %}
                         </td>
                     </tr>
+                    <!-- Flashcards -->
                     <tr>
-                        <td></td>
-                        <td>
+                        <td class="entry_label">{{ flashcard_list.count }} Flashcards</td>
+                        <td class="entry_flashcard">
+                            <!-- Any one can create a flashcard of an entry -->
+                            <form action="{% url 'create-flashcard' entry.id %}" method="get">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-lg btn-success">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Create your own
+                                    </button>
+                                </div>
+                            </form>
+                            <!-- TODO: Display vertically for now. Try to use some cover flow techniques later -->
+                            {% for flashcard in flashcard_list %}
+                                <!-- TODO: Should be a form for 'selecting' this flashcard -->
+                                <a href="#">
+                                    <div class="thumbnail">
+                                        {% if flashcard.image %}
+                                            <img class="flashcard_table img-rounded" src="{% url 'flashcard_photo' flashcard.id %}">
+                                        {% endif %}
+                                        <div class="caption title">{{ flashcard.text }}</div>
+                                    </div>
+                                </a>
+                            {% endfor %}
                         </td>
                     </tr>
                 </tbody>

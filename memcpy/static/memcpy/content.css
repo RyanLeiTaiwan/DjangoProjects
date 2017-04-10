@@ -4,8 +4,20 @@ img.book {
     margin-top: 0.5em;
 }
 
-img.entry {
+img.entry_thumbnail {
     width: 10em;
+    height: 10em;
+    margin-top: 0.5em;
+}
+
+img.entry_table {
+    max-width: 100%;
+    height: 10em;
+    margin-top: 0.5em;
+}
+
+img.flashcard_table {
+    max-width: 100%;
     height: 10em;
     margin-top: 0.5em;
 }
@@ -27,18 +39,23 @@ td.entry_label {
     font-size: large;
     color: gray;
     text-align: right;
-    width: 30%;
+    width: 25%;
 }
 
 td.entry_answer {
     font-weight: bold;
     font-size: xx-large;
-    width: 70%;
+    width: 75%;
 }
 
 td.entry_question {
     font-size: large;
-    width: 70%;
+    width: 75%;
+}
+
+td.entry_flashcard {
+    font-size: large;
+    width: 75%;
 }
 
 .progress {

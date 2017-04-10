@@ -22,6 +22,7 @@ def list_all_entries(request, book_id):
     # print context, len(entry_list)
     return render(request, 'memcpy/book.html', context)
 
+@login_required
 def view_entry(request, entry_id):
     try:
         entry = Entry.objects.get(id = entry_id)
@@ -50,21 +51,25 @@ def view_entry(request, entry_id):
                 next_id = all_entries[idx + 1].id
             # next_flag = True
         prev_id_tmp = current_id
+
+    # Also display current flashcards
+    flashcard_list = Flashcard.objects.filter(entry=entry)
+
     context = {
         'book': entry.book,
         'entry': entry,
         'progress': round((current_idx + 1.0) / len(all_entries) * 100),
         'prev_id': prev_id,
         'current_id': int(entry_id),
-        'next_id': int(next_id)
+        'next_id': int(next_id),
+        'flashcard_list': flashcard_list
     }
-    print 'context: %s' % context
+    # print 'context: %s' % context
     return render(request, 'memcpy/entry.html', context)
 
 @login_required
 @transaction.atomic
 def create_entry(request, book_id):
-    context = {}
     # Check for invalid book id
     try:
         book = Book.objects.get(id=book_id)
@@ -77,6 +82,7 @@ def create_entry(request, book_id):
         messages.error(request, 'create-entry: Only the book author can create entries.')
         return redirect(reverse('books'))
 
+    # Also display current entries
     entry_list = Entry.objects.filter(book=book)
 
     if request.method == 'GET':
@@ -84,7 +90,6 @@ def create_entry(request, book_id):
         return render(request, 'memcpy/create-entry.html', context)
 
     # POST method: process CreateEntryForm
-    user = request.user
     entry = Entry(book=book)
     create_entry_form = CreateEntryForm(request.POST, request.FILES, instance=entry)
     if not create_entry_form.is_valid():
@@ -121,9 +126,9 @@ def edit_entry(request):
 def delete_entry(request):
     return HttpResponse('Delete an entry')
 
-def get_photo(request, id):
-    item = get_object_or_404(Entry, id=id)
-    # Probably don't need this check as form validation requires a picture be uploaded.
+def get_photo(request, entry_id):
+    item = get_object_or_404(Entry, id=entry_id)
+    # Probably don't need this check as form validation requires a picture
     if not item.question_image:
         raise Http404
     return HttpResponse(item.question_image, content_type=item.content_type)

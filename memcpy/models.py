@@ -52,7 +52,7 @@ class Flashcard(models.Model):
     # Last modified timestamp: https://docs.djangoproject.com/en/1.10/ref/models/fields/#django.db.models.DateField
     timestamp = models.DateTimeField(auto_now=True)
     entry = models.ForeignKey(Entry, on_delete=models.CASCADE)
-    # Can be at least one of text, image, or audio, validated on server side
+    # At least one of text or image should not be null, validated on server side
     text = models.TextField(null=True, blank=True, max_length=100)
     image = models.FileField(null=True, blank=True, upload_to='upload/flashcard_image')
     content_type = models.CharField(null=True, blank=True, max_length=20)

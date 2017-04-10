@@ -48,5 +48,10 @@
             Laste update: {{ book.timestamp }}
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="title">{{ book.entry_set.count }} entries:</div>
+        </div>
+    </div>
     {% include 'memcpy/list-entries.html' %}
 {% endblock %}

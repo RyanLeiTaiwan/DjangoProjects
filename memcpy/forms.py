@@ -135,3 +135,31 @@ class CreateEntryForm(forms.ModelForm):
             if picture.size > MAX_UPLOAD_SIZE:
                 raise forms.ValidationError('File size is too large (%.2f MB)' % (picture.size / 2**20))
         return picture
+
+class CreateFlashcardForm(forms.ModelForm):
+    class Meta:
+        model = Flashcard
+        fields = ['text', 'image']
+    # Customizes form validation for properties that apply to more
+    # than one field.  Overrides the forms.Form.clean function.
+    def clean(self):
+        # Calls our parent (forms.Form) .clean function, gets a dictionary
+        # of cleaned data as a result
+        cleaned_data = super(CreateFlashcardForm, self).clean()
+        # At least one of text or image should not be null
+        text = cleaned_data.get('text')
+        image = cleaned_data.get('image')
+        if not text and not image:
+            raise forms.ValidationError("Text and image cannot be both empty.")
+        # We must return the cleaned data we got from our parent.
+        return cleaned_data
+
+    def clean_image(self):
+        picture = self.cleaned_data['image']
+        # Workaround: Existing pictures DO NOT have the content_type attribute
+        if picture and hasattr(picture, 'content_type'):
+            if not picture.content_type.startswith('image'):
+                raise forms.ValidationError('File type is not image')
+            if picture.size > MAX_UPLOAD_SIZE:
+                raise forms.ValidationError('File size is too large (%.2f MB)' % (picture.size / 2**20))
+        return picture
