@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url
 # from django.contrib.auth import views as auth_views
-from memcpy import home_views, login_views, user_views, book_views, entry_views, flashcard_views
+from memcpy import home_views, login_views, user_views, book_views, entry_views, flashcard_views, \
+        quiz_views
 
 # TODO: Avoid using "(.+)" to represent digit parameters because URL 'function/abcde' will raise exceptions
 urlpatterns = [
@@ -57,4 +58,9 @@ urlpatterns = [
     url(r'^create-flashcard/(?P<entry_id>[0-9]+)[/]?$', flashcard_views.create_flashcard, name='create-flashcard'),
     # Show flashcard photo
     url(r'^flashcard_photo/(?P<flashcard_id>[0-9]+)[/]?$', flashcard_views.get_photo, name='flashcard_photo'),
+
+
+
+    # quiz mode
+    url(r'^quiz[/]?$', quiz_views.start_quiz, name='quiz'),
 ]
