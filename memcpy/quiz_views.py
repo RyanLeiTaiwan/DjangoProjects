@@ -10,6 +10,25 @@ from .forms import *
 def start_quiz(request):
     context = {}
     return render(request, 'memcpy/quiz-home.html', context)
+
+def quiz_entries(request):
+    # book id should be randomly choosed
+    # or the recently learned book
+    book_id = 1
+    # Check for invalid book id
+    try:
+            book = Book.objects.get(id=1)
+    except Book.DoesNotExist:
+        messages.error(request, 'book: Invalid book ID.')
+        return redirect(reverse('books'))
+
+    entry_list = Entry.objects.all().filter(book=book)
+
+    context = {'book': book, 'entry_list': entry_list}
+    # print context, len(entry_list)
+    return render(request, 'memcpy/quiz-entries.html', context)
+
+
 def list_all_books(request):
     all_books = Book.objects.all()
     # Ryan: Don't list details in books.html

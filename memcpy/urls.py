@@ -60,7 +60,10 @@ urlpatterns = [
     url(r'^flashcard_photo/(?P<flashcard_id>[0-9]+)[/]?$', flashcard_views.get_photo, name='flashcard_photo'),
 
 
+    #get-flashcard
+
 
     # quiz mode
     url(r'^quiz[/]?$', quiz_views.start_quiz, name='quiz'),
+    url(r'^quiz-entries[/]?$', quiz_views.quiz_entries, name='quiz-entries')
 ]

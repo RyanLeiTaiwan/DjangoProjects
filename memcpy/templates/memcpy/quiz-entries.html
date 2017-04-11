@@ -69,14 +69,7 @@
                     <tr>
                         <td class="entry_label">{{ flashcard_list.count }} Flashcards</td>
                         <td class="entry_flashcard">
-                            <!-- Any one can create a flashcard of an entry -->
-                            <form action="{% url 'create-flashcard' entry.id %}" method="get">
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-lg btn-success">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Create your own
-                                    </button>
-                                </div>
-                            </form>
+
                             <!-- TODO: Display vertically for now. Try to use some cover flow techniques later -->
                             {% for flashcard in flashcard_list %}
                                 <!-- TODO: Should be a form for 'selecting' this flashcard -->

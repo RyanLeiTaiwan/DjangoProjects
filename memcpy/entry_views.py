@@ -19,6 +19,7 @@ def list_all_entries(request, book_id):
     entry_list = Entry.objects.all().filter(book=book)
 
     context = {'book': book, 'entry_list': entry_list}
+    print (context)
     # print context, len(entry_list)
     return render(request, 'memcpy/book.html', context)
 

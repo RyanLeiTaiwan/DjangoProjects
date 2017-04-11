@@ -15,8 +15,8 @@
                 {{ fc_today.text }}
                 <br>
                 {% if fc_today.image %}
-                 <img src="../{{ fc_today.image }}"  width="200px">
-                {{ fc_today.image }}
+                 <img src="{% url 'flashcard_photo' fc_today.id %}"  width="200px">
+
                 {% endif %}
                 {% if fc_today.audio %}
                 {{ fc_today.audio }}
