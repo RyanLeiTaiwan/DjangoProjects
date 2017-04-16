@@ -6,25 +6,65 @@ from django.db import transaction
 from django.contrib import messages
 from memcpy.models import *
 from .forms import *
+import random
 
 def start_quiz(request):
     context = {}
+    book_id = 1
+    try:
+        book = Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        messages.error(request, 'book: Invalid book ID.')
+        return redirect(reverse('books'))
+    entry_list = Entry.objects.all().filter(book=book)
+    context = {'entry_list': entry_list, 'book': book}
     return render(request, 'memcpy/quiz-home.html', context)
 
-def quiz_entries(request):
+def quiz_entries(request, book_id, entry_index):
     # book id should be randomly choosed
     # or the recently learned book
     book_id = 1
     # Check for invalid book id
     try:
-            book = Book.objects.get(id=1)
+            book = Book.objects.get(id=book_id)
     except Book.DoesNotExist:
         messages.error(request, 'book: Invalid book ID.')
         return redirect(reverse('books'))
 
     entry_list = Entry.objects.all().filter(book=book)
 
-    context = {'book': book, 'entry_list': entry_list}
+    entry_index = int(entry_index)
+    entry_index += 1
+    context = {}
+    try:
+        context = {'book': book, 'entry_list': entry_list, 'entry': entry_list[entry_index], 'entry_index': entry_index}
+    except:
+        pass
+    answer_candidate_index = []
+    answer_candidate_index.append(entry_index)
+    for i in range(0, 3):
+        ran = -1
+        while (ran == -1 or ran in answer_candidate_index):
+            ran = random.randint(0, len(entry_list) - 1)
+        answer_candidate_index.append(ran)
+    print (answer_candidate_index)
+
+    if entry_index + 1 < len(entry_list):
+        context['next_entry'] = entry_list[entry_index + 1]
+    else:
+        context['message'] = "Quiz finished! And this time you got 4/7 correct answers! Cong!"
+        return render(request, 'memcpy/quiz-home.html', context)
+
+    answer_candidate_1 = entry_list[answer_candidate_index[0]]
+    answer_candidate_2 = entry_list[answer_candidate_index[1]]
+    answer_candidate_3 = entry_list[answer_candidate_index[2]]
+    answer_candidate_4 = entry_list[answer_candidate_index[3]]
+    context["answer_candidate_1"] = answer_candidate_1
+    context["answer_candidate_2"] = answer_candidate_2
+    context["answer_candidate_3"] = answer_candidate_3
+    context["answer_candidate_4"] = answer_candidate_4
+
+    print context
     # print context, len(entry_list)
     return render(request, 'memcpy/quiz-entries.html', context)
 

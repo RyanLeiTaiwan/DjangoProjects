@@ -65,5 +65,5 @@ urlpatterns = [
 
     # quiz mode
     url(r'^quiz[/]?$', quiz_views.start_quiz, name='quiz'),
-    url(r'^quiz-entries[/]?$', quiz_views.quiz_entries, name='quiz-entries')
+    url(r'^quiz-entries/(\d+)/(\d+)$', quiz_views.quiz_entries, name='quiz-entries')
 ]

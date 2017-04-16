@@ -4,18 +4,22 @@
     {% if user.is_authenticated %}
         <div class="row">
             <div class="col-md-12">
-                <form action="{% url 'quiz-entries' %}" method="get">
+                <!-- This number should be the recently learned book -->
+                <form action="{% url 'quiz-entries' book.id 0 %}" method="get">
                     <div class="form-group">
                         <button type="submit" class="btn btn-lg btn-success">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Start Quiz!
                         </button>
                     </div>
                 </form>
+                {% if message %}
+                   <div class="title"> <tr> {{ message }}</tr></div>
+                {%  endif %}
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="title">Recently learned books:</div>
+                <div >Recently learned books: America States</div>
             </div>
         </div>
     {% endif %}
