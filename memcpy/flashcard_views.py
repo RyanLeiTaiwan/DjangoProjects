@@ -63,7 +63,6 @@ def edit_flashcard(request):
 def delete_flashcard(request):
     return HttpResponse('Delete a flashcard')
 
-@login_required
 def get_photo(request, flashcard_id):
     item = get_object_or_404(Flashcard, id=flashcard_id)
     # Probably don't need this check as form validation requires a picture
