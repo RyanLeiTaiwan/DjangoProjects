@@ -62,11 +62,10 @@ class Flashcard(models.Model):
         return 'id: %s, entry: %s, author: %s' % (self.id, self.entry, self.author.username)
 
 class FlashcardToday(models.Model):
-    #TODO: faking for now
     fctoday = models.ForeignKey(Flashcard, related_name='fctoday')
     updated_time = models.DateField()
     def __unicode__(self):
-        return 'id: %s, entry: %s' % (self.id, self.entry)
+        return 'id: %s, entry: %s' % (self.id, self.fctoday.entry)
 
 class UserBookPair(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

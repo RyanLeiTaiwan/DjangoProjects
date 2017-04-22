@@ -9,7 +9,7 @@
 {% block main %}
     User name:  {{user.username}}
      {% if user.profile.picture %}
-         <img src="{% url 'photo' user %}"  width="200px">
+         <img src="{% url 'profile_photo' user %}"  width="200px">
      {% endif %}
     <br>
     Bio: {{ user.profile.bio }}

@@ -36,7 +36,7 @@ urlpatterns = [
     # Upload photo in profile edit page
     url(r'^upload-photo/(.+)$', user_views.upload_photo, name='upload_photo'),
     # Show profile photo
-    url(r'^profile-photo/(.+)$', user_views.get_photo, name='photo'),
+    url(r'^profile-photo/(.+)$', user_views.get_photo, name='profile_photo'),
 
     # Browse all books
     url(r'^books[/]?$', book_views.list_all_books, name='books'),

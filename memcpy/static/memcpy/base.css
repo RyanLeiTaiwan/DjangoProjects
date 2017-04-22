@@ -9,6 +9,16 @@
     height: 40px;
 }
 
+.navbar-img {
+    height: 40px;
+    width: 40px;
+}
+
+#navbar-img {
+    padding-top: 5px;
+    padding-bottom: 0;
+}
+
 body {
     /* Required padding for Bootstrap navbar */
     padding-top: 60px;

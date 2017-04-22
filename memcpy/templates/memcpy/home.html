@@ -1,25 +1,18 @@
 {% extends 'memcpy/base.html' %}
+{% load static %}
+{% load nbsp %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'memcpy/content.css' %}" />
+{% endblock %}
+
 
 {% block main %}
-    {% if not user.is_authenticated %}
-        <div class="row">
-            <h1>memcpy(): Learn anything with flashcards</h1>
-            <h3>{{ user_num }} users have created {{ book_num }} books, {{ entry_num }} entries, and {{ flashcard_num }} flashcards</h3>
-        </div>
-    {% endif %}
+    <!-- Display website statistics no matter if user.is_authenticated (Home page is too empty :( -->
     <div class="row">
         <div class="col-md-12">
-            <!-- MW dictionary has a good style: https://www.merriam-webster.com/word-of-the-day -->
-            <div class="title text-center">Flashcard of the Day: {{ date }}
-            <br>
-                {% if fc_today.text %}
-                    {{ fc_today.text }}
-                {% endif %}
-            <br>
-                {% if fc_today.image %}
-                    <img src="{% url 'flashcard_photo' fc_today.id %}"  width="200px">
-                {% endif %}
-            </div>
+            <h1>memcpy(): Learn anything with flashcards</h1>
+            <h3>{{ user_num }} users have created {{ book_num }} books, {{ entry_num }} entries, and {{ flashcard_num }} flashcards</h3>
         </div>
     </div>
     {% if user.is_authenticated %}
@@ -34,11 +27,11 @@
                 </form>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="title">Recently learned books:</div>
-            </div>
-        </div>
+{#        <div class="row">#}
+{#            <div class="col-md-12">#}
+{#                <div class="title">Recently learned books:</div>#}
+{#            </div>#}
+{#        </div>#}
 {#        <div class="row">#}
 {#            <div class="col-md-12">#}
 {#                <div class="title">Other interesting books:</div>#}
@@ -46,4 +39,47 @@
 {#        </div>#}
     {% endif %}
 
+    <div class="row">
+        <div class="col-md-12">
+            <!-- MW dictionary has a good style: https://www.merriam-webster.com/word-of-the-day -->
+            <div class="title text-center">
+                Flashcard of the Day: {{ date }}
+            </div>
+        </div>
+        <div class="col-md-offset-2 col-md-8">
+            <!-- Bootstrap tables: https://www.w3schools.com/bootstrap/bootstrap_tables.asp -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td colspan="2" class="entry_flashcard">
+                            <div class="thumbnail">
+                                {% if fc_today.image %}
+                                    <img class="flashcard_table img-rounded" src="{% url 'flashcard_photo' fc_today.id %}">
+                                {% endif %}
+                                <div class="caption title">{{ fc_today.text | nbsp | linebreaksbr }}</div>
+                            </div>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="entry_label">{{ fc_today.entry.book.answer_label }}</td>
+                        <td class="entry_answer">{{ fc_today.entry.answer }}</td>
+                    </tr>
+                    <tr>
+                        <td class="entry_label">{{ fc_today.entry.book.question_label }}</td>
+                        <td class="entry_question">
+                            {% if fc_today.entry.question_text %}
+                                <div>{{ fc_today.entry.question_text | nbsp | linebreaksbr }}</div>
+                            {% endif %}
+                            {% if fc_today.entry.question_image %}
+                                <div><img class="entry_table img-rounded" src="{% url 'entry_photo' fc_today.entry.id %}"></div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
 {% endblock %}

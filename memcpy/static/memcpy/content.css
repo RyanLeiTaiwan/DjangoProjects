@@ -33,7 +33,7 @@ img.flashcard_table {
 }
 
 table.table {
-    margin-top: 2em;
+    /*margin-top: 2em;*/
 }
 
 .table > tbody > tr > td {
