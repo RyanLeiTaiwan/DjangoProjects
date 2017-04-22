@@ -13,14 +13,11 @@
             <div class="title text-center">Flashcard of the Day: {{ date }}
             <br>
                 {% if fc_today.text %}
-                 {{ fc_today.text }}
+                    {{ fc_today.text }}
                 {% endif %}
             <br>
                 {% if fc_today.image %}
-                 <img src="{% url 'flashcard_photo' fc_today.id %}"  width="200px">
-                {% endif %}
-                {% if fc_today.audio %}
-                {{ fc_today.audio }}
+                    <img src="{% url 'flashcard_photo' fc_today.id %}"  width="200px">
                 {% endif %}
             </div>
         </div>

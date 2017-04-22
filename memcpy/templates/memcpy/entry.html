@@ -1,6 +1,7 @@
 {% extends 'memcpy/base.html' %}
 
 {% load static %}
+{% load nbsp %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'memcpy/content.css' %}" />
 {% endblock %}
@@ -57,8 +58,8 @@
                     <tr>
                         <td class="entry_label">{{ book.question_label }}</td>
                         <td class="entry_question">
-                            {% if entry.question_image %}
-                                <div>{{ entry.question_text | linebreaksbr }}</div>
+                            {% if entry.question_text %}
+                                <div>{{ entry.question_text | nbsp | linebreaksbr }}</div>
                             {% endif %}
                             {% if entry.question_image %}
                                 <div><img class="entry_table img-rounded" src="{% url 'entry_photo' entry.id %}"></div>
@@ -79,15 +80,13 @@
                             </form>
                             <!-- TODO: Display vertically for now. Try to use some cover flow techniques later -->
                             {% for flashcard in flashcard_list %}
-                                <!-- TODO: Should be a form for 'selecting' this flashcard -->
-                                <a href="#">
-                                    <div class="thumbnail">
-                                        {% if flashcard.image %}
-                                            <img class="flashcard_table img-rounded" src="{% url 'flashcard_photo' flashcard.id %}">
-                                        {% endif %}
-                                        <div class="caption title">{{ flashcard.text }}</div>
-                                    </div>
-                                </a>
+                            <!-- TODO: Should be a form for 'selecting' this flashcard -->
+                                <div class="thumbnail">
+                                    {% if flashcard.image %}
+                                        <img class="flashcard_table img-rounded" src="{% url 'flashcard_photo' flashcard.id %}">
+                                    {% endif %}
+                                    <div class="caption title">{{ flashcard.text | nbsp | linebreaksbr }}</div>
+                                </div>
                             {% endfor %}
                         </td>
                     </tr>

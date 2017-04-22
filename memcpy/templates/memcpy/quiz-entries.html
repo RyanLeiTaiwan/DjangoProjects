@@ -1,6 +1,7 @@
 {% extends 'memcpy/base.html' %}
 
 {% load static %}
+{% load nbsp %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'memcpy/content.css' %}" />
 {% endblock %}
@@ -57,7 +58,7 @@
                         <td class="entry_label">{{ book.question_label }}</td>
                         <td class="entry_question">
                             {% if entry.question_image %}
-                                <div>{{ entry.question_text | linebreaksbr }}</div>
+                                <div>{{ entry.question_text | nbsp | linebreaksbr }}</div>
 
                             {% endif %}
 

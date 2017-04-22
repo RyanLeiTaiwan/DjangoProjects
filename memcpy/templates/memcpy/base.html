@@ -89,7 +89,7 @@
                 <li {% if request.resolver_match.url_name == 'view-profile' and request.resolver_match.args.0 == request.user.id|slugify %}
                     class="active" {% endif %}>
                     <a href="{% url 'view-profile' request.user.id %}">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;{{request.user.username}}
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;{{ request.user.username }}
                     </a>
                 </li>
                 <li {% if request.resolver_match.url_name == 'update-profile' %} class="active" {% endif %}>

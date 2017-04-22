@@ -17,7 +17,8 @@
 .form-group textarea {
     resize: none;
     outline: none;
-    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace
+    /* Don't use fixed-width font according to suggestions */
+    /* font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace */
 }
 
 /*.btn {*/

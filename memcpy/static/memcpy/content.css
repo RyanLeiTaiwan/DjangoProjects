@@ -1,3 +1,7 @@
+.thumbnail {
+    overflow-wrap: break-word;
+}
+
 img.book {
     width: 15em;
     height: 15em;
@@ -24,6 +28,8 @@ img.flashcard_table {
 
 .caption {
     text-align: center;
+    font-weight: bold;
+    font-size: large;
 }
 
 table.table {
@@ -31,7 +37,8 @@ table.table {
 }
 
 .table > tbody > tr > td {
-    padding-right: 2em;
+    padding-right: 3%;
+
 }
 
 td.entry_label {
@@ -40,22 +47,30 @@ td.entry_label {
     color: gray;
     text-align: right;
     width: 25%;
+    max-width: 10em;
+    overflow-wrap: break-word;
 }
 
 td.entry_answer {
     font-weight: bold;
     font-size: xx-large;
     width: 75%;
+    max-width: 17em;
+    overflow-wrap: break-word;
 }
 
 td.entry_question {
     font-size: large;
     width: 75%;
+    max-width: 30em;
+    overflow-wrap: break-word;
 }
 
 td.entry_flashcard {
     font-size: large;
     width: 75%;
+    max-width: 30em;
+    overflow-wrap: break-word;
 }
 
 .progress {
