@@ -45,7 +45,7 @@ class Entry(models.Model):
     correct = models.IntegerField(default=0)
     attempt = models.IntegerField(default=0)
     def __unicode__(self):
-        return 'id: %s, answer: %s' % (self.id, self.answer)
+        return 'id: %s, book: %s, answer: %s' % (self.id, self.book.title, self.answer)
 
 class Flashcard(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)

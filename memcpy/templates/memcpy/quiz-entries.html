@@ -6,18 +6,24 @@
     <link rel="stylesheet" href="{% static 'memcpy/content.css' %}" />
 {% endblock %}
 
-{% block title %}memcpy(): Entry "{{ entry.answer }}"{% endblock %}
+{% block title %}memcpy(): Quiz from book "{{ book.title }}"{% endblock %}
 
 {% block main %}
-    {{ book.id }}
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-2 align-right">
             <a href="{% url 'book' book.id %}">
-                <button type="submit" class="btn btn-lg btn-primary">
-                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Give up
+                <button class="btn btn-lg btn-primary btn-no-margin-right">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Exit quiz
                 </button>
             </a>
         </div>
+        <div class="col-md-8">
+            <div class="title">Quiz from book "{{ book.title }}"</div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 align-right">Numeric progress<br>1 of {{ entry_list | length }}</div>
         <div class="col-md-8">
             <!-- Bootstrap progress bar showing the progress in this book
                  https://www.w3schools.com/bootstrap/bootstrap_progressbars.asp
@@ -29,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-md-2">Score Info</div>
     </div>
     <!-- Create two rows of margin -->
     <div class="row"></div><div class="row"></div>
@@ -50,63 +56,58 @@
 
         <div class="col-md-8">
             <!-- Bootstrap tables: https://www.w3schools.com/bootstrap/bootstrap_tables.asp -->
-        {{ entry_list.entry_index.answer }}
-        {{ entry_index }}
+            <!-- hard-coded entry_index == 0 -->
+            {{ entry_list }}<br>
+            True answer: {{ entry_list.0.answer }}
             <table class="table">
                 <tbody>
-
+                    <tr>
                         <td class="entry_label">{{ book.question_label }}</td>
-                        <td class="entry_question">
-                            {% if entry.question_image %}
+                        <td colspan="2" class="entry_question">
+                            {% if entry.question_text %}
                                 <div>{{ entry.question_text | nbsp | linebreaksbr }}</div>
-
                             {% endif %}
+                            {% if entry.question_image %}
+                                <div><img class="entry_table img-rounded" src="{% url 'entry_photo' entry.id %}"></div>
+                            {% endif %}
+                        </td>
+                    </tr>
 
+                    <tr>
+                        <td class="entry_label">Choose one {{ book.answer_label }}</td>
+                        <td>
+                            <div class="row">
+                                <a href="#">
+                                    <button class="btn btn-lg btn-default align-left candidate">
+                                        <span class="text-muted">1. </span><span>Candidate 1</span>
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="row">
+                                <a href="#">
+                                    <button class="btn btn-lg btn-default align-left candidate">
+                                        <span class="text-muted">3. </span><span>Candidate 3</span>
+                                    </button>
+                                </a>
+                            </div>
                         </td>
                         <td>
-{#                            <div class="col-md-12">#}
-                            {% if entry.question_image %}
-                                <div><img class="flashcard_table img-rounded" src="{% url 'entry_photo' entry.id %}"></div>
-                            {% endif %}
-{#                            </div>#}
+                            <div class="row">
+                                <a href="#">
+                                    <button class="btn btn-lg btn-default align-left candidate">
+                                        <span class="text-muted">2. </span><span>Candidate 2</span>
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="row">
+                                <a href="#">
+                                    <button class="btn btn-lg btn-default align-left candidate">
+                                        <span class="text-muted">4. </span><span>Candidate 4</span>
+                                    </button>
+                                </a>
+                            </div>
                         </td>
-
-
-                <tr>
-                    <td class="entry_label">Choose one  {{ book.answer_label }}</td>
-                        <td><a href="{% url 'quiz-entries' book.id entry_index%}">
-                            <button class="btn btn-lg btn-default align-left">
-                                A.
-                            </button>
-                            <td class="entry_answer"> {{ answer_candidate_2.answer }}</td>
-
-
-                        <td><a href="{% url 'quiz-entries' book.id entry_index%}">
-                            <button class="btn btn-lg btn-default align-left">
-                                B.
-                            </button>
-                            <td class="entry_answer"> {{ answer_candidate_3.answer }}</td>
-                        </td>
-                </tr>
-                <tr>
-
-                    <td class="col-md-2"></td>
-                        <td><a href="{% url 'quiz-entries' book.id entry_index%}">
-                            <button class="btn btn-lg btn-default align-left">
-                                C.
-                            </button>
-                            <td class="entry_answer"> {{ answer_candidate_1.answer }}</td>
-                        </td>
-
-                        <td><a href="{% url 'quiz-entries' book.id entry_index%}">
-                            <button class="btn btn-lg btn-default align-left">
-                                D.
-                            </button>
-                            <td class="entry_answer"> {{ answer_candidate_4.answer }}</td>
-                        </td>
-                </tr>
-
-
+                    </tr>
                 </tbody>
             </table>
         </div>

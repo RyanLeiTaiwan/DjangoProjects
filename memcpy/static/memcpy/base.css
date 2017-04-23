@@ -22,6 +22,8 @@
 body {
     /* Required padding for Bootstrap navbar */
     padding-top: 60px;
+    /* For better user experience when scrolling down */
+    margin-bottom: 5em;
 }
 
 .row {
@@ -41,6 +43,10 @@ div.alert {
 
 .btn {
     margin-right: 1.0em;
+}
+
+button.btn-no-margin-right {
+    margin-right: 0;
 }
 
 .float-left {

@@ -36,7 +36,7 @@ urlpatterns = [
     # Upload photo in profile edit page
     url(r'^upload-photo/(.+)$', user_views.upload_photo, name='upload_photo'),
     # Show profile photo
-    url(r'^profile-photo/(.+)$', user_views.get_photo, name='profile_photo'),
+    url(r'^profile_photo/(.+)$', user_views.get_photo, name='profile_photo'),
 
     # Browse all books
     url(r'^books[/]?$', book_views.list_all_books, name='books'),
@@ -59,11 +59,10 @@ urlpatterns = [
     # Show flashcard photo
     url(r'^flashcard_photo/(?P<flashcard_id>[0-9]+)[/]?$', flashcard_views.get_photo, name='flashcard_photo'),
 
-
-    #get-flashcard
-
-
-    # quiz mode
-    url(r'^quiz[/]?$', quiz_views.start_quiz, name='quiz'),
+    # Quiz from a random book
+    url(r'^random-quiz[/]?$', quiz_views.random_quiz, name='random-quiz'),
+    # Quiz from a specific book
+    url(r'^quiz/(?P<book_id>[0-9]+)[/]?$', quiz_views.quiz, name='quiz'),
+    # url(r'^quiz[/]?$', quiz_views.start_quiz, name='quiz'),
     url(r'^quiz-entries/(\d+)/(\d+)$', quiz_views.quiz_entries, name='quiz-entries')
 ]

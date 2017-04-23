@@ -73,6 +73,21 @@ td.entry_flashcard {
     overflow-wrap: break-word;
 }
 
+button.candidate {
+    font-weight: bold;
+    font-size: x-large;
+    margin-bottom: 0.5em;
+    width: 90%;
+    max-width: 10em;
+    /* white-space was set to nowrap by Bootstrap */
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+button.candidate:hover {
+    background: yellow;
+}
+
 .progress {
     margin-bottom: 1em;
 }

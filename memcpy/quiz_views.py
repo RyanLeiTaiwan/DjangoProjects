@@ -5,9 +5,43 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.contrib import messages
 from memcpy.models import *
+from django.db.models import Count
 from .forms import *
 import random
 
+@login_required
+def random_quiz(request):
+    # Randomly choose one book that has >= 4 entries
+    # http://stackoverflow.com/questions/6525771/django-query-related-field-count
+    threshold = 4
+    valid_books = Book.objects.annotate(num_entries=Count('entry')).filter(num_entries__gte=threshold)
+    if len(valid_books) == 0:
+        messages.error(request, 'quiz: Cannot start a quiz! There is no book that contains at least %d entries.' % threshold)
+        return redirect('books')
+    book = random.choice(valid_books)
+    # Call quiz() to handle actual quiz
+    return redirect('quiz', book_id=book.id)
+
+# Can be called by Random Quiz or a specific Book page
+@login_required
+def quiz(request, book_id):
+    context = {}
+    book = Book.objects.get(id=book_id)
+    # Randomly order the book entries
+    entry_list = list(book.entry_set.all())
+    random.shuffle(entry_list)
+
+    # TODO: hard-code entry_index for now. This should be handled by JavaScript
+    entry_index = 0
+    context['book'] = book
+    context['entry_list'] = entry_list
+    context['entry'] = entry_list[entry_index]
+    context['entry_index'] = entry_index
+    context['progress'] = round((entry_index + 1.0) / len(entry_list) * 100)
+
+    return render(request, 'memcpy/quiz-entries.html', context)
+
+@login_required
 def start_quiz(request):
     context = {}
     book_id = 1
@@ -20,8 +54,9 @@ def start_quiz(request):
     context = {'entry_list': entry_list, 'book': book}
     return render(request, 'memcpy/quiz-home.html', context)
 
+@login_required
 def quiz_entries(request, book_id, entry_index):
-    # book id should be randomly choosed
+    # book id should be randomly choosen
     # or the recently learned book
     book_id = 1
     # Check for invalid book id
