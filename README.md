@@ -1,10 +1,11 @@
 # Team 8: memcpy()
 ## Team members: Hao Gu (hg1), Yi Bian (ybian1), Yu-Heng Lei (yuhengl1)
+## EC2 demo URL: http://34.223.227.80/
 
 ### Important Dates
 - March 30: Sprint 1 @ NSH 3001 (Teams 8, 18, 28, 39, owner: Yu-Heng Lei)
 - April 11: Sprint 2 @ EDSH 200 (Teams 8, 10, 32, 36, owner: Yi Bian)
-- Week of April 24: Final demo
+- April 28: Final demo @ NSH A507 (10:00)
 
 ### Introduction
 We plan to build a website that helps users memorize vocabulary or learn other knowledge they wish online with user-contributed content. We’ll maintain databases and provide “book” options for users to learn and memorize “entries” (e.g. English words, pictures of fruits, U.S. states on a map). During learning and memorization, any user can contribute by uploading text, pictures, or audio files as “flashcards” (hints) to help people better remember the entry. During timed quizzes, users can ask for such flashcards.
