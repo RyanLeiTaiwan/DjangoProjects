@@ -4,6 +4,10 @@
 {% load nbsp %}
 {% block css_js %}
     <link rel="stylesheet" href="{% static 'memcpy/content.css' %}" />
+    <script src="{% static 'memcpy/quiz.js' %}" type="text/javascript"></script>
+{% endblock %}
+{% block onload_function %}
+    quizInit({{ book.id }})
 {% endblock %}
 
 {% block title %}memcpy(): Quiz from book "{{ book.title }}"{% endblock %}
@@ -20,97 +24,89 @@
         <div class="col-md-8">
             <div class="title">Quiz from book "{{ book.title }}"</div>
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-md-2">Score Info</div>
     </div>
+
     <div class="row">
+        <!-- Left column -->
         <div class="col-md-2 align-right">Numeric progress<br>1 of {{ entry_list | length }}</div>
+        <!-- Middle column -->
         <div class="col-md-8">
-            <!-- Bootstrap progress bar showing the progress in this book
-                 https://www.w3schools.com/bootstrap/bootstrap_progressbars.asp
-            -->
-            <div class="progress">
-                <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar"
-                     aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"
-                     style="width:{{ progress }}%">
+            <!-- Put progress bar and table in two inner rows so that their formatting can be independent of timer -->
+            <div class="row">
+                <!-- Bootstrap progress bar showing the progress in this book
+                     https://www.w3schools.com/bootstrap/bootstrap_progressbars.asp
+                -->
+                <div class="col-md-12">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar"
+                             aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"
+                             style="width:{{ progress }}%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Bootstrap tables: https://www.w3schools.com/bootstrap/bootstrap_tables.asp -->
+                    <!-- hard-coded entry_index == 0 -->
+                    {{ entry_list }}<br>
+                    True answer: {{ entry_list.0.answer }}
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="entry_label">{{ book.question_label }}</td>
+                                <td colspan="2" class="entry_question">
+                                    {% if entry.question_text %}
+                                        <div>{{ entry.question_text | nbsp | linebreaksbr }}</div>
+                                    {% endif %}
+                                    {% if entry.question_image %}
+                                        <div><img class="entry_table img-rounded" src="{% url 'entry_photo' entry.id %}"></div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="entry_label">Choose one {{ book.answer_label }}</td>
+                                <td>
+                                    <div class="row">
+                                        <a href="#">
+                                            <button class="btn btn-lg btn-default align-left candidate">
+                                                <span class="text-muted">1. </span><span>Candidate 1</span>
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div class="row">
+                                        <a href="#">
+                                            <button class="btn btn-lg btn-default align-left candidate">
+                                                <span class="text-muted">3. </span><span>Candidate 3</span>
+                                            </button>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <a href="#">
+                                            <button class="btn btn-lg btn-default align-left candidate">
+                                                <span class="text-muted">2. </span><span>Candidate 2</span>
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div class="row">
+                                        <a href="#">
+                                            <button class="btn btn-lg btn-default align-left candidate">
+                                                <span class="text-muted">4. </span><span>Candidate 4</span>
+                                            </button>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-        <div class="col-md-2">Score Info</div>
-    </div>
-    <!-- Create two rows of margin -->
-    <div class="row"></div><div class="row"></div>
-    <div class="row">
-        <!-- Previous button -->
-        {% if prev_id %}
-            <div class="col-md-2 align-right">
-                <a href="{% url 'entry' prev_id %}">
-                    <button class="btn btn-lg btn-default align-right">
-                        <span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span>&nbsp;Previous
-                    </button>
-                </a>
-            </div>
-        {% else %}
-            <div class="col-md-2"></div>
-        {% endif %}
-
-
-        <div class="col-md-8">
-            <!-- Bootstrap tables: https://www.w3schools.com/bootstrap/bootstrap_tables.asp -->
-            <!-- hard-coded entry_index == 0 -->
-            {{ entry_list }}<br>
-            True answer: {{ entry_list.0.answer }}
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td class="entry_label">{{ book.question_label }}</td>
-                        <td colspan="2" class="entry_question">
-                            {% if entry.question_text %}
-                                <div>{{ entry.question_text | nbsp | linebreaksbr }}</div>
-                            {% endif %}
-                            {% if entry.question_image %}
-                                <div><img class="entry_table img-rounded" src="{% url 'entry_photo' entry.id %}"></div>
-                            {% endif %}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="entry_label">Choose one {{ book.answer_label }}</td>
-                        <td>
-                            <div class="row">
-                                <a href="#">
-                                    <button class="btn btn-lg btn-default align-left candidate">
-                                        <span class="text-muted">1. </span><span>Candidate 1</span>
-                                    </button>
-                                </a>
-                            </div>
-                            <div class="row">
-                                <a href="#">
-                                    <button class="btn btn-lg btn-default align-left candidate">
-                                        <span class="text-muted">3. </span><span>Candidate 3</span>
-                                    </button>
-                                </a>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="row">
-                                <a href="#">
-                                    <button class="btn btn-lg btn-default align-left candidate">
-                                        <span class="text-muted">2. </span><span>Candidate 2</span>
-                                    </button>
-                                </a>
-                            </div>
-                            <div class="row">
-                                <a href="#">
-                                    <button class="btn btn-lg btn-default align-left candidate">
-                                        <span class="text-muted">4. </span><span>Candidate 4</span>
-                                    </button>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
+        <!-- Right column -->
+        <div class="col-md-2 timer align-right" id="timer"></div>
     </div>
 {% endblock %}

@@ -24,8 +24,9 @@
     {% endblock %}
 </head>
 
+<!-- Call JavaScript function on page load -->
+<body onload="{% block onload_function %}{% endblock %}">
 
-<body>
 <!-- Bootstrap navigation bar -->
 {% load static %}
 <nav class="navbar navbar-inverse navbar-fixed-top">
