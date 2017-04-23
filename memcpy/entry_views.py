@@ -94,6 +94,9 @@ def create_entry(request, book_id):
     entry = Entry(book=book)
     create_entry_form = CreateEntryForm(request.POST, request.FILES, instance=entry)
     if not create_entry_form.is_valid():
+        # Validation error does not belong to a single field, so we send a Django message
+        for error in create_entry_form.errors['__all__']:
+            messages.error(request, 'create-entry: %s' % error)
         context = {'form': create_entry_form, 'book': book, 'entry_list': entry_list}
         return render(request, 'memcpy/create-entry.html', context)
 

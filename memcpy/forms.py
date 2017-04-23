@@ -126,6 +126,20 @@ class CreateEntryForm(forms.ModelForm):
         fields = ('answer', 'question_text', 'question_image')
         # TODO: Should be able to use user-defined question/answer labels, perhaps by using an outer function
         labels = {}
+    # Customizes form validation for properties that apply to more
+    # than one field.  Overrides the forms.Form.clean function.
+    def clean(self):
+        # Calls our parent (forms.Form) .clean function, gets a dictionary
+        # of cleaned data as a result
+        cleaned_data = super(CreateEntryForm, self).clean()
+        # At least one of text or image should not be null
+        text = cleaned_data.get('question_text')
+        image = cleaned_data.get('question_image')
+        if not text and not image:
+            raise forms.ValidationError("Text and image cannot be both empty.")
+        # We must return the cleaned data we got from our parent.
+        return cleaned_data
+
     def clean_question_image(self):
         picture = self.cleaned_data['question_image']
         # Workaround: Existing pictures DO NOT have the content_type attribute
