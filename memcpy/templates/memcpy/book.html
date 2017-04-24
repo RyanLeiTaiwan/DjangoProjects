@@ -10,20 +10,28 @@
 {% block main %}
     <div class="row">
         <div class="col-md-12">
-            <a href="{% url 'books' %}" class="float-left">
-                <button class="btn btn-lg btn-primary">
+            <a href="{% url 'books' %}">
+                <button class="btn btn-lg btn-primary float-left">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back to all books
                 </button>
             </a>
             <!-- Only the book author can create entries -->
             {% if request.user == book.author %}
-                <form action="{% url 'create-entry' book.id %}" method="get">
+                <form action="{% url 'create-entry' book.id %}" method="get" class="float-left">
                     <div class="form-group">
                         <button type="submit" class="btn btn-lg btn-success">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Create entries
                         </button>
                     </div>
                 </form>
+            {% endif %}
+            <!-- A quiz can only start if there are >= 4 entries -->
+            {% if entry_list.count >= 4 %}
+                <a href="{% url 'quiz' book.id %}">
+                    <button class="btn btn-lg btn-danger float-left">
+                        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>&nbsp;Quiz on this book
+                    </button>
+                </a>
             {% endif %}
         </div>
     </div>

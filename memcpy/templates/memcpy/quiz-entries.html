@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-2 align-right">
             <a href="{% url 'book' book.id %}">
-                <button class="btn btn-lg btn-primary btn-no-margin-right">
+                <button class="btn btn-lg btn-danger btn-no-margin-right">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Exit quiz
                 </button>
             </a>
@@ -24,12 +24,12 @@
         <div class="col-md-8">
             <div class="title">Quiz from book "{{ book.title }}"</div>
         </div>
-        <div class="col-md-2">Score Info</div>
+        <div class="col-md-2">Your Score</div>
     </div>
 
     <div class="row">
         <!-- Left column -->
-        <div class="col-md-2 align-right">Numeric progress<br>1 of {{ entry_list | length }}</div>
+        <div class="col-md-2 align-right">Question 1 of {{ entry_list | length }}</div>
         <!-- Middle column -->
         <div class="col-md-8">
             <!-- Put progress bar and table in two inner rows so that their formatting can be independent of timer -->
@@ -107,6 +107,6 @@
             </div>
         </div>
         <!-- Right column -->
-        <div class="col-md-2 timer align-right" id="timer"></div>
+        <div class="col-md-2 timer" id="timer"></div>
     </div>
 {% endblock %}

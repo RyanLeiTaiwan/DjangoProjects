@@ -11,16 +11,18 @@ timeUnit = 100;
 
 // Timer reference: https://www.w3schools.com/howto/howto_js_countdown.asp
 function quizTimer() {
+    // Cache the jQuery selection for performance. Get PyCharm warning otherwise.
+    var timer = $("#timer");
     var seconds = timeLeft / 1000;
 
     // Display the result in the element with id = "timer"
-    $("#timer").html(seconds.toFixed(1));
+    timer.html(seconds.toFixed(1));
 
     // Time is up
     if (seconds <= 0) {
         window.clearInterval(timerHandler);
         // Change to red color
-        $("#timer").css("color", "red");
+        timer.css("color", "red");
         // $("#timer").text("Time Up");
     }
 
