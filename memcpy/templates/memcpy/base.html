@@ -122,6 +122,17 @@
       [2] http://stackoverflow.com/questions/41369105/django-bootstrap-alerts-not-working-as-expected
       [3] https://simpleisbetterthancomplex.com/tips/2016/09/06/django-tip-14-messages-framework.html
     -->
+    <!-- Error Message for JSON, hidden by default -->
+    <div id="json-error-box" class="alert alert-danger alert-dismissible fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true">
+        </span>
+        <span id="json-error-text">Error Message for JSON
+        </span>
+    </div>
+
     {% for message in messages %}
         <div class="alert {{ message.tags }} alert-dismissible fade in" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">

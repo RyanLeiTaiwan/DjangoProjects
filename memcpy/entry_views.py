@@ -15,12 +15,9 @@ def list_all_entries(request, book_id):
     except Book.DoesNotExist:
         messages.error(request, 'book: Invalid book ID.')
         return redirect(reverse('books'))
-
-    entry_list = Entry.objects.all().filter(book=book)
+    entry_list = book.entry_set.all()
 
     context = {'book': book, 'entry_list': entry_list}
-    print (context)
-    # print context, len(entry_list)
     return render(request, 'memcpy/book.html', context)
 
 @login_required
@@ -59,7 +56,7 @@ def view_entry(request, entry_id):
     context = {
         'book': entry.book,
         'entry': entry,
-        'progress': round((current_idx + 1.0) / len(all_entries) * 100),
+        'progress': (current_idx + 1.0) / len(all_entries) * 100,
         'prev_id': prev_id,
         'current_id': int(entry_id),
         'next_id': int(next_id),

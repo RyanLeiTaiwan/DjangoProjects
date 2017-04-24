@@ -67,8 +67,14 @@ button.btn-no-margin-right {
     margin-right: 0;
 }
 
+/* Below are quiz related rules */
 .timer {
     width: 2em;
     font-size: 5em;
     font-family: "Arial Rounded MT Bold", sans-serif;
 }
+
+#json-error-box {
+    display: none;
+}
+/* Above are quiz related rules */

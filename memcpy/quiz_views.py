@@ -8,15 +8,16 @@ from memcpy.models import *
 from django.db.models import Count
 from .forms import *
 import random
+import json
 
 @login_required
 def random_quiz(request):
     # Randomly choose one book that has >= 4 entries
     # http://stackoverflow.com/questions/6525771/django-query-related-field-count
-    threshold = 4
-    valid_books = Book.objects.annotate(num_entries=Count('entry')).filter(num_entries__gte=threshold)
+    MIN_ENTRIES = 4
+    valid_books = Book.objects.annotate(num_entries=Count('entry')).filter(num_entries__gte=MIN_ENTRIES)
     if len(valid_books) == 0:
-        messages.error(request, 'quiz: Cannot start a quiz! There is no book that contains at least %d entries.' % threshold)
+        messages.error(request, 'quiz: Cannot start a quiz! There is no book that contains at least %d entries.' % MIN_ENTRIES)
         return redirect('books')
     book = random.choice(valid_books)
     # Call quiz() to handle actual quiz
@@ -31,76 +32,42 @@ def quiz(request, book_id):
     entry_list = list(book.entry_set.all())
     random.shuffle(entry_list)
 
-    # TODO: hard-code entry_index for now. This should be handled by JavaScript
-    entry_index = 0
     context['book'] = book
-    context['entry_list'] = entry_list
-    context['entry'] = entry_list[entry_index]
-    context['entry_index'] = entry_index
-    context['progress'] = round((entry_index + 1.0) / len(entry_list) * 100)
 
-    return render(request, 'memcpy/quiz-entries.html', context)
+    return render(request, 'memcpy/quiz.html', context)
 
-# TODO: Consider deleting this function
+# Similar to entry_view.list_all_entries(), but with at most 20 entries in random permutation JSON
 @login_required
-def start_quiz(request):
-    context = {}
-    book_id = 1
+def get_quiz_entries(request, book_id):
+    result = []
+    # A quiz can have at most 20 entries
+    MAX_ENTRIES = 20
+    # Check for invalid book id
     try:
         book = Book.objects.get(id=book_id)
     except Book.DoesNotExist:
-        messages.error(request, 'book: Invalid book ID.')
+        messages.error(request, 'quiz: Invalid book ID.')
         return redirect(reverse('books'))
-    entry_list = Entry.objects.all().filter(book=book)
-    context = {'entry_list': entry_list, 'book': book}
-    return render(request, 'memcpy/quiz-home.html', context)
+    # Django QuerySet in random order with at most MAX_ENTRIES results
+    entry_list = book.entry_set.all().order_by('?')[:MAX_ENTRIES]
 
-# TODO: Consider deleting this function
-@login_required
-def quiz_entries(request, book_id, entry_index):
-    # book id should be randomly choosen
-    # or the recently learned book
-    book_id = 1
-    # Check for invalid book id
-    try:
-            book = Book.objects.get(id=book_id)
-    except Book.DoesNotExist:
-        messages.error(request, 'book: Invalid book ID.')
-        return redirect(reverse('books'))
+    # Serialize all information into JSON
+    for entry in entry_list:
+        entry_dict = {}
+        entry_dict['entry_id'] = entry.id
+        entry_dict['answer'] = entry.answer
+        # question_text may not exist
+        if entry.question_text:
+            entry_dict['question_text'] = entry.question_text
+        else:
+            entry_dict['question_text'] = None
+        # Only record "whether" the question image exists
+        if entry.question_image:
+            entry_dict['question_image'] = True
+        else:
+            entry_dict['question_image'] = False
 
-    entry_list = Entry.objects.all().filter(book=book)
+        result.append(entry_dict)
+    response_text = json.dumps(result)
 
-    entry_index = int(entry_index)
-    entry_index += 1
-    context = {}
-    try:
-        context = {'book': book, 'entry_list': entry_list, 'entry': entry_list[entry_index], 'entry_index': entry_index}
-    except:
-        pass
-    answer_candidate_index = []
-    answer_candidate_index.append(entry_index)
-    for i in range(0, 3):
-        ran = -1
-        while (ran == -1 or ran in answer_candidate_index):
-            ran = random.randint(0, len(entry_list) - 1)
-        answer_candidate_index.append(ran)
-    print (answer_candidate_index)
-
-    if entry_index + 1 < len(entry_list):
-        context['next_entry'] = entry_list[entry_index + 1]
-    else:
-        context['message'] = "Quiz finished! And this time you got 4/7 correct answers! Cong!"
-        return render(request, 'memcpy/quiz-home.html', context)
-
-    answer_candidate_1 = entry_list[answer_candidate_index[0]]
-    answer_candidate_2 = entry_list[answer_candidate_index[1]]
-    answer_candidate_3 = entry_list[answer_candidate_index[2]]
-    answer_candidate_4 = entry_list[answer_candidate_index[3]]
-    context["answer_candidate_1"] = answer_candidate_1
-    context["answer_candidate_2"] = answer_candidate_2
-    context["answer_candidate_3"] = answer_candidate_3
-    context["answer_candidate_4"] = answer_candidate_4
-
-    print context
-    # print context, len(entry_list)
-    return render(request, 'memcpy/quiz-entries.html', context)
+    return HttpResponse(response_text, content_type='application/json')
