@@ -41,7 +41,7 @@ def quiz(request, book_id):
 def get_quiz_entries(request, book_id):
     result = []
     # A quiz can have at most 20 entries
-    MAX_ENTRIES = 20
+    MAX_ENTRIES = 4
     # Check for invalid book id
     try:
         book = Book.objects.get(id=book_id)

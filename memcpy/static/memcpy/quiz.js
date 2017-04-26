@@ -15,7 +15,15 @@ timeUnit = 100;
 // Entry_list for the whole quiz, obtained by AJAX at the beginning
 entry_list = null;
 // Entry index indicates the progress (starts from 0)
-entry_index = 0;
+cur_entry_index = 0;
+
+// To be more sincere, start initialization only when the document is "ready"
+// https://learn.jquery.com/using-jquery-core/document-ready/
+function quizLoad(book_id) {
+    $(document).ready(function() {
+        quizInit(book_id);
+    });
+}
 
 // The initialization to be called on page load
 function quizInit(book_id) {
@@ -81,26 +89,26 @@ function sanitize(s) {
             .replace(/\+/g, '&plus;');
 }
 
-// Use entry_list and entry_index to display question
+// Use entry_list and cur_entry_index to display question
 function displayQuestion() {
     // Debug zone!
-    var true_ans = entry_list[entry_index]["answer"];
+    var true_ans = entry_list[cur_entry_index]["answer"];
     $("#js-debug").html("True Answer: " + sanitize(true_ans));
 
     var quiz_length = entry_list.length;
     // Progress in the quiz
-    $("#quiz-progress-text").text("Question " + (entry_index + 1) + " of " + quiz_length);
+    $("#quiz-progress-text").html("Question " + (cur_entry_index + 1) + " of " + quiz_length);
     var progress_bar = $("#quiz-progress-bar");
-    var progress = (entry_index + 1) / quiz_length * 100;
+    var progress = (cur_entry_index + 1) / quiz_length * 100;
     progress_bar.attr("aria-valuenow", progress);
     progress_bar.css("width", progress + "%");
 
     // Current entry
-    var entry = entry_list[entry_index];
-    var entry_id = entry.entry_id;
-    var question_text = entry.question_text;
+    var cur_entry = entry_list[cur_entry_index];
+    var entry_id = cur_entry.entry_id;
+    var question_text = cur_entry.question_text;
     // JSON only contains a boolean value for question_image
-    var question_image = entry.question_image;
+    var question_image = cur_entry.question_image;
     if (question_text !== null) {
         $("#quiz-question-text").html(sanitize(question_text));
     }
@@ -109,9 +117,31 @@ function displayQuestion() {
             "<div><img class='entry_table img-rounded' src='/memcpy/entry_photo/" + entry_id + "'></div>");
     }
 
-    /**
-     * TODO: There is no built-in "random sample" function in JavaScript!
-     * This will be more complicated or we may rely on another JS library.
-     */
+    /* There is no built-in "random sample" function in JavaScript! Use the brute-force way */
+    // Entry index in every answer candidate (index 0 is not used)
+    var cand_entry_index = [-1, -1, -1, -1, -1];
+    // Assign current entry to one random answer candidate (1-4)
+    var correct_candidate = Math.floor((Math.random() * 4) + 1);
+    cand_entry_index[correct_candidate] = cur_entry;
+    $("#quiz-candidate-" + correct_candidate).html(cur_entry.answer);
 
+    // For each other answer candidate, assign one other non-repeating random entry
+    for (cand = 1; cand <= 4; cand++) {
+        // Skip the correct candidate
+        if (cand !== correct_candidate) {
+            var done = false;
+            // Randomly sample one entry until done
+            while (!done) {
+                var wrong_entry_index = Math.floor(Math.random() * quiz_length);
+                // Don't use correct or repeating entry
+                if (wrong_entry_index !== cur_entry_index && cand_entry_index.indexOf(wrong_entry_index) === -1) {
+                    cand_entry_index[cand] = wrong_entry_index;
+                    done = true;
+                    $("#quiz-candidate-" + cand).html(entry_list[wrong_entry_index].answer);
+                }
+            }
+        }
+        
+    }
 }
+
