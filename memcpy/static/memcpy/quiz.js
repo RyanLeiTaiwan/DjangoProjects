@@ -130,16 +130,16 @@ function displayQuestion() {
     window.clearInterval(pauseHandler);
 
     // Debug zone!
-    var true_ans = entry_list[cur_entry_index]["answer"];
+    var true_ans = entry_list.entries[cur_entry_index].answer;
     $("#js-debug").html("True Answer: " + sanitize(true_ans));
     console.log("cur_entry_index: " + cur_entry_index);
 
-    var quiz_length = entry_list.length;
+    var quiz_length = entry_list.entries.length;
     // Show quiz progress in text
     $("#quiz-progress-text").html("Question " + (cur_entry_index + 1) + " of " + quiz_length);
 
     // Current entry
-    var cur_entry = entry_list[cur_entry_index];
+    var cur_entry = entry_list.entries[cur_entry_index];
     var entry_id = cur_entry.entry_id;
     var question_text = cur_entry.question_text;
     // JSON only contains a boolean value for question_image
@@ -172,7 +172,7 @@ function displayQuestion() {
                 if (wrong_entry_index !== cur_entry_index && cand_entry_index.indexOf(wrong_entry_index) === -1) {
                     cand_entry_index[cand] = wrong_entry_index;
                     done = true;
-                    $("#quiz-candidate-text-" + cand).html(entry_list[wrong_entry_index].answer);
+                    $("#quiz-candidate-text-" + cand).html(entry_list.entries[wrong_entry_index].answer);
                 }
             }
         }
@@ -242,7 +242,7 @@ function sleep(miliseconds) {
 
 // Handle answers on click, keypress, or time-up. However, this is NOT a standard Javascript event handler
 function handleAnswer(candidate) {
-    var quiz_length = entry_list.length;
+    var quiz_length = entry_list.entries.length;
     console.log("You answered " + candidate);
     // Stop the timer
     window.clearInterval(timerHandler);

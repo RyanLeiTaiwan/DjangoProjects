@@ -52,7 +52,7 @@ def quiz(request, book_id):
 # Similar to entry_view.list_all_entries(), but with at most 20 entries in random permutation JSON
 @login_required
 def get_quiz_entries(request, book_id):
-    result = []
+    result = {}
     # A quiz can have at most QUIZ_MAX_ENTRIES entries
     # Check for invalid book id
     try:
@@ -64,6 +64,8 @@ def get_quiz_entries(request, book_id):
     entry_list = book.entry_set.all().order_by('?')[:QUIZ_MAX_ENTRIES]
 
     # Serialize all information into JSON
+    result['user_id'] = request.user.id
+    entries = []
     for entry in entry_list:
         entry_dict = {}
         entry_dict['entry_id'] = entry.id
@@ -79,7 +81,8 @@ def get_quiz_entries(request, book_id):
         else:
             entry_dict['question_image'] = False
 
-        result.append(entry_dict)
+        entries.append(entry_dict)
+    result['entries'] = entries
     response_text = json.dumps(result)
 
     return HttpResponse(response_text, content_type='application/json')
