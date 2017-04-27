@@ -17,10 +17,17 @@ timeLeft = -1;
 timeUnit = 100;
 // Time to pause after each question
 timePause = 2000;
+
 // Entry_list for the whole quiz, obtained by AJAX at the beginning
 entry_list = null;
 // Entry index indicates the progress (starts from 0)
 cur_entry_index = 0;
+// Entry index in every answer candidate (index 0 is not used)
+cand_entry_index = [-1, -1, -1, -1, -1];
+// Number of correctly answered questions
+correct_count = 0;
+// Number of answer attampts
+answer_count = 0;
 
 // Copied from homework
 function sanitize(s) {
@@ -147,10 +154,10 @@ function displayQuestion() {
 
     /* There is no built-in "random sample" function in JavaScript! Use the brute-force way */
     // Entry index in every answer candidate (index 0 is not used)
-    var cand_entry_index = [-1, -1, -1, -1, -1];
+    cand_entry_index = [-1, -1, -1, -1, -1];
     // Assign current entry to one random answer candidate (1-4)
     var correct_candidate = Math.floor((Math.random() * 4) + 1);
-    cand_entry_index[correct_candidate] = cur_entry;
+    cand_entry_index[correct_candidate] = cur_entry_index;
     $("#quiz-candidate-text-" + correct_candidate).html(cur_entry.answer);
 
     // For each other answer candidate, assign one other non-repeating random entry
@@ -169,6 +176,14 @@ function displayQuestion() {
                 }
             }
         }
+
+        // Restore button colors to Bootstrap's "btn-default + theme" class by the way
+        $("#quiz-candidate-btn-" + cand).css({
+            "color": "#333",
+            "background-color": "#fff",
+            "background-image": "linear-gradient(to bottom,#fff 0,#e0e0e0 100%)"
+        });
+        $("#quiz-candidate-mark-" + cand).attr("class", "");
     }
 
     // Reset and start the timer
@@ -230,7 +245,35 @@ function handleAnswer(candidate) {
     // Unregister all event listeners to prevent the user from repeated answering
     unregisterEvents();
 
-    // Pause for a moment before moving on to the next question
+    // Judge the answer
+    answer_count++;
+    var correct_cand = cand_entry_index.indexOf(cur_entry_index);
+    if (candidate === 0) {
+        // Time up
+        console.log("Time Up");
+        for (var cand = 1; cand <= 4; cand++) {
+            if (cand === correct_cand) {
+                $("#quiz-candidate-btn-" + cand).css("background", "lightgreen");
+            } else {
+                $("#quiz-candidate-btn-" + cand).css("background", "pink");
+            }
+        }
+    } else if (cand_entry_index[candidate] === cur_entry_index) {
+        // Correct
+        correct_count++;
+        console.log("Correct Answer");
+        $("#quiz-candidate-btn-" + candidate).css("background", "lightgreen");
+        $("#quiz-candidate-mark-" + candidate).attr("class", "glyphicon glyphicon-ok float-right");
+    } else {
+        // Wrong
+        console.log("Wrong Answer");
+        $("#quiz-candidate-btn-" + candidate).css("background", "pink");
+        $("#quiz-candidate-mark-" + candidate).attr("class", "glyphicon glyphicon-remove float-right");
+        $("#quiz-candidate-btn-" + correct_cand).css("background", "lightgreen");
+        $("#quiz-candidate-mark-" + correct_cand).attr("class", "glyphicon glyphicon-ok float-right");
+    }
+
+    // Pause for a moment before moving on to the next question (if any)
     pauseHandler = window.setInterval(function() {
         cur_entry_index++;
         // Move the progress bar
@@ -243,9 +286,9 @@ function handleAnswer(candidate) {
             // Quiz is finished
             window.clearInterval(pauseHandler);
             timeLeft = timeLimit;
-            // TODO: Display quiz result in a jQuery UI popup Dialog
+            // TODO: More quiz result details
             var popup = $("#quiz-dialog");
-            popup.text("This is your quiz result");
+            popup.text("You answered " + correct_count + " out of " + answer_count + " questions correctly.");
             popup.dialog("open");
         } else {
             // Quiz is not finished

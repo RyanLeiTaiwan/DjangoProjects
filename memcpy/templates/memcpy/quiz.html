@@ -20,7 +20,7 @@
         <div class="col-md-2 align-right">
             <a href="{% url 'book' book.id %}">
                 <button class="btn btn-lg btn-danger btn-no-margin-right">
-                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Exit quiz
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Exit quiz
                 </button>
             </a>
         </div>
@@ -37,7 +37,7 @@
         <div class="col-md-8">
             <!-- Put progress bar and table in two inner rows so that their formatting can be independent of timer -->
             <div class="row">
-                <!-- Bootstrap progress bar showing the progress in this book
+                <!-- Bootstrap progress bar showing the progress in this quiz
                      https://www.w3schools.com/bootstrap/bootstrap_progressbars.asp
                 -->
                 <div class="col-md-12">
@@ -76,14 +76,18 @@
                                     <div class="row">
                                         <a href="#">
                                             <button id="quiz-candidate-btn-1" class="btn btn-lg btn-default align-left candidate">
-                                                <span class="text-muted">1. </span><span id="quiz-candidate-text-1"></span>
+                                                <span class="text-muted">1. </span>
+                                                <span id="quiz-candidate-text-1"></span>
+                                                <span id="quiz-candidate-mark-1" aria-hidden="true"></span>
                                             </button>
                                         </a>
                                     </div>
                                     <div class="row">
                                         <a href="#">
                                             <button id="quiz-candidate-btn-3" class="btn btn-lg btn-default align-left candidate">
-                                                <span class="text-muted">3. </span><span id="quiz-candidate-text-3"></span>
+                                                <span class="text-muted">3. </span>
+                                                <span id="quiz-candidate-text-3"></span>
+                                                <span id="quiz-candidate-mark-3" aria-hidden="true"></span>
                                             </button>
                                         </a>
                                     </div>
@@ -92,14 +96,18 @@
                                     <div class="row">
                                         <a href="#">
                                             <button id="quiz-candidate-btn-2" class="btn btn-lg btn-default align-left candidate">
-                                                <span class="text-muted">2. </span><span id="quiz-candidate-text-2"></span>
+                                                <span class="text-muted">2. </span>
+                                                <span id="quiz-candidate-text-2"></span>
+                                                <span id="quiz-candidate-mark-2" aria-hidden="true"></span>
                                             </button>
                                         </a>
                                     </div>
                                     <div class="row">
                                         <a href="#">
                                             <button id="quiz-candidate-btn-4" class="btn btn-lg btn-default align-left candidate">
-                                                <span class="text-muted">4. </span><span id="quiz-candidate-text-4"></span>
+                                                <span class="text-muted">4. </span>
+                                                <span id="quiz-candidate-text-4"></span>
+                                                <span id="quiz-candidate-mark-4" aria-hidden="true"></span>
                                             </button>
                                         </a>
                                     </div>
