@@ -1,5 +1,4 @@
 """webapps URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.10/topics/http/urls/
 Examples:
@@ -65,4 +64,6 @@ urlpatterns = [
     url(r'^quiz/(?P<book_id>[0-9]+)[/]?$', quiz_views.quiz, name='quiz'),
     # Get quiz entries in JSON
     url(r'^quiz-entries/(?P<book_id>[0-9]+)[/]?$', quiz_views.get_quiz_entries, name='quiz-entries'),
+
+    url(r'^leader-board[/]?$', leaderboard_views.leader_board, name='leader-board'),
 ]
