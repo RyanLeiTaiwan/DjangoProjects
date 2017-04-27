@@ -38,7 +38,7 @@ class Entry(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     # Answer is always text
     answer = models.CharField(max_length=50)
-    # TODO: Question can be either one of text or image, validated on server side
+    # At least one of text or image should not be null, validated on server side
     question_text = models.TextField(null=True, blank=True, max_length=200)
     question_image = models.FileField(null=True, blank=True, upload_to='upload/entry')
     content_type = models.CharField(null=True, blank=True, max_length=20)

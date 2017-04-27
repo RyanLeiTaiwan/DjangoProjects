@@ -63,7 +63,6 @@ urlpatterns = [
     url(r'^random-quiz[/]?$', quiz_views.random_quiz, name='random-quiz'),
     # Quiz from a specific book
     url(r'^quiz/(?P<book_id>[0-9]+)[/]?$', quiz_views.quiz, name='quiz'),
-    # url(r'^quiz[/]?$', quiz_views.start_quiz, name='quiz'),
-    url(r'^quiz-entries/(?P<book_id>[0-9]+)[/]?$', quiz_views.get_quiz_entries, name='quiz-entries')
-    # url(r'^quiz-entries/(\d+)/(\d+)$', quiz_views.quiz_entries, name='quiz-entries')
+    # Get quiz entries in JSON
+    url(r'^quiz-entries/(?P<book_id>[0-9]+)[/]?$', quiz_views.get_quiz_entries, name='quiz-entries'),
 ]
