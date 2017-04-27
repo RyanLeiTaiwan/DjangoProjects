@@ -55,7 +55,7 @@ def leader_board(request):
 
     for t in sorted_accuracy:
         accuracy_key.append(t[0])
-        accuracy_val.append(t[1])
+        accuracy_val.append(str(t[1] * 100) + "%")
 
     accuracy = zip(accuracy_key, accuracy_val)
     print(accuracy)
