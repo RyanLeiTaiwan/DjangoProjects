@@ -1,4 +1,8 @@
 {% extends "memcpy/base.html" %}
+{% load static %}
+{% block css_js %}
+    <link rel="stylesheet" href="{% static 'memcpy/profile.css' %}" />
+{% endblock %}
 
 {% for error in errors %}
     <div class="error">
@@ -7,12 +11,48 @@
 {% endfor %}
 
 {% block main %}
-    User name:  {{user.username}}
-     {% if user.profile.picture %}
-         <img src="{% url 'profile_photo' user %}"  width="200px">
+    <div class="containerp">
+		<header>
+			<div class="bio">
+        <img src="http://www.croop.cl/UI/twitter/images/up.jpg" alt="background" class="bg">
+				<div class="desc">
+					<h3>@{{ user.username }}</h3>
+					<p>{{ user.profile.bio }}</p>
+				</div>
+			</div>
+
+			<div class="avatarcontainerp">
+				     {% if user.profile.picture %}
+         <img src="{% url 'profile_photo' user %}"  alt="avatar" class="avatar">
      {% else %}
-          <img src= "{% static 'memcpy/default_user.png' %}">
+          <img src= "{% static 'memcpy/default_user.png' %}" alt="avatar" class="avatar">
      {% endif %}
-    <br>
-    Bio: {{ user.profile.bio }}
+				<div class="hover">
+						<div class="icon-twitter"></div>
+				</div>
+			</div>
+
+
+		</header>
+
+		<div class="content">
+			<div class="data">
+				<ul>
+					<li>
+						{{ user.profile.score }}
+						<span>Scores</span>
+					</li>
+					<li>
+						{{ user.profile.attempt }}
+						<span>Attempts</span>
+					</li>
+					<li>
+						{{ user.profile.combo }}
+						<span>Combos</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+	</div>
 {% endblock %}

@@ -24,9 +24,9 @@ def leader_board(request):
         score_dict[p] = p.score
         combo_dict[p] = p.combo
         if p.attempt == 0:
-            accuracy_dict[p.user.username] = 0
+            accuracy_dict[p] = 0
         else:
-            accuracy_dict[p.user.username] = p.correct / p.attempt
+            accuracy_dict[p] = p.correct / p.attempt
 
     sorted_score = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
     sorted_combo = sorted(combo_dict.items(), key=operator.itemgetter(1), reverse=True)

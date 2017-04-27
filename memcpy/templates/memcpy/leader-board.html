@@ -38,7 +38,9 @@
   {% for s in score %}
     <tr>
       <th scope="row">{{ forloop.counter }}</th>
-      <td >{{ s.user.username }}</td>
+        <td><a href="{% url 'view-profile' s.user.id %}" style="color: #000000">
+      {{ s.user.username }}
+    </a></td>
       <td >{{ s.score }}</td>
     </tr>
   {% endfor %}
@@ -63,7 +65,9 @@
   {% for c in combo %}
     <tr>
       <th scope="row">{{ forloop.counter }}</th>
-      <td>{{ c.user.username }}</td>
+      <td><a href="{% url 'view-profile' c.user.id %}" style="color: #000000">
+          {{ c.user.username }}
+      </a></td>
       <td>{{ c.combo }}</td>
     </tr>
   {% endfor %}
@@ -89,7 +93,9 @@
   {% for a1,a2 in accuracy %}
     <tr>
       <th scope="row">{{ forloop.counter }}</th>
-      <td>{{ a1 }}</td>
+      <td><a href="{% url 'view-profile' a1.user.id %}" style="color: #000000">
+          {{ a1.user.username }}</a>
+      </td>
       <td>{{ a2 }}</td>
     </tr>
   {% endfor %}
