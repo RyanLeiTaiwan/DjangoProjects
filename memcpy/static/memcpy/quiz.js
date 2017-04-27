@@ -10,7 +10,7 @@ timerHandler = null;
 // Pause handler needed for setInterval() and clearInterval()
 pauseHandler = null;
 // Quiz mode: count down for 10 seconds (10,000 ms)
-timeLimit = 20000;
+timeLimit = 10000;
 // Time left in milliseconds
 timeLeft = -1;
 // Count down unit: 0.1 second (100 ms)
