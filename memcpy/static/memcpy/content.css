@@ -38,7 +38,6 @@ table.table {
 
 .table > tbody > tr > td {
     padding-right: 3%;
-
 }
 
 td.entry_label {
@@ -77,8 +76,8 @@ button.candidate {
     font-weight: bold;
     font-size: x-large;
     margin-bottom: 0.5em;
-    width: 10em;
-    max-width: 10em;
+    width: 14em;
+    max-width: 14em;
     /* white-space was set to nowrap by Bootstrap */
     white-space: normal;
     overflow-wrap: break-word;
