@@ -10,7 +10,7 @@ timerHandler = null;
 // Pause handler needed for setInterval() and clearInterval()
 pauseHandler = null;
 // Quiz mode: count down for 10 seconds (10,000 ms)
-timeLimit = 10000;
+timeLimit = 20000;
 // Time left in milliseconds
 timeLeft = -1;
 // Count down unit: 0.1 second (100 ms)
@@ -28,6 +28,13 @@ cand_entry_index = [-1, -1, -1, -1, -1];
 correct_count = 0;
 // Number of answer attempts
 answer_count = 0;
+
+// Wrong answer: 0 score, but no deduction.
+// Correct answer: linear mapping from score_slowest to score_fastest according to speed
+// Score points for the slowest answering
+score_slowest = 5;
+// Score points for the fastest answering
+score_fastest = 10;
 
 // Copied from homework
 function sanitize(s) {
@@ -146,10 +153,15 @@ function displayQuestion() {
     var question_image = cur_entry.question_image;
     if (question_text !== null) {
         $("#quiz-question-text").html(sanitize(question_text));
+    } else {
+        $("#quiz-question-text").html("");
     }
-    if (question_image !== false) {
+    if (question_image === true) {
         $("#quiz-question-image").html(
-            "<div><img class='entry_table img-rounded' src='/memcpy/entry_photo/" + entry_id + "'></div>");
+            "<div><img class='entry_table img-rounded' src='/memcpy/entry_photo/" + entry_id + "'></div>"
+        );
+    } else {
+        $("#quiz-question-image").html("");
     }
 
     /* There is no built-in "random sample" function in JavaScript! Use the brute-force way */
@@ -253,7 +265,7 @@ function handleAnswer(candidate) {
     answer_count++;
     var correct_cand = cand_entry_index.indexOf(cur_entry_index);
     if (candidate === 0) {
-        // Time up
+        /** Time up **/
         console.log("Time Up");
         for (var cand = 1; cand <= 4; cand++) {
             if (cand === correct_cand) {
@@ -263,14 +275,17 @@ function handleAnswer(candidate) {
             }
         }
     } else if (cand_entry_index[candidate] === cur_entry_index) {
-        // Correct
+        /** Correct answer **/
+        // Workaround for setInverval() delayed start
+        timeLeft += timeUnit;
+        console.log("Correct answer, time left (ms): " + timeLeft);
+
         correct_count++;
-        console.log("Correct Answer");
         $("#quiz-candidate-btn-" + candidate).css("background", "lightgreen");
         $("#quiz-candidate-mark-" + candidate).attr("class", "glyphicon glyphicon-ok float-right");
     } else {
-        // Wrong
-        console.log("Wrong Answer");
+        /** Wrong answer **/
+        console.log("Wrong answer");
         $("#quiz-candidate-btn-" + candidate).css("background", "pink");
         $("#quiz-candidate-mark-" + candidate).attr("class", "glyphicon glyphicon-remove float-right");
         $("#quiz-candidate-btn-" + correct_cand).css("background", "lightgreen");
