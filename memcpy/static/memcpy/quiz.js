@@ -171,12 +171,14 @@ function displayQuestion() {
         }
     }
 
+    // Reset and start the timer
+    window.clearInterval(timerHandler);
+    // Workaround the setInterval waiting for one timeUnit before starting
+    timeLeft = timeLimit - timeUnit;
+    $("#timer").html((timeLimit / 1000).toFixed(1));
+    timerHandler = window.setInterval(quizTimer, timeUnit);
     // Register for click, keypress, and time-out events
     registerEvents();
-    // Reset and start the timer
-    timeLeft = timeLimit;
-    window.clearInterval(timerHandler);
-    timerHandler = window.setInterval(quizTimer, timeUnit);
 }
 
 function registerEvents() {
