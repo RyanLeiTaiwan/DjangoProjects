@@ -74,7 +74,7 @@ button.btn-no-margin-right {
     font-family: "Arial Rounded MT Bold", sans-serif;
 }
 
-#json-error-box {
+#ajax-error-box {
     display: none;
 }
 /* Above are quiz related rules */

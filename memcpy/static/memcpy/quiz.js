@@ -27,14 +27,14 @@ cand_entry_index = [-1, -1, -1, -1, -1];
 // Number of correctly answered questions
 correct_count = 0;
 // Number of answer attempts
-answer_count = 0;
+attempt_count = 0;
 
 // Wrong answer: 0 score, but no deduction.
 // Correct answer: linear mapping from score_slowest to score_fastest according to speed
 // Score points for the slowest answering
-score_slowest = 5;
+score_slowest = 50;
 // Score points for the fastest answering
-score_fastest = 10;
+score_fastest = 100;
 
 // Copied from homework
 function sanitize(s) {
@@ -49,6 +49,21 @@ function sanitize(s) {
             .replace(/\r\n/g, '<br>')
             .replace(/\n/g, '<br>')
             .replace(/\+/g, '&plus;');
+}
+
+// Copied from homework
+function getCSRFToken() {
+    var cookies = document.cookie.split(";");
+    for (var i = 0; i < cookies.length; i++) {
+        // Fix occasional csrf_token errors in Chrome:
+        // https://piazza.com/class/iy0qa81i5xl1qz?cid=274
+        cookies[i] = cookies[i].trim();
+        // console.log(cookies[i]);
+        if (cookies[i].startsWith("csrftoken=")) {
+            return cookies[i].substring("csrftoken=".length, cookies[i].length);
+        }
+    }
+    return "unknown";
 }
 
 // To be more sincere, perform quiz initialization only when the document is "ready"
@@ -123,9 +138,9 @@ function get_quiz_entries(book_id) {
             displayQuestion();
         },
         error: function(jqXHR) {
-            $("#json-error-text").text("AJAX error: " + jqXHR.responseText);
-            // Make the JSON error box visible (it was hidden)
-            $("#json-error-box").css("display", "block");
+            $("#ajax-error-text").text("AJAX error: " + jqXHR.responseText);
+            // Make the AJAX error box visible (it was hidden)
+            $("#ajax-error-box").css("display", "block");
             console.log("AJAX error: " + jqXHR.responseText);
         }
     });
@@ -262,7 +277,9 @@ function handleAnswer(candidate) {
     unregisterEvents();
 
     // Judge the answer
-    answer_count++;
+    attempt_count++;
+    // Score will only be updated with the correct answer
+    var score = 0;
     var correct_cand = cand_entry_index.indexOf(cur_entry_index);
     if (candidate === 0) {
         /** Time up **/
@@ -278,7 +295,16 @@ function handleAnswer(candidate) {
         /** Correct answer **/
         // Workaround for setInverval() delayed start
         timeLeft += timeUnit;
-        console.log("Correct answer, time left (ms): " + timeLeft);
+        // Score mapping is a "linear mapping" with respect to timeLeft
+        //   timeLeft == timeUnit => score = score_lowest
+        //   timeLeft == timeLimit => score = score_fastest
+        // Formula:    timeLeft - timeUnit
+        //   score = ---------------------- * (score_fastest - score_slowest) + score_slowest
+        //            timeLimit - timeUnit
+        score = Math.round(
+            (timeLeft - timeUnit) / (timeLimit - timeUnit) * (score_fastest - score_slowest) + score_slowest
+        );
+        console.log("Correct answer, time left (ms): " + timeLeft + ", score = " + score);
 
         correct_count++;
         $("#quiz-candidate-btn-" + candidate).css("background", "lightgreen");
@@ -291,6 +317,9 @@ function handleAnswer(candidate) {
         $("#quiz-candidate-btn-" + correct_cand).css("background", "lightgreen");
         $("#quiz-candidate-mark-" + correct_cand).attr("class", "glyphicon glyphicon-ok float-right");
     }
+
+    // Update score, combo, accuracy to database
+    updateUserStats(score);
 
     // Pause for a moment before moving on to the next question (if any)
     pauseHandler = window.setInterval(function() {
@@ -307,7 +336,7 @@ function handleAnswer(candidate) {
             timeLeft = timeLimit;
             // TODO: More quiz result details
             var popup = $("#quiz-dialog");
-            popup.text("You answered " + correct_count + " out of " + answer_count + " questions correctly.");
+            popup.text("You answered " + correct_count + " out of " + attempt_count + " questions correctly.");
             popup.dialog("open");
         } else {
             // Quiz is not finished
@@ -315,4 +344,24 @@ function handleAnswer(candidate) {
             displayQuestion();
         }
     }, timePause);
+}
+
+// Update score, combo, accuracy to database
+// We only need one parameter. Score == 0 means wrong answer
+function updateUserStats(score) {
+    $.ajax({
+        url: "/memcpy/quiz-update-user-stats",
+        type: "POST",
+        data: "score=" + score + "&csrfmiddlewaretoken=" + getCSRFToken(),
+        dataType : "json",
+        success: function(data) {
+            console.log("Score " + data + " successfully sent to the server.");
+        },
+        error: function(jqXHR) {
+            $("#ajax-error-text").text("AJAX error: " + jqXHR.responseText);
+            // Make the AJAX error box visible (it was hidden)
+            $("#ajax-error-box").css("display", "block");
+            console.log("AJAX error: " + jqXHR.responseText);
+        }
+    });
 }

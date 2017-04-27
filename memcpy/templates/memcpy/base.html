@@ -15,12 +15,7 @@
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="css/estilos.css">
+{#	<link rel="stylesheet" href="css/estilos.css">#}
 	<link href='http://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Lato:400,300' rel='stylesheet' type='text/css'>
 	<link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
@@ -128,14 +123,14 @@
       [2] http://stackoverflow.com/questions/41369105/django-bootstrap-alerts-not-working-as-expected
       [3] https://simpleisbetterthancomplex.com/tips/2016/09/06/django-tip-14-messages-framework.html
     -->
-    <!-- Error Message for JSON, hidden by default -->
-    <div id="json-error-box" class="alert alert-danger alert-dismissible fade in" role="alert">
+    <!-- Error Message for AJAX, hidden by default -->
+    <div id="ajax-error-box" class="alert alert-danger alert-dismissible fade in" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true">
         </span>
-        <span id="json-error-text">Error Message for JSON
+        <span id="ajax-error-text">Error Message for AJAX
         </span>
     </div>
 

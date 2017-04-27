@@ -52,7 +52,7 @@ def quiz(request, book_id):
 # Similar to entry_view.list_all_entries(), but with at most 20 entries in random permutation JSON
 @login_required
 def get_quiz_entries(request, book_id):
-    result = {}
+    response = {}
     # A quiz can have at most QUIZ_MAX_ENTRIES entries
     # Check for invalid book id
     try:
@@ -64,7 +64,7 @@ def get_quiz_entries(request, book_id):
     entry_list = book.entry_set.all().order_by('?')[:QUIZ_MAX_ENTRIES]
 
     # Serialize all information into JSON
-    result['user_id'] = request.user.id
+    response['user_id'] = request.user.id
     entries = []
     for entry in entry_list:
         entry_dict = {}
@@ -82,7 +82,40 @@ def get_quiz_entries(request, book_id):
             entry_dict['question_image'] = False
 
         entries.append(entry_dict)
-    result['entries'] = entries
-    response_text = json.dumps(result)
+    response['entries'] = entries
 
+    response_text = json.dumps(response)
+    return HttpResponse(response_text, content_type='application/json')
+
+# Update score, combo, accuracy to database
+# We only need one parameter. Score == 0 means wrong answer
+@login_required
+@transaction.atomic
+def update_user_stats(request):
+    response = {}
+
+    if request.method == 'GET':
+        messages.error(request, 'quiz: Cannot update user stats using GET method. Don\'t cheat!')
+        return redirect('books')
+
+    # POST method
+    score = int(request.POST['score'])
+    print score
+    profile = Profile.objects.select_for_update().get(user=request.user)
+    profile.score += score
+    profile.attempt += 1
+    if score != 0:
+        # Correct answer
+        profile.combo += 1
+        profile.correct += 1
+    else:
+        # Wrong answer
+        profile.combo = 0
+    # Save update to database
+    profile.save()
+
+    # Prepare response in JSON
+    response['score_sent'] = score
+
+    response_text = json.dumps(response)
     return HttpResponse(response_text, content_type='application/json')
