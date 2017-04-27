@@ -7,9 +7,10 @@ class Profile(models.Model):
     bio = models.TextField(blank=True, max_length=300) # a small intro
     picture = models.FileField(null=True, blank=True, upload_to='upload/profile')
     content_type = models.CharField(null=True, blank=True, max_length=20)
+    # These 4 statistics are the only ones used in the Web Project Demo
     score = models.IntegerField(default=0)
     correct = models.IntegerField(default=0)
-    attampt = models.IntegerField(default=0)
+    attempt = models.IntegerField(default=0)
     combo = models.IntegerField(default=0)
     def __unicode__(self):
         return 'id: %s, username: %s' % (self.id, self.user.username)

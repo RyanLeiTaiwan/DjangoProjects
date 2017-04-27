@@ -26,7 +26,7 @@ cur_entry_index = 0;
 cand_entry_index = [-1, -1, -1, -1, -1];
 // Number of correctly answered questions
 correct_count = 0;
-// Number of answer attampts
+// Number of answer attempts
 answer_count = 0;
 
 // Copied from homework
