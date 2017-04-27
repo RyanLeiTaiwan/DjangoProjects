@@ -7,6 +7,7 @@ class Profile(models.Model):
     bio = models.TextField(blank=True, max_length=300) # a small intro
     picture = models.FileField(null=True, blank=True, upload_to='upload/profile')
     content_type = models.CharField(null=True, blank=True, max_length=20)
+    # These 4 statistics are the only ones used in the Web Project Demo
     score = models.IntegerField(default=0)
     correct = models.IntegerField(default=0)
     attempt = models.IntegerField(default=0)
@@ -38,7 +39,7 @@ class Entry(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     # Answer is always text
     answer = models.CharField(max_length=50)
-    # TODO: Question can be either one of text or image, validated on server side
+    # At least one of text or image should not be null, validated on server side
     question_text = models.TextField(null=True, blank=True, max_length=200)
     question_image = models.FileField(null=True, blank=True, upload_to='upload/entry')
     content_type = models.CharField(null=True, blank=True, max_length=20)

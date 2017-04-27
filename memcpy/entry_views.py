@@ -30,6 +30,7 @@ def view_entry(request, entry_id):
 
     book_id = entry.book.id
     all_entries = Entry.objects.filter(book = book_id)
+    book_length = len(all_entries)
     current_idx = -1
     # next_flag = False
     prev_id = 0
@@ -38,16 +39,13 @@ def view_entry(request, entry_id):
 
     # http://stackoverflow.com/questions/1042596/get-the-index-of-an-element-in-a-queryset
     for idx, ent in enumerate(all_entries):
-        # if next_flag:
-        #     break
         current_id = ent.id
         if current_id == int(entry_id):
             # Found target entry
             prev_id = prev_id_tmp
             current_idx = idx
-            if idx < len(all_entries) - 1:
+            if idx < book_length - 1:
                 next_id = all_entries[idx + 1].id
-            # next_flag = True
         prev_id_tmp = current_id
 
     # Also display current flashcards
@@ -56,7 +54,7 @@ def view_entry(request, entry_id):
     context = {
         'book': entry.book,
         'entry': entry,
-        'progress': (current_idx + 1.0) / len(all_entries) * 100,
+        'progress': float(current_idx) / book_length * 100,
         'prev_id': prev_id,
         'current_id': int(entry_id),
         'next_id': int(next_id),

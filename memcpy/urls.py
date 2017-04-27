@@ -1,5 +1,4 @@
 """webapps URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.10/topics/http/urls/
 Examples:
@@ -16,7 +15,7 @@ Including another URLconf
 from django.conf.urls import url
 # from django.contrib.auth import views as auth_views
 from memcpy import home_views, login_views, user_views, book_views, entry_views, flashcard_views, \
-        quiz_views, leaderboard_views
+        quiz_views
 
 # TODO: Avoid using "(.+)" to represent digit parameters because URL 'function/abcde' will raise exceptions
 urlpatterns = [
@@ -63,10 +62,8 @@ urlpatterns = [
     url(r'^random-quiz[/]?$', quiz_views.random_quiz, name='random-quiz'),
     # Quiz from a specific book
     url(r'^quiz/(?P<book_id>[0-9]+)[/]?$', quiz_views.quiz, name='quiz'),
-    # url(r'^quiz[/]?$', quiz_views.start_quiz, name='quiz'),
+    # Get quiz entries in JSON
     url(r'^quiz-entries/(?P<book_id>[0-9]+)[/]?$', quiz_views.get_quiz_entries, name='quiz-entries'),
-    # url(r'^quiz-entries/(\d+)/(\d+)$', quiz_views.quiz_entries, name='quiz-entries')
 
-    # Leader board
     url(r'^leader-board[/]?$', leaderboard_views.leader_board, name='leader-board'),
 ]
