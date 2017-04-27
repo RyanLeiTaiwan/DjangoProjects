@@ -178,9 +178,13 @@ function displayQuestion() {
         }
 
         // Restore button colors to Bootstrap's "btn-default + theme" class by the way
+        // Use multiple "background-image" rules for browser compatibility
         $("#quiz-candidate-btn-" + cand).css({
             "color": "#333",
             "background-color": "#fff",
+            "background-image": "-webkit-linear-gradient(top,#fff 0,#e0e0e0 100%)",
+            "background-image": "-o-linear-gradient(top,#fff 0,#e0e0e0 100%)",
+            "background-image": "-webkit-gradient(linear,left top,left bottom,from(#fff),to(#e0e0e0))",
             "background-image": "linear-gradient(to bottom,#fff 0,#e0e0e0 100%)"
         });
         $("#quiz-candidate-mark-" + cand).attr("class", "");
