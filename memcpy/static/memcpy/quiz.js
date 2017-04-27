@@ -70,8 +70,8 @@ function dialogInit() {
     });
 
     // Debugging
-    popup.text("jQuery UI Dialog debugging");
-    popup.dialog("open");
+    // popup.text("jQuery UI Dialog debugging");
+    // popup.dialog("open");
 }
 
 // Timer reference: https://www.w3schools.com/howto/howto_js_countdown.asp
