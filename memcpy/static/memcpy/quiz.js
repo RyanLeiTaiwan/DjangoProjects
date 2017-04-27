@@ -29,6 +29,13 @@ correct_count = 0;
 // Number of answer attempts
 answer_count = 0;
 
+// Wrong answer: 0 score, but no deduction.
+// Correct answer: linear mapping from score_slowest to score_fastest according to speed
+// Score points for the slowest answering
+score_slowest = 5;
+// Score points for the fastest answering
+score_fastest = 10;
+
 // Copied from homework
 function sanitize(s) {
     // Be sure to replace ampersand first
@@ -130,26 +137,31 @@ function displayQuestion() {
     window.clearInterval(pauseHandler);
 
     // Debug zone!
-    var true_ans = entry_list[cur_entry_index]["answer"];
+    var true_ans = entry_list.entries[cur_entry_index].answer;
     $("#js-debug").html("True Answer: " + sanitize(true_ans));
     console.log("cur_entry_index: " + cur_entry_index);
 
-    var quiz_length = entry_list.length;
+    var quiz_length = entry_list.entries.length;
     // Show quiz progress in text
     $("#quiz-progress-text").html("Question " + (cur_entry_index + 1) + " of " + quiz_length);
 
     // Current entry
-    var cur_entry = entry_list[cur_entry_index];
+    var cur_entry = entry_list.entries[cur_entry_index];
     var entry_id = cur_entry.entry_id;
     var question_text = cur_entry.question_text;
     // JSON only contains a boolean value for question_image
     var question_image = cur_entry.question_image;
     if (question_text !== null) {
         $("#quiz-question-text").html(sanitize(question_text));
+    } else {
+        $("#quiz-question-text").html("");
     }
-    if (question_image !== false) {
+    if (question_image === true) {
         $("#quiz-question-image").html(
-            "<div><img class='entry_table img-rounded' src='/memcpy/entry_photo/" + entry_id + "'></div>");
+            "<div><img class='entry_table img-rounded' src='/memcpy/entry_photo/" + entry_id + "'></div>"
+        );
+    } else {
+        $("#quiz-question-image").html("");
     }
 
     /* There is no built-in "random sample" function in JavaScript! Use the brute-force way */
@@ -172,7 +184,7 @@ function displayQuestion() {
                 if (wrong_entry_index !== cur_entry_index && cand_entry_index.indexOf(wrong_entry_index) === -1) {
                     cand_entry_index[cand] = wrong_entry_index;
                     done = true;
-                    $("#quiz-candidate-text-" + cand).html(entry_list[wrong_entry_index].answer);
+                    $("#quiz-candidate-text-" + cand).html(entry_list.entries[wrong_entry_index].answer);
                 }
             }
         }
@@ -242,7 +254,7 @@ function sleep(miliseconds) {
 
 // Handle answers on click, keypress, or time-up. However, this is NOT a standard Javascript event handler
 function handleAnswer(candidate) {
-    var quiz_length = entry_list.length;
+    var quiz_length = entry_list.entries.length;
     console.log("You answered " + candidate);
     // Stop the timer
     window.clearInterval(timerHandler);
@@ -253,7 +265,7 @@ function handleAnswer(candidate) {
     answer_count++;
     var correct_cand = cand_entry_index.indexOf(cur_entry_index);
     if (candidate === 0) {
-        // Time up
+        /** Time up **/
         console.log("Time Up");
         for (var cand = 1; cand <= 4; cand++) {
             if (cand === correct_cand) {
@@ -263,14 +275,17 @@ function handleAnswer(candidate) {
             }
         }
     } else if (cand_entry_index[candidate] === cur_entry_index) {
-        // Correct
+        /** Correct answer **/
+        // Workaround for setInverval() delayed start
+        timeLeft += timeUnit;
+        console.log("Correct answer, time left (ms): " + timeLeft);
+
         correct_count++;
-        console.log("Correct Answer");
         $("#quiz-candidate-btn-" + candidate).css("background", "lightgreen");
         $("#quiz-candidate-mark-" + candidate).attr("class", "glyphicon glyphicon-ok float-right");
     } else {
-        // Wrong
-        console.log("Wrong Answer");
+        /** Wrong answer **/
+        console.log("Wrong answer");
         $("#quiz-candidate-btn-" + candidate).css("background", "pink");
         $("#quiz-candidate-mark-" + candidate).attr("class", "glyphicon glyphicon-remove float-right");
         $("#quiz-candidate-btn-" + correct_cand).css("background", "lightgreen");
