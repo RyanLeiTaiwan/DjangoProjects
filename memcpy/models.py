@@ -9,7 +9,7 @@ class Profile(models.Model):
     content_type = models.CharField(null=True, blank=True, max_length=20)
     score = models.IntegerField(default=0)
     correct = models.IntegerField(default=0)
-    attampt = models.IntegerField(default=0)
+    attempt = models.IntegerField(default=0)
     combo = models.IntegerField(default=0)
     def __unicode__(self):
         return 'id: %s, username: %s' % (self.id, self.user.username)
