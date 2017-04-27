@@ -38,8 +38,8 @@
   {% for s in score %}
     <tr>
       <th scope="row">{{ forloop.counter }}</th>
-      <td>{{ s.user.username }}</td>
-      <td>{{ s.score }}</td>
+      <td >{{ s.user.username }}</td>
+      <td >{{ s.score }}</td>
     </tr>
   {% endfor %}
   </tbody>
@@ -51,7 +51,7 @@
                 Combo
             </div>
 
-    <table class="table table-striped">
+    <table class="table table-striped table-hover">
   <thead>
     <tr>
       <th>#</th>
@@ -73,11 +73,11 @@
 
         <div class="col-md-4">
             <!-- MW dictionary has a good style: https://www.merriam-webster.com/word-of-the-day -->
-            <div class="title text-center">
+            <div class="title text-center ">
                 Accuracy
             </div>
 
-    <table class="table table-striped">
+    <table class="table table-striped table-hover">
   <thead>
     <tr>
       <th>#</th>

@@ -10,6 +10,8 @@
     User name:  {{user.username}}
      {% if user.profile.picture %}
          <img src="{% url 'profile_photo' user %}"  width="200px">
+     {% else %}
+          <img src= "{% static 'memcpy/default_user.png' %}">
      {% endif %}
     <br>
     Bio: {{ user.profile.bio }}

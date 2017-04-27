@@ -15,7 +15,7 @@ Including another URLconf
 from django.conf.urls import url
 # from django.contrib.auth import views as auth_views
 from memcpy import home_views, login_views, user_views, book_views, entry_views, flashcard_views, \
-        quiz_views
+        quiz_views, leaderboard_views
 
 # TODO: Avoid using "(.+)" to represent digit parameters because URL 'function/abcde' will raise exceptions
 urlpatterns = [
