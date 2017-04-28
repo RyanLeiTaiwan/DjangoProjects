@@ -1,6 +1,6 @@
 # Team 8: memcpy()
 ## Team members: Hao Gu (hg1), Yi Bian (ybian1), Yu-Heng Lei (yuhengl1)
-## EC2 demo URL: http://34.223.227.80/
+## EC2 demo URL: http://35.167.89.156/
 
 ### Important Dates
 - March 30: Sprint 1 @ NSH 3001 (Teams 8, 18, 28, 39, owner: Yu-Heng Lei)
