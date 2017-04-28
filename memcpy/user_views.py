@@ -90,7 +90,7 @@ def upload_photo(request, user_name):
     this_user = User.objects.get(username=user_name).profile
     form = PictureForm(request.POST, request.FILES, instance=this_user)
     if not form.is_valid():
-        context['form_image'] = form
+        context['form_image'] = PictureForm
     else:
         # Must copy content_type into a new model field because the model
         # FileField will not store this in the database.  (The uploaded file

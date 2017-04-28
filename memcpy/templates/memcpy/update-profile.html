@@ -7,9 +7,9 @@
         <div class="col-md-3"> 
             <div class="text-center"> 
                 {% if user.profile.picture %} 
-                <img src="{% url 'profile_photo' user %}"> 
+                <img src="{% url 'profile_photo' user %}" width = 150px height = 150px> 
                 {% else %} 
-                <img src= "{% static 'memcpy/default_user.png' %}"> 
+                <img src= "{% static 'memcpy/default_user.png' %}" width = 150px height = 150px> 
                 {% endif %}  
                 <form enctype="multipart/form-data" action="{% url 'upload_photo' user%}" method="post"> 
                     <table> 
