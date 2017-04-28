@@ -22,7 +22,7 @@ def leader_board(request):
     accuracy_dict = {}
     for p in profiles:
         score_dict[p] = p.score
-        combo_dict[p] = p.combo
+        combo_dict[p] = p.max_combo
         if p.attempt == 0:
             accuracy_dict[p] = 0
         else:
@@ -52,10 +52,10 @@ def leader_board(request):
 
     for t in sorted_accuracy:
         accuracy_key.append(t[0])
-        accuracy_val.append(str(t[1] * 100) + "%")
+        accuracy_val.append('%.2f%%' % (t[1] * 100))
 
     accuracy = zip(accuracy_key, accuracy_val)
-    context = {'score': score_key, 'combo': combo_key, 'accuracy': accuracy,}
+    context = {'score': score_key, 'max_combo': combo_key, 'accuracy': accuracy}
     return render(request, 'memcpy/leader-board.html', context)
 
 

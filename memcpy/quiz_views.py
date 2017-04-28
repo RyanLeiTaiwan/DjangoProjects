@@ -106,8 +106,10 @@ def update_user_stats(request):
     profile.attempt += 1
     if score != 0:
         # Correct answer
-        profile.combo += 1
         profile.correct += 1
+        profile.combo += 1
+        if profile.combo > profile.max_combo:
+            profile.max_combo = profile.combo
     else:
         # Wrong answer
         profile.combo = 0

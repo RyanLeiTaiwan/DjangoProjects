@@ -12,6 +12,7 @@ class Profile(models.Model):
     correct = models.IntegerField(default=0)
     attempt = models.IntegerField(default=0)
     combo = models.IntegerField(default=0)
+    max_combo = models.IntegerField(default=0)
     def __unicode__(self):
         return 'id: %s, username: %s' % (self.id, self.user.username)
 
