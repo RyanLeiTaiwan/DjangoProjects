@@ -365,3 +365,8 @@ function updateUserStats(score) {
         }
     });
 }
+
+// Get score, combo, accuracy from database
+function getUserStats() {
+
+}

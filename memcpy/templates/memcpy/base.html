@@ -57,13 +57,14 @@
             </li>
             <!-- Functionalities for Logged-in users -->
             {% if user.is_authenticated %}
-                <li>
+                <!-- Also make the tab active for non-random quiz -->
+                <li {% if request.resolver_match.url_name == 'quiz' %} class="active" {% endif %}>
                     <a href="{% url 'random-quiz' %}">
 {#                    <a href="{% url 'quiz' %}">#}
                         <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>&nbsp;Random Quiz
                     </a>
                 </li>
-                <li>
+                <li {% if request.resolver_match.url_name == 'leader-board' %} class="active" {% endif %}>
                     <a href="{% url 'leader-board' %}">
                         <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>&nbsp;Leaderboards
                     </a>
