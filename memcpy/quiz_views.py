@@ -87,13 +87,33 @@ def get_quiz_entries(request, book_id):
     response_text = json.dumps(response)
     return HttpResponse(response_text, content_type='application/json')
 
+# Get score, combo, accuracy from database
+# We don't need any POST parameter
+@login_required
+def get_user_stats(request):
+    response = {}
+    profile = request.user.profile
+    response['score'] = profile.score
+    response['combo'] = profile.combo
+    response['max_combo'] = profile.max_combo
+
+    # Compute and format accuracy in Python
+    correct = profile.correct
+    attempt = profile.attempt
+    response['correct'] = correct
+    response['attempt'] = attempt
+    if attempt == 0:
+        response['accuracy'] = 0
+    else:
+        response['accuracy'] = '%.2f%%' % (float(correct) / float(attempt) * 100.0)
+    response_text = json.dumps(response)
+    return HttpResponse(response_text, content_type='application/json')
+
 # Update score, combo, accuracy to database
-# We only need one parameter. Score == 0 means wrong answer
+# We only need one POST parameter. Score == 0 means wrong answer
 @login_required
 @transaction.atomic
 def update_user_stats(request):
-    response = {}
-
     if request.method == 'GET':
         messages.error(request, 'quiz: Cannot update user stats using GET method. Don\'t cheat!')
         return redirect('books')
@@ -116,8 +136,4 @@ def update_user_stats(request):
     # Save update to database
     profile.save()
 
-    # Prepare response in JSON
-    response['score_sent'] = score
-
-    response_text = json.dumps(response)
-    return HttpResponse(response_text, content_type='application/json')
+    return get_user_stats(request)

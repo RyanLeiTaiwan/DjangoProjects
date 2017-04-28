@@ -64,8 +64,10 @@ urlpatterns = [
     url(r'^quiz/(?P<book_id>[0-9]+)[/]?$', quiz_views.quiz, name='quiz'),
     # AJAX: Get quiz entries in JSON
     url(r'^quiz-entries/(?P<book_id>[0-9]+)[/]?$', quiz_views.get_quiz_entries, name='quiz-entries'),
-    # AJAX: Update score/combo/accuracy to database after each quiz question
+    # AJAX: Get score/combo/accuracy to database at the beginning of each question
     url(r'^quiz-update-user-stats[/]?$', quiz_views.update_user_stats, name='quiz-update-user-stats'),
+    # AJAX: Update score/combo/accuracy to database after each question
+    url(r'^quiz-get-user-stats[/]?$', quiz_views.get_user_stats, name='quiz-get-user-stats'),
 
     # Show leaderboards of score, combo, accuracy
     url(r'^leader-board[/]?$', leaderboard_views.leader_board, name='leader-board'),

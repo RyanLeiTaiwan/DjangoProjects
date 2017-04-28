@@ -24,10 +24,6 @@ entry_list = null;
 cur_entry_index = 0;
 // Entry index in every answer candidate (index 0 is not used)
 cand_entry_index = [-1, -1, -1, -1, -1];
-// Number of correctly answered questions
-correct_count = 0;
-// Number of answer attempts
-attempt_count = 0;
 
 // Wrong answer: 0 score, but no deduction.
 // Correct answer: linear mapping from score_slowest to score_fastest according to speed
@@ -35,6 +31,14 @@ attempt_count = 0;
 score_slowest = 50;
 // Score points for the fastest answering
 score_fastest = 100;
+// Cumulative score in this quiz
+quiz_score = 0;
+// Combo in this quiz
+quiz_combo = 0;
+// Number of correctly answered questions in this quiz
+quiz_correct = 0;
+// Number of answer attempts in this quiz
+quiz_attempt = 0;
 
 // Copied from homework
 function sanitize(s) {
@@ -77,16 +81,17 @@ function quizLoad(book_id) {
 // The initialization to be called on page load
 function quizInit(book_id) {
     // Initialize popup dialog
-    dialogInit();
+    dialogInit(book_id);
 
     // Get quiz entries, display the first question, and register events on success
     get_quiz_entries(book_id);
     /** Cannot put AJAX on-success statements here here because the DB query is asynchronous **/
 }
 
-function dialogInit() {
+function dialogInit(book_id) {
     var popup = $("#quiz-dialog");
     popup.dialog({
+        width: 500,
         autoOpen: false,
         show: {
             effect: "fade",
@@ -95,7 +100,19 @@ function dialogInit() {
         hide: {
             effect: "fade",
             duration: 500
-        }
+        },
+        buttons: [{
+            // https://api.jqueryui.com/dialog/#option-buttons
+            // https://api.jqueryui.com/theming/icons/
+            // http://stackoverflow.com/questions/11669123/add-href-to-jquery-dialog-button
+            text: "Quiz again",
+            icons: {
+                primary: "ui-icon-arrowrefresh-1-e"
+            },
+            click: function() {
+                window.location.href = "/memcpy/quiz/" + book_id;
+            }
+        }]
     });
 
     // Debugging
@@ -152,15 +169,15 @@ function displayQuestion() {
     window.clearInterval(pauseHandler);
 
     // Debug zone!
-    var true_ans = entry_list.entries[cur_entry_index].answer;
-    $("#js-debug").html("True Answer: " + sanitize(true_ans));
+    // var true_ans = entry_list.entries[cur_entry_index].answer;
+    // $("#js-debug").html("True Answer: " + sanitize(true_ans));
     console.log("cur_entry_index: " + cur_entry_index);
 
     var quiz_length = entry_list.entries.length;
     // Show quiz progress in text
     $("#quiz-progress-text").html("Question " + (cur_entry_index + 1) + " of " + quiz_length);
 
-    // Current entry
+    // Current entry (correct answer)
     var cur_entry = entry_list.entries[cur_entry_index];
     var entry_id = cur_entry.entry_id;
     var question_text = cur_entry.question_text;
@@ -216,6 +233,11 @@ function displayQuestion() {
         });
         $("#quiz-candidate-mark-" + cand).attr("class", "");
     }
+
+    // [Synchronous] Get score, combo, accuracy from database and display them
+    (function () {
+        getUserStats();
+    })();
 
     // Reset and start the timer
     window.clearInterval(timerHandler);
@@ -277,13 +299,14 @@ function handleAnswer(candidate) {
     unregisterEvents();
 
     // Judge the answer
-    attempt_count++;
+    quiz_attempt++;
     // Score will only be updated with the correct answer
     var score = 0;
     var correct_cand = cand_entry_index.indexOf(cur_entry_index);
     if (candidate === 0) {
         /** Time up **/
         console.log("Time Up");
+        quiz_combo = 0;
         for (var cand = 1; cand <= 4; cand++) {
             if (cand === correct_cand) {
                 $("#quiz-candidate-btn-" + cand).css("background", "lightgreen");
@@ -305,19 +328,22 @@ function handleAnswer(candidate) {
             (timeLeft - timeUnit) / (timeLimit - timeUnit) * (score_fastest - score_slowest) + score_slowest
         );
         console.log("Correct answer, time left (ms): " + timeLeft + ", score = " + score);
-
-        correct_count++;
+        quiz_correct++;
+        quiz_combo++;
         $("#quiz-candidate-btn-" + candidate).css("background", "lightgreen");
         $("#quiz-candidate-mark-" + candidate).attr("class", "glyphicon glyphicon-ok float-right");
     } else {
         /** Wrong answer **/
         console.log("Wrong answer");
+        quiz_combo = 0;
         $("#quiz-candidate-btn-" + candidate).css("background", "pink");
         $("#quiz-candidate-mark-" + candidate).attr("class", "glyphicon glyphicon-remove float-right");
         $("#quiz-candidate-btn-" + correct_cand).css("background", "lightgreen");
         $("#quiz-candidate-mark-" + correct_cand).attr("class", "glyphicon glyphicon-ok float-right");
     }
 
+    // Accumulate quiz_score
+    quiz_score += score;
     // Update score, combo, accuracy to database
     updateUserStats(score);
 
@@ -334,9 +360,10 @@ function handleAnswer(candidate) {
             // Quiz is finished
             window.clearInterval(pauseHandler);
             timeLeft = timeLimit;
-            // TODO: More quiz result details
             var popup = $("#quiz-dialog");
-            popup.text("You answered " + correct_count + " out of " + attempt_count + " questions correctly.");
+            popup.text(
+                "You answered " + quiz_correct + " out of " + quiz_attempt + " questions correctly."
+            );
             popup.dialog("open");
         } else {
             // Quiz is not finished
@@ -354,11 +381,11 @@ function updateUserStats(score) {
         type: "POST",
         data: "score=" + score + "&csrfmiddlewaretoken=" + getCSRFToken(),
         dataType : "json",
-        success: function(data) {
-            console.log("Score " + data + " successfully sent to the server.");
+        success: function() {
+            // No data received from the server
         },
         error: function(jqXHR) {
-            $("#ajax-error-text").text("AJAX error: " + jqXHR.responseText);
+            $("#ajax-error-text").html("AJAX error: " + jqXHR.responseText);
             // Make the AJAX error box visible (it was hidden)
             $("#ajax-error-box").css("display", "block");
             console.log("AJAX error: " + jqXHR.responseText);
@@ -367,6 +394,38 @@ function updateUserStats(score) {
 }
 
 // Get score, combo, accuracy from database
+// We don't need to send any data
 function getUserStats() {
+    $.ajax({
+        url: "/memcpy/quiz-get-user-stats",
+        type: "GET",
+        success: displayUserStats,
+        error: function(jqXHR) {
+            $("#ajax-error-text").html("AJAX error: " + jqXHR.responseText);
+            // Make the AJAX error box visible (it was hidden)
+            $("#ajax-error-box").css("display", "block");
+            console.log("AJAX error: " + jqXHR.responseText);
+        }
+    });
 
+}
+
+// Display score, combo, accuracy from database
+function displayUserStats(data) {
+    console.log(data);
+    output = "";
+    output += "Quiz Score: " + quiz_score + "<br>";
+    output += "Quiz Combo: " + quiz_combo + "<br>";
+    var quiz_accuracy = 0;
+    if (quiz_attempt > 0) {
+        quiz_accuracy = quiz_correct / quiz_attempt * 100;
+    }
+    output += "Quiz Accuracy:<br> " + quiz_accuracy.toFixed(2) + "% (" + quiz_correct + " / " + quiz_attempt + ")<br>";
+    output += "<hr>";
+    output += "Total Score: " + data.score + "<br>";
+    output += "Total Combo: " + data.combo + "<br>";
+    output += "Max Combo: " + data.max_combo + "<br>";
+    output += "Overall Accuracy:<br>" + data.accuracy + " (" + data.correct + " / " + data.attempt + ")<br>";
+
+    $("#quiz-user-stats").html(output);
 }
