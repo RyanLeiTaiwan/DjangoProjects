@@ -32,9 +32,6 @@ def leader_board(request):
     sorted_combo = sorted(combo_dict.items(), key=operator.itemgetter(1), reverse=True)
     sorted_accuracy = sorted(accuracy_dict.items(), key=operator.itemgetter(1), reverse=True)
 
-    print (sorted_score)
-    print (sorted_combo)
-    print (sorted_accuracy)
     if len(sorted_score) > 10:
         sorted_score = dict(sorted_score[0:10])
     if len(sorted_combo) > 10:
@@ -58,7 +55,6 @@ def leader_board(request):
         accuracy_val.append(str(t[1] * 100) + "%")
 
     accuracy = zip(accuracy_key, accuracy_val)
-    print(accuracy)
     context = {'score': score_key, 'combo': combo_key, 'accuracy': accuracy,}
     return render(request, 'memcpy/leader-board.html', context)
 

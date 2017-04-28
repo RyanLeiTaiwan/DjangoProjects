@@ -89,10 +89,13 @@ class UpdateProfile(forms.ModelForm):
             self.user = kwargs.pop('user', None)
             super(UpdateProfile, self).__init__(*args, **kwargs)
 
+
     def clean_username(self):
         # Confirms that the username is not already present in the
         # User model database.
         username = self.cleaned_data.get('username')
+        if not fullmatch('[a-zA-Z0-9]+', username):
+            raise forms.ValidationError('Invalid username format. Please use only letters and digits')
         if User.objects.filter(username__exact=username) and username != self.user.username:
             raise forms.ValidationError("Username is already taken.")
 
