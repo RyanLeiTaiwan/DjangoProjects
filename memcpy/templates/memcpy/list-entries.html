@@ -4,9 +4,11 @@
     {% for entry in entry_list %}
         <!-- space-1, entry-2, entry-2, entry-2, entry-2, space-1 -->
         {% if forloop.counter0|divisibleby:"5" %}
-        <div class="col-md-offset-1 col-md-2">
+            </div>
+            <div class="row">
+            <div class="col-md-offset-1 col-md-2">
         {% else %}
-        <div class="col-md-2">
+            <div class="col-md-2">
         {% endif %}
             <a href="{% url 'entry' entry.id %}">
                 <div class="thumbnail">

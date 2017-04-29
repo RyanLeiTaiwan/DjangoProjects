@@ -32,12 +32,12 @@ def leader_board(request):
     sorted_combo = sorted(combo_dict.items(), key=operator.itemgetter(1), reverse=True)
     sorted_accuracy = sorted(accuracy_dict.items(), key=operator.itemgetter(1), reverse=True)
 
-    if len(sorted_score) > 10:
-        sorted_score = dict(sorted_score[0:10])
-    if len(sorted_combo) > 10:
-        sorted_combo = dict(sorted_combo[0:10])
-    if len(sorted_accuracy) > 10:
-        sorted_accuracy = dict(sorted_accuracy[0:10])
+    if len(sorted_score) > 20:
+        sorted_score = sorted_score[0:20]
+    if len(sorted_combo) > 20:
+        sorted_combo = sorted_combo[0:20]
+    if len(sorted_accuracy) > 20:
+        sorted_accuracy = sorted_accuracy[0:20]
 
     score_key = []
     combo_key = []
