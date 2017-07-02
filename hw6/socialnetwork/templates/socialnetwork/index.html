@@ -1,0 +1,29 @@
+{% extends 'socialnetwork/posts.html' %}
+
+{% block css_2 %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'socialnetwork/index.css' %}" />
+{% endblock %}
+
+<!-- onload_function_2: Another block tag for inheritance by following.html -->
+{% block onload_function %}
+    {% block onload_function_2 %}
+        init(0)
+    {% endblock %}
+{% endblock %}
+
+{% block main %}
+    <div class="title">Say something:</div>
+    <form action="{% url "post" %}" method="POST">
+        {% for error in form.errors.values %}
+            <div>{{ error }}</div>
+        {% endfor %}
+        {{ form.text }}
+        <button class="btn btn-primary" type="submit">Post</button>
+        {% csrf_token %}
+    </form>
+{% endblock %}
+
+{% block posts_title %}
+    {% block posts_title_2 %} What all people are saying: {% endblock %}
+{% endblock %}

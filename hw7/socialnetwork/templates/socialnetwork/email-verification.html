@@ -1,0 +1,14 @@
+{% extends "socialnetwork/base_non_logged_in.html" %}
+
+{% block body %}
+<!-- Django message framework -->
+{% for message in messages %}
+    <div class="message">
+        <span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp;{{ message }}
+    </div>
+{% endfor %}
+<div class="title">
+    A confirmation email has been sent to {{email|urlize}}. Please click the link in that email
+    to verify your email address to complete your account registration.
+</div>
+{% endblock %}

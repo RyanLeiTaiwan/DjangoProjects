@@ -1,0 +1,39 @@
+{% extends 'socialnetwork/base_logged_in.html' %}
+
+{% block css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'socialnetwork/form.css' %}" />
+    <link rel="stylesheet" href="{% static 'socialnetwork/profile.css' %}" />
+{% endblock %}
+
+{% block title %} Edit user profile of {{ request.user.username }} {% endblock %}
+
+{% block body %}
+    <div class="title">
+        Edit user profile of "{{ request.user.username }}":
+    </div>
+
+    <form enctype="multipart/form-data" method="POST" action="{% url 'edit' request.user.id %}">
+        <table class="form">
+            <!-- Put current profile picture inside the table -->
+            <tr>
+                <th><label>Picture:</label></th>
+                <td>
+                    {% if request.user.profile.picture %}
+                        <img class="profile-picture" src={% url 'picture' request.user.id %}>
+                    {% else %}
+                        <img class="profile-picture" src={% static 'socialnetwork/default_user.svg' %}>
+                    {% endif %}
+
+                </td>
+            </tr>
+            {{ picture_form }}
+            {{ user_form }}
+            {{ profile_form }}
+        </table>
+        <div class="section"></div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a class="btn btn-primary" href="{% url 'index' %}">Cancel</a>
+        {% csrf_token %}
+    </form>
+{% endblock %}

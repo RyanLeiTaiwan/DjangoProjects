@@ -1,0 +1,10 @@
+{% extends "socialnetwork/base_non_logged_in.html" %}
+
+{% block body %}
+<!-- Django message framework -->
+{% for message in messages %}
+    <div class="message">
+        <span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp;{{ message }}
+    </div>
+{% endfor %}
+{% endblock %}

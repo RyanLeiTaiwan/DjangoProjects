@@ -1,0 +1,72 @@
+{% extends 'socialnetwork/posts.html' %}
+
+{% block title %} User profile of {{ query_user.username }} {% endblock %}
+
+{% block css_2 %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'socialnetwork/profile.css' %}" />
+{% endblock %}
+
+{% block onload_function %}
+    init({{ query_user.id }})
+{% endblock %}
+
+{% block main %}
+    {% load nbsp %}
+    <div class="title profile-title">
+        User profile of "{{ query_user.username }}":
+        <!-- The user cannot follow/unfollow themselves -->
+        {% if query_user.id != request.user.id %}
+            &nbsp;
+            {% if query_profile not in request.user.profile.following.all %}
+                <form class="profile-follow" action="{% url 'follow' query_user.id %}" method="POST">
+                    <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>&nbsp;Follow
+                    </button>
+                    {% csrf_token %}
+                </form>
+            {% else %}
+                <form class="profile-follow" action="{% url 'unfollow' query_user.id %}" method="POST">
+                    <button type="submit" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>&nbsp;Unfollow
+                    </button>
+                    {% csrf_token %}
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+    <table class="profile-table">
+        <tr>
+            <td class="profile-key">Picture: </td>
+            <td class="profile-value">
+                {% if query_profile.picture %}
+                    <img class="profile-picture" src={% url 'picture' query_user.id %}>
+                {% else %}
+                    <img class="profile-picture" src={% static 'socialnetwork/default_user.svg' %}>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="profile-key">First Name: </td>
+            <td class="profile-value">{{ query_user.first_name }}</td>
+        </tr>
+        <tr>
+            <td class="profile-key">Last Name: </td>
+            <td class="profile-value">{{ query_user.last_name }}</td>
+        </tr>
+        <tr>
+            <td class="profile-key">Age: </td>
+            {% if query_profile.age %}
+                <td class="profile-value">{{ query_profile.age }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td class="profile-key">Short Bio: </td>
+            {% if query_profile.bio %}
+                <td class="profile-value">{{ query_profile.bio|nbsp|linebreaksbr|urlize }}</td>
+            {% endif %}
+        </tr>
+    </table>
+{% endblock %}
+
+{% block posts_title %} {{ posts.count }} Posts by user "{{ query_user.username }}": {% endblock %}

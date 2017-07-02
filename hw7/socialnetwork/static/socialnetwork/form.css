@@ -1,0 +1,40 @@
+input {
+    font-size: x-large;
+}
+
+th > label {
+    font-size: x-large;
+}
+
+textarea {
+    font-size: x-large;
+}
+
+.login-key {
+    width: 10em;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table > tbody > tr > td {
+    padding-bottom: 0.5em;
+}
+
+
+table.form > tbody > tr > th {
+    width: 20em;
+}
+
+table.form > tbody > tr > td > input:not(#picture-clear_id) {
+    width: 15em;
+}
+
+table.form > tbody > tr > td > textarea {
+    resize: none;
+    outline: none;
+    width: 15em;
+    height: 10em;
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace
+}

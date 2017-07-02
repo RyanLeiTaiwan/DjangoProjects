@@ -1,0 +1,60 @@
+/* Elements */
+
+/* Class */
+.textfield {
+    width: 6em;
+    border: 0.05em solid black;
+    text-align: right;
+    font-size: 3em;
+    padding: 0.3em;
+    /* I use macOS's Digital Color Picker to measure the RGB */
+    background-color: rgb(236, 240, 223);
+    margin-bottom: 0.5em;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.button {
+    width: 2em;
+    border: 0.08em solid black;
+    font-size: 1.7em;
+    padding: 0.2em;
+    border-radius: 0.7em;
+    margin: 0.25em;
+}
+
+.digit {
+    background-color: rgb(236, 240, 223)
+}
+
+.operator {
+    background-color: rgb(253, 234, 218)
+}
+
+.button:hover {
+    background-color: rgb(255, 255, 0)   
+}
+
+.row {
+    margin-left: 1.2em;
+}
+
+.calculator {
+    /* 
+     * Center a <div> both horizontally and vertically:
+     * http://stackoverflow.com/questions/14123999/center-a-div-horizontally-and-vertically
+    */
+    width: 20em;
+    height: 24em;
+    margin: auto;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #F0F0F0;
+}
+
+/* ID */

@@ -1,0 +1,85 @@
+.post {
+    background-color: aliceblue;
+    padding: 0.5em;
+    border: solid;
+    border-width: 0.2em;
+    border-color: dimgray;
+    border-radius: 0.5em;
+    margin-bottom: 0.6em;
+}
+
+.comments {
+    background-color: lightcyan;
+    padding: 0.4em;
+    border: solid;
+    border-width: 0.2em;
+    border-color: darkgray;
+    border-radius: 0.3em;
+    margin-top: 0.2em;
+}
+
+.comment {
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+}
+
+.header-post {
+    margin-bottom: 0.5em;
+}
+
+.header-comment {
+    margin-bottom: 0.2em;
+}
+
+.timestamp {
+    color: dimgray;
+}
+
+.avatar-post {
+    float: left;
+    margin-right: 0.5em;
+    width: 3em;
+    height: 3em;
+}
+
+.avatar-comment {
+    float: left;
+    margin-right: 0.5em;
+    width: 3em;
+    height: 3em;
+}
+
+.content-post {
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+    font-size: large;
+    word-wrap: break-word;
+}
+
+.content-comment {
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+    font-size: medium;
+    min-height: 2.8em;
+    word-wrap: break-word;
+}
+
+form.posts-follow {
+    float: right;
+    position: relative;
+    right: 70%;
+}
+
+/* https://css-tricks.com/textarea-tricks/ */
+textarea.comment {
+    resize: none;
+    outline: none;
+    overflow: auto;
+    padding: 0.3em;
+    font-size: medium;
+    width: 80%;
+    height: 3.6em;
+    margin-right: 1em;
+    border: solid;
+    border-width: 0.1em;
+    border-color: gray;
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace
+}

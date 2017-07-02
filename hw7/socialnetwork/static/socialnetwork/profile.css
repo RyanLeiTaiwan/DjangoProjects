@@ -1,0 +1,37 @@
+img.profile-picture {
+    height: 200px;
+    width: 200px;
+}
+
+.profile-table {
+    border: solid;
+    border-width: 0.15em;
+    border-color: dimgray;
+    padding: 2em;
+    border-radius: 0.3em;
+    font-size: x-large;
+}
+
+.profile-key {
+    width: 7em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+
+.profile-value {
+    font-weight: bold;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace
+}
+
+form.profile-follow {
+    float: right;
+    position: relative;
+    right: 40%;
+}
+

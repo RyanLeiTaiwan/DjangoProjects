@@ -1,0 +1,29 @@
+{% extends 'socialnetwork/base_non_logged_in.html' %}
+
+{% block title %} Log in to 15-637 Social Network {% endblock %}
+
+{% block body %}
+    {% if form.errors %}
+    <div class="message">Incorrect username or password.</div>
+    {% else %}
+    <div class="title">Log in to 15-637 Social Network.</div>
+    {% endif %}
+
+    <form method="POST" action="{% url 'login' %}">
+        <table>
+        <tr>
+            <th class="login-key">{{ form.username.label_tag }}</th>
+            <td>{{ form.username }}</td>
+        </tr>
+        <tr>
+            <th class="login-key">{{ form.password.label_tag }}</th>
+            <td>{{ form.password }}</td>
+        </tr>
+        </table>
+        <div class="section"></div>
+        <input class="btn btn-primary" type="submit" value="Log In" />
+        <a class="btn btn-primary" href="{% url 'register' %}">Sign Up</a>
+        <input type="hidden" name="next" value="{{ next }}" />
+        {% csrf_token %}
+    </form>
+{% endblock %}

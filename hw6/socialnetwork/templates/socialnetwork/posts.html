@@ -1,0 +1,71 @@
+<!-- Base template for displaying posts. To be extended by index.html and profile.html -->
+{% extends 'socialnetwork/base_logged_in.html' %}
+
+{% block css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'socialnetwork/posts.css' %}" />
+    <!-- Additional CSS files to link to -->
+    {% block css_2 %}
+    {% endblock %}
+    <script src="{% static 'socialnetwork/posts.js' %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block body %}
+    <!-- Main feature of this page -->
+    <div class="section">
+        {% block main %}
+        {% endblock %}
+    </div>
+
+    <!-- Display posts -->
+    <div class="section">
+        <div class="title">
+            {% block posts_title %} Title for displaying posts: {% endblock %}
+        </div>
+        {% load nbsp %}
+        {% load static %}
+        <div id="stream">
+            <!-- Use AJAX to load the posts instead -->
+{#            {% for post in posts %}#}
+{#                <div class="post">#}
+{#                    <div class="header-post">#}
+{#                        <a href="{% url 'profile' post.user_id %}">#}
+{#                            <!-- Profile picture -->#}
+{#                            {% if post.user.profile.picture %}#}
+{#                                <img class="avatar-post" src={% url 'picture' post.user_id %}>#}
+{#                            {% else %}#}
+{#                                <img class="avatar-post" src={% static 'socialnetwork/default_user.svg' %}>#}
+{#                            {% endif %}#}
+{#                            <!-- @username -->#}
+{#                            @{{ post.user }}#}
+{#                        </a>#}
+{#                        <!-- The user cannot follow/unfollow themselves -->#}
+{#                        {% if post.user.id != request.user.id %}#}
+{#                            &nbsp;#}
+{#                            <!-- Follow/Unfollow button -->#}
+{#                            {% if post.user.profile not in request.user.profile.following.all %}#}
+{#                                <form class="posts-follow" action="{% url 'follow' post.user_id %}" method="POST">#}
+{#                                    <button type="submit" class="btn btn-success btn-xs">#}
+{#                                        <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>&nbsp;Follow#}
+{#                                    </button>#}
+{#                                {% csrf_token %}#}
+{#                                </form>#}
+{#                            {% else %}#}
+{#                                <form class="posts-follow" action="{% url 'unfollow' post.user_id %}" method="POST">#}
+{#                                    <button type="submit" class="btn btn-danger btn-xs">#}
+{#                                        <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>&nbsp;Unfollow#}
+{#                                    </button>#}
+{#                                {% csrf_token %}#}
+{#                                </form>#}
+{#                            {% endif %}#}
+{#                        {% endif %}#}
+{#                        <div class="timestamp">{{ post.timestamp }}</div>#}
+{#                    </div>#}
+{#                    <div class="content-post">#}
+{#                        {{ post.text|nbsp|linebreaksbr|urlize }}#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+        </div>
+    </div>
+{% endblock %}

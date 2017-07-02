@@ -1,0 +1,8 @@
+{% extends "socialnetwork/base_non_logged_in.html" %}
+
+{% block body %}
+<div class="title">
+Your email {{ email|urlize }} has been verified, and your account is now activated.
+You can now <a href="{% url 'login' %}">log in</a> to 15-637 Social Network.
+</div>
+{% endblock %}

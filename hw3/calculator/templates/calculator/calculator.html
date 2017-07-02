@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>15-637 hw3: Django Calculator</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="static/calculator/calculator.css">
+  <link rel="icon" href="static/calculator/favicon.ico" type="image/png">
+</head>
+<body>
+<form action="click" method="POST" class="calculator">
+  <!-- The visible input elements -->
+  <div class="error">
+    {{ error }}<br>
+  </div>
+  <input type="text" id="result" class="textfield" value="{{ result }}" readonly>
+  <div id="row_1" class="row">
+    <button type="submit" name="btn_digit" value="7" class="button digit">7</button>
+    <button type="submit" name="btn_digit" value="8" class="button digit">8</button>
+    <button type="submit" name="btn_digit" value="9" class="button digit">9</button>
+    <button type="submit" name="btn_op" value="plus" class="button operator">&plus;</button>
+  </div>
+  <div id="row_2" class="row">
+    <button type="submit" name="btn_digit" value="4" class="button digit">4</button>
+    <button type="submit" name="btn_digit" value="5" class="button digit">5</button>
+    <button type="submit" name="btn_digit" value="6" class="button digit">6</button>
+    <button type="submit" name="btn_op" value="minus" class="button operator">&minus;</button>
+  </div>
+  <div id="row_3" class="row">
+    <button type="submit" name="btn_digit" value="1" class="button digit">1</button>
+    <button type="submit" name="btn_digit" value="2" class="button digit">2</button>
+    <button type="submit" name="btn_digit" value="3" class="button digit">3</button>
+    <button type="submit" name="btn_op" value="times" class="button operator">&times;</button>
+  </div>
+  <div id="row_4" class="row">
+    <button type="submit" name="btn_reset" value="reset" class="button operator">C</button>
+    <button type="submit" name="btn_digit" value="0" class="button digit">0</button>
+    <button type="submit" name="btn_op" value="equals" class="button operator">&equals;</button>
+    <button type="submit" name="btn_op" value="divide" class="button operator">&divide;</button>
+  </div>
+  <!-- The hidden input fields to maintain states -->
+  <div id="hidden">
+    <input type="hidden" name="new_val" value="{{ new_val }}">
+    <input type="hidden" name="prev_val" value="{{ prev_val }}">
+    <input type="hidden" name="prev_op" value="{{ prev_op }}">
+    <input type="hidden" name="result" value="{{ result }}">
+    <input type="hidden" name="prev_click" value="{{ prev_click }}">
+    <input type="hidden" name="error" value="{{ error }}">
+  </div>
+  {% csrf_token %}
+</form>
+</body>
+</html>

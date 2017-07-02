@@ -1,0 +1,85 @@
+.message {
+    font-size: x-large;
+    font-weight: bold;
+    color:red;
+    margin-bottom: 0.5em;
+}
+
+/* Django form errorlist */
+ul.errorlist > li {
+    font-size: x-large;
+    font-weight: bold;
+    color:red;
+    margin-bottom: 0.5em;
+}
+
+.title {
+    font-size: xx-large;
+    font-weight: bolder;
+    padding-bottom: 0.2em;
+}
+
+.section {
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+
+body {
+    background-color: whitesmoke;
+    /* Required padding for Bootstrap navbar */
+    padding-top: 70px;
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+a {
+    color: navy;
+    text-decoration: none;
+}
+
+a:hover {
+    color: deepskyblue;
+    text-decoration: underline;
+}
+
+.button {
+    color: navy;
+    background-color: aquamarine;
+    font-size: x-large;
+    padding: 0.3em;
+    border: solid;
+    border-color: dimgray;
+    border-width: 0.1em;
+    border-radius: 0.3em;
+}
+
+.button:hover {
+    color: deepskyblue;
+    text-decoration: underline;
+}
+
+.logout {
+    float: right;
+}
+
+.navbar-logo {
+    height: 40px;
+    margin-top: 5px;
+    margin-bottom: 0;
+    /*margin-right: 15px;*/
+}
+
+#navbar-avatar {
+    padding-top: 5px;
+    padding-bottom: 0;
+}
+
+.navbar-img {
+    height: 40px;
+    width: 40px;
+}
+
+.btn-primary {
+    font-size: large;
+    margin-right: 0.5em;
+}

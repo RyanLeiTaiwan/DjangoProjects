@@ -17,9 +17,6 @@ local_settings.py
 db.sqlite3
 **migrations/
 
-# Handout or report PDFs
-handout/
-
 # Pycharm IDE configuration folder
 **.idea/
 

@@ -1,0 +1,15 @@
+/* https://css-tricks.com/textarea-tricks/ */
+textarea {
+    resize: none;
+    outline: none;
+    overflow: auto;
+    padding: 0.5em;
+    font-size: 1.5em;
+    width: 30em;
+    height: 7em;
+    margin-right: 0.5em;
+    border: solid;
+    border-width: 0.1em;
+    border-color: gray;
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>15-637 hw2: JavaScript Calculator</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/calculator.css">
+  <script src="js/calculator.js"></script>
+</head>
+<body onload="reset()" onkeypress="keyPress(event)" onkeydown="keyDown(event)">
+<div class="calculator">
+  <input type="text" id="result" class="textfield" value="0" readonly>
+  <div id="row_1" class="row">
+    <button type="button" id="btn_7" class="button digit" onclick="clickDigit(7)">7</button>
+    <button type="button" id="btn_8" class="button digit" onclick="clickDigit(8)">8</button>
+    <button type="button" id="btn_9" class="button digit" onclick="clickDigit(9)">9</button>
+    <button type="button" id="btn_plus" class="button operator" onclick="clickOperator('+')">&plus;</button>
+  </div>
+  <div id="row_2" class="row">
+    <button type="button" id="btn_4" class="button digit" onclick="clickDigit(4)">4</button>
+    <button type="button" id="btn_5" class="button digit" onclick="clickDigit(5)">5</button>
+    <button type="button" id="btn_6" class="button digit" onclick="clickDigit(6)">6</button>
+    <button type="button" id="btn_minus" class="button operator" onclick="clickOperator('-')">&minus;</button>
+  </div>
+  <div id="row_3" class="row">
+    <button type="button" id="btn_1" class="button digit" onclick="clickDigit(1)">1</button>
+    <button type="button" id="btn_2" class="button digit" onclick="clickDigit(2)">2</button>
+    <button type="button" id="btn_3" class="button digit" onclick="clickDigit(3)">3</button>
+    <button type="button" id="btn_mul" class="button operator" onclick="clickOperator('*')">&times;</button>
+  </div>
+  <div id="row_4" class="row">
+    <!-- Use an invisible button for easier horizontal alignment -->
+    <button type="button" id="btn_clear" class="button operator" onclick="reset()">C</button>
+    <button type="button" id="btn_0" class="button digit" onclick="clickDigit(0)">0</button>
+    <button type="button" id="btn_equal" class="button operator" onclick="clickOperator('=')">&equals;</button>
+    <button type="button" id="btn_div" class="button operator" onclick="clickOperator('/')">&divide;</button>
+  </div>
+</div>
+</body>
+</html>

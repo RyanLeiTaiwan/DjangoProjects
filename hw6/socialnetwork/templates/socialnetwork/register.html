@@ -1,0 +1,19 @@
+{% extends 'socialnetwork/base_non_logged_in.html' %}
+
+{% block title %} Sign Up for 15-637 Social Network {% endblock %}
+
+{% block body %}
+    <div class="title">
+        Join 15-637 Social Network today.
+    </div>
+
+    <form method="POST" action="{% url 'register' %}">
+        <table class="form">
+            {{ form }}
+        </table>
+        <div class="section"></div>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <a class="btn btn-primary" href="{% url 'login' %}">Cancel</a>
+        {% csrf_token %}
+    </form>
+{% endblock %}

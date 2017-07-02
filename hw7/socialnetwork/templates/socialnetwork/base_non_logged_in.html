@@ -1,0 +1,49 @@
+<!-- Base template for non-logged-in pages. To be extended by login.html and register.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %} 15-637 Social Network {% endblock %}
+    </title>
+    {% load static %}
+    <link rel="icon" href="{% static 'socialnetwork/favicon.ico' %}" type="image/jpeg" />
+    <!-- Bootstrap and jQuery from CDNs -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
+    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Additional CSS files to link to -->
+    <link rel="stylesheet" href="{% static 'socialnetwork/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'socialnetwork/form.css' %}" />
+</head>
+
+<body>
+<!-- Dummy Bootstrap navigation bar for consistency -->
+{% load static %}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <div class="navbar-header">
+            <a href="{% url 'index' %}">
+                <img class="navbar-logo" src="{% static 'socialnetwork/favicon.ico' %}" title="15-637 Social Network">
+            </a>
+        </div>
+        <!-- Left-side buttons -->
+        <ul class="nav navbar-nav navbar-left">
+            <li>
+                <a href="{% url 'index' %}">
+                    <span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp;15-637 Social Network
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    {% block body %}
+    {% endblock %}
+</div>
+</body>
+</html>
